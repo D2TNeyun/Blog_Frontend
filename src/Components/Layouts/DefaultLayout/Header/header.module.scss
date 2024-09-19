@@ -1,0 +1,113 @@
+@import url('https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400;500;600;700&display=swap');
+
+.wapperheader{
+    width: 100%;
+    margin: 0 auto;
+    float: left;
+    background: none;
+}
+.navbrand {
+    display: flex;
+    margin: 5px 0px 5px 0px;
+    // width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    // left: 5%;
+
+    .brand {
+        margin-inline-start: 2.5rem;
+        padding: 3px;
+    }
+
+    .myvne_taskbar {
+        margin-inline-end: 2.5rem;
+        padding: 3px;
+    }
+
+
+}
+
+.imgLogo {
+    width: 120px;
+    display: inline-block;
+}
+
+.textLogo {
+    font-weight: bold;
+    font-family: 'Reem Kufi', sans-serif;
+    display: inline-block;
+    transform: translate(0, 7px);
+    font-size: 26px;
+    margin-left: 5px;
+}
+
+.navContainer {
+    .Container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin: auto;
+
+        .navItem{
+            .IconHome {
+                color: BLACK;
+                margin-top: inherit;
+                font-size: 25px;
+
+                &:hover{
+                    color: darkgray;
+                    font-weight: bold;
+                    box-shadow: inset;
+                    cursor: pointer;
+                }
+    
+            }
+            .b-Categories{
+                color: white;
+                font-size: 18px;
+                margin: auto;
+                cursor: pointer;
+                font-weight: bold;
+                &:hover {
+                    color: darkgray;
+                }
+
+                &:active{
+                    color: antiquewhite;
+                }
+                
+            }
+
+
+        }
+    }
+}
+.myvne_taskbar{
+    &:hover {
+        background-position: right center;
+        color: #733f3f;
+    }
+    .btnLogin {
+        background-image: linear-gradient(to right, #7474BF 0%, #21a3db 51%, #7474BF 100%);
+        padding: 6px 15px;
+        text-transform: uppercase;
+        transition: 0.5s;
+        border-radius: 10px;
+        border: none;
+        font-family: "Reem Kufi", sans-serif;
+        font-weight: bold;
+        font-size: 13px;
+
+        &:hover {
+            background-position: right center;
+            color: #733f3f;
+        }
+
+        .b-text{
+            margin: 2px 0px 0px 2px;
+            float: right;
+        }
+    
+    }
+}

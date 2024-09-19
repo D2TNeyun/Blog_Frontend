@@ -1,0 +1,263 @@
+.wappercontainer {
+  float: left;
+  width: 100%;
+  padding: 20px;
+  margin: -12px 0px 0px 0px;
+
+  .Container {
+    padding-left: 10px;
+    padding-right: 10px;
+
+    .Content {
+      float: left;
+      width: 100%;
+      padding-left: 10px;
+      padding-right: 10px;
+      display: flex;
+      gap: 10px;
+
+    }
+
+  }
+}
+
+/* Cấu trúc Flexbox để bố trí cột ngang */
+.Content {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  /* Cho phép các cột tự xuống hàng khi màn hình nhỏ */
+}
+
+/* Bố cục dọc khi màn hình nhỏ */
+@media (max-width: 920px) {
+  .Content {
+    display: flex;
+    gap: 2px;
+    flex-wrap: wrap;
+  }
+
+  .colcate1 {
+    display: contents;
+  }
+
+  .colcate2 {
+    display: contents;
+  }
+
+  .colcate3 {
+    display: none;
+  }
+}
+// css từng phần thử trong Col
+.colcate1 {
+  flex: 1 40%;
+
+  .Title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-family: "Reem Kufi", sans-serif;
+    text-transform: uppercase;
+  }
+
+  .image {
+    width: 100%;
+    height: auto;
+
+    .preview {
+      overflow: hidden;
+      display: inline-block;
+      width: 100%;
+      height: auto;
+      padding: 0;
+    }
+
+  }
+
+  .fleft h2 {
+    font-size: 1.3rem;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+
+  .desc {
+    font-size: 1rem;
+    color: #777;
+    margin-bottom: 15px;
+  }
+
+
+}
+
+.boxtopcate {
+  padding: 5px;
+  background-color: #f5f5f5;
+  border-radius: 5px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  width: 100%;
+
+  .boxtop {
+    display: flex;
+    gap: 5px;
+  }
+  .b-box {
+    padding: 5px;
+    cursor: pointer;
+
+    .b-title{
+        font-size: 1rem;
+        font-weight: bold;
+    }
+
+    &:hover {
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+      transform: translateY(-2px);
+      transition: transform 0.3s;
+      transition: box-shadow 0.3s;
+    }
+ 
+  }
+ 
+}
+
+@media (max-width: 520px) {
+  .boxtopcate {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .boxtop {
+    flex-direction: column;
+    gap: 5px;
+
+    .image {
+      display: none;
+    }
+  }
+
+}
+
+.boxtinmoi {
+  .catename {
+    background-color: gainsboro;
+    padding: 5px;
+    border-left: 5px solid;
+    border-left-color: brown;
+    font-family: inherit;
+
+    a {
+      color: RED;
+      font-size: larger;
+      font-weight: bold;
+    }
+  }
+
+}
+
+
+.list-news-img {
+  display: flex;
+  flex-direction: column;
+  padding: 2px;
+
+  .list {
+    padding: inherit;
+  }
+
+  .news-img-left {
+    border-bottom: 1px dashed #e1e1e1;
+    float: left;
+    width: 100%;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    display: inline;
+
+    .b-title {
+      font-weight: bold;
+      font-size: 1.1rem;
+      font-family: Arial, Helvetica, sans-serif;
+      padding: 3px;
+    }
+
+    .b-img {
+      float: left;
+      width: 45%;
+      padding-right: 10px;
+
+      .preview {
+        overflow: hidden;
+        display: inline-block;
+        width: 100%;
+        height: auto;
+        padding: 0;
+      }
+    }
+
+    .b-desc {
+      width: 100%;
+      height: auto;
+    }
+
+  }
+}
+
+.colcate2 {
+  flex: 1 20%;
+  .colName{
+    background-color: gainsboro;
+    padding: 5px;
+    border-left: 5px solid;
+    border-left-color: brown;
+    font-family: inherit;
+    width: 100%;
+    .b-name{
+      color: RED;
+      font-size: larger;
+      font-weight: bold;
+    }
+  }
+}
+
+.colcate3 {
+  flex: 1 20%;
+  .tag-group {
+
+    .b-group {
+      .tag-name {
+        background-color: gainsboro;
+        padding: 5px;
+        border-left: 5px solid;
+        border-left-color: brown;
+        font-family: inherit;
+
+        .b-name {
+          color: RED;
+          font-size: larger;
+          font-weight: bold;
+        }
+      }
+
+      ul {
+        display: inline;
+
+        li {
+          display: contents;
+
+          .b-li {
+            border-bottom: 1px dashed #e1e1e1;
+            padding: 3px;
+            cursor: pointer;
+            &:hover {
+              background-color: #f5f5f5;
+            }
+
+          }
+        }
+
+      }
+    }
+  }
+}
