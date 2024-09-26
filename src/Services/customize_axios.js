@@ -1,6 +1,6 @@
 import axios from "axios";
 import NProgress from "nprogress";
-// import { store } from "../Redux/Store/store";   
+import { store } from "../Redux/Store/store";   
 
 NProgress.configure({
     showSpinner: false,
@@ -22,15 +22,15 @@ const instance = axios.create({
 // Add a request interceptor
 instance.interceptors.request.use(function (config) {
     NProgress.start();
-    // console.log("check store ", store.getState());
+    console.log("check store ", store.getState());
     // Get the token from the Redux store
     // Lấy token từ localStorage hoặc từ store nếu cần thiết
     
-    // const token = store?.getState()?.user?.user?.data || localStorage.getItem('token');
-    // if (token) {
-    //     config.headers['Authorization'] = "Bearer "+token;
-    // }
-    // console.log("check token ", token);
+    const token = store?.getState()?.user?.user?.token || localStorage.getItem('token');
+    if (token) {
+        config.headers['Authorization'] = "Bearer "+token;
+    }
+    console.log("check token ", token);
     
     // Do something before request is sent
     return config;

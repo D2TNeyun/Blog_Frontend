@@ -42,47 +42,6 @@
     margin-left: 5px;
 }
 
-.navContainer {
-    .Container {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        margin: auto;
-
-        .navItem{
-            .IconHome {
-                color: BLACK;
-                margin-top: inherit;
-                font-size: 25px;
-
-                &:hover{
-                    color: darkgray;
-                    font-weight: bold;
-                    box-shadow: inset;
-                    cursor: pointer;
-                }
-    
-            }
-            .b-Categories{
-                color: white;
-                font-size: 18px;
-                margin: auto;
-                cursor: pointer;
-                font-weight: bold;
-                &:hover {
-                    color: darkgray;
-                }
-
-                &:active{
-                    color: antiquewhite;
-                }
-                
-            }
-
-
-        }
-    }
-}
 .myvne_taskbar{
     &:hover {
         background-position: right center;
@@ -109,5 +68,55 @@
             float: right;
         }
     
+    }
+}
+
+.navContainer{
+    .NavItem{
+        display: flex;
+        gap: 6px;
+        margin: auto;
+        .Item{
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 0 0 0 3.5rem;
+
+            .IconHome{
+                color: #0d0707;
+                margin-top: inherit;
+                font-size: 25px;
+                cursor: pointer;
+                margin-top: 5px;
+                
+                &:hover{
+                    color: darkgray;
+                }
+            }
+        }
+        .btn-cate{
+            border-radius: 10px;
+            border: none;
+            font-family: "Reem Kufi", sans-serif;
+            font-weight: bold;
+            font-size: 13px;
+            margin-top: 5px;
+            background: none;
+            border: none;
+            font-size: 17px;
+            font-weight: bold;
+
+
+            .b-cate{
+                margin: 2px 0px 0px 2px;
+                float: right;
+                background: none;
+                border: none;
+                font-size: 17px;
+                font-weight: bold;
+
+              
+            }
+        }
     }
 }

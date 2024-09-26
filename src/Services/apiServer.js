@@ -1,11 +1,14 @@
 import axios from "./customize_axios";
 
-//auth
+//Account/Auth
 const postLogin = (Username, Password) => {    
     const data = new FormData(); 
     data.append('Username', Username);
     data.append('Password', Password);
     return axios.post(`api/auth/login`, data);  
+}
+const logoutApi = () => {
+    return axios.post(`api/auth/logout`);
 }
 //Category
 const getAllCategori = () => {
@@ -23,11 +26,21 @@ const getCategoryById = (id) => {
 const getAllPost = () => {
     return axios.get(`api/post`); 
 }
+
+const getPostById = (id) => {
+    const data = new FormData();
+    data.append('id', id);
+    return axios.get(`api/post/`+id, data);
+}
 // Tag
 const getTagById = (id) => {
     const data = new FormData();
     data.append('id', id);
     return axios.get(`api/tag/`+id, data); 
+}
+
+const getAllTag = () => {
+    return axios.get(`api/tag`); 
 }
 
 
@@ -37,5 +50,8 @@ export {
     getAllCategori,
     getAllPost,
     getCategoryById,
-    getTagById
+    getTagById,
+    getAllTag,
+    getPostById,
+    logoutApi
  };

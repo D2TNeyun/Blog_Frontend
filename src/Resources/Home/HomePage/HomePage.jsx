@@ -18,7 +18,7 @@ const HomePage = (props) => {
       const postRes = await getAllPost();
       const categoryRes = await getAllCategori();
 
-      // console.log("Fetched posts:", postRes);
+      console.log("Fetched posts:", postRes);
       // console.log("Fetched categories:", categoryRes);
 
       if (postRes && postRes.posts) {
@@ -67,17 +67,24 @@ const HomePage = (props) => {
     navigate(`/categories/${categoryID}/${categoryName}`);
   };
 
+  //handleCick Tag
+  const handleTagClick = (tagID, tagName) => {
+    navigate(`/tags/${tagID}/${tagName}`);
+  };
+
+  //handleCick Post
+  const handlePostClick = (postID, title) => {
+    navigate(`/posts/${postID}/${title}`);
+  };
+
   return (
     <>
       <div className={cx("wappercontainer")}>
         <div className={cx("MainContainer")}>
           <div className={cx("NewPostContainer")}>
-            <div className={cx("Title")}>
-              <div className={cx("text")}>Tin Nong</div>
-            </div>
             <div className={cx("NewPost")}>
               {newestPosts && newestPosts.length > 0 ? (
-                <Carousel>
+                <Carousel className={cx("carousel")}>
                   {newestPosts.slice(0, 3).map((post) => (
                     <Carousel.Item key={post.postID}>
                       <div className={cx("PostImage")}>
@@ -97,6 +104,9 @@ const HomePage = (props) => {
               ) : (
                 <p>Không tìm thấy bài viết nào</p>
               )}
+            </div>
+            <div className={cx("NewTop")}>
+              <div className={cx("b-title")}>Sự kiện Mới Nhất</div>
             </div>
           </div>
           <hr />
@@ -132,7 +142,13 @@ const HomePage = (props) => {
                             <div className={cx("Tags")}>
                               {getTagsByCategory(category.categoryID).map(
                                 (tag) => (
-                                  <span key={tag.tagID} className={cx("Tag")}>
+                                  <span
+                                    key={tag.tagID}
+                                    className={cx("Tag")}
+                                    onClick={() =>
+                                      handleTagClick(tag.tagID, tag.tagName)
+                                    }
+                                  >
                                     {/* Use tagID */}
                                     {tag.tagName}
                                   </span>
@@ -146,7 +162,12 @@ const HomePage = (props) => {
                                 mostRecentPosts.map((post) => (
                                   <div className="col-md-6" key={post.postID}>
                                     {/* Use postID */}
-                                    <div className={cx("Box")}>
+                                    <div
+                                      className={cx("Box")}
+                                      onClick={() =>
+                                        handlePostClick(post.postID, post.title)
+                                      }
+                                    >
                                       <div className={cx("Title")}>
                                         {post.title}
                                       </div>

@@ -1,71 +1,99 @@
 import styles from "./header.module.scss";
 import classNames from "classnames/bind";
-import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaRegUser } from "react-icons/fa";
-// import { useDispatch, useSelector } from "react-redux";
-import { DownOutlined } from "@ant-design/icons";
-import { Dropdown, Space } from "antd";
-import { Button, NavDropdown } from "react-bootstrap";
 import logo from "../../../../assets/logo.png";
 import AuthModal from "../../../../Resources/Auth/Auth";
 import { useEffect, useState } from "react";
-import { getAllCategori } from "../../../../Services/apiServer";
-import { GiToggles } from "react-icons/gi";
+import { getAllCategori, logoutApi } from "../../../../Services/apiServer";
 import { FaHome } from "react-icons/fa";
+import { Button, Dropdown, Space } from "antd";
+import { DownOutlined, MenuOutlined } from "@ant-design/icons";
+import { useDispatch, useSelector } from "react-redux";
+import { doLogoutAction } from "../../../../Redux/Reducer/UserSlice";
 
 const cx = classNames.bind(styles);
 
 const Header = (props) => {
   const [showModal, setShowModal] = useState(false);
   const [listCategori, setListCategori] = useState([]);
-  const [visibleCategories, setVisibleCategories] = useState([]);
-  const [hiddenCategories, setHiddenCategories] = useState([]);
+  const [isMobileView, setIsMobileView] = useState(false);
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const updateCategoryDisplay = () => {
-      const windowWidth = window.innerWidth;
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user.user);
+  // console.log("User:", user);
+  // console.log("Roles:", user?.user?.roles);
+  const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
 
-      // Set how many categories will be visible based on screen size
-      const maxVisibleCategories = windowWidth >= 700 ? 5 : 0; // Hiển thị 5 category trên màn hình lớn, 3 trên màn hình nhỏ
+  const items = [
+    {
+      key: "0",
+      label: (
+        <Link
+          to={user?.user?.roles == "Admin" ? "/admin" : "/user"}
+          className={`${cx("dropdownItem")} text-decoration-none`}
+        >
+          Thông tin cá nhân
+        </Link>
+      ),
+    },
+    {
+      key: "1",
+      label: (
+        <Link to="/" className={`${cx("dropdownItem")}`} onClick={() => handleLogout()}>
+          ĐĂng xuất
+        </Link>
+      ),
+    },
+  ];
 
-      if (listCategori && listCategori.length > maxVisibleCategories) {
-        setVisibleCategories(listCategori.slice(0, maxVisibleCategories));
-        setHiddenCategories(listCategori.slice(maxVisibleCategories));
-      } else {
-        setVisibleCategories(listCategori);
-        setHiddenCategories([]);
-      }
-    };
-
-    // Update category display on load and on window resize
-    updateCategoryDisplay();
-    window.addEventListener("resize", updateCategoryDisplay);
-
-    return () => window.removeEventListener("resize", updateCategoryDisplay);
-  }, [listCategori]);
-
-  const fechListCategori = async () => {
+  const handleLogout = async () => {
     try {
-      let res = await getAllCategori();
-      if (res && res.categories && res.categories.length > 0) {
-        setListCategori(res.categories);
-      }
+      await logoutApi();
+      // localStorage.removeItem("token");
+      dispatch(doLogoutAction());
+      navigate("/");
     } catch (error) {
-      console.error("Failed to fetch list:", error);
+      console.error("Error logging out:", error);
     }
   };
+
   useEffect(() => {
-    fechListCategori();
+    const fetchListCategori = async () => {
+      try {
+        let res = await getAllCategori();
+        if (res && res.categories && res.categories.length > 0) {
+          setListCategori(res.categories);
+        }
+      } catch (error) {
+        console.error("Failed to fetch list:", error);
+      }
+    };
+    fetchListCategori();
+  }, []);
+
+  useEffect(() => {
+    const updateViewMode = () => {
+      const windowWidth = window.innerWidth;
+      setIsMobileView(windowWidth < 700); // Cập nhật chế độ mobile nếu chiều rộng màn hình dưới 700px
+    };
+
+    updateViewMode(); // Kiểm tra chế độ màn hình khi tải trang
+    window.addEventListener("resize", updateViewMode); // Lắng nghe sự thay đổi kích thước màn hình
+
+    return () => window.removeEventListener("resize", updateViewMode);
   }, []);
 
   const handleCategoryClick = (categoryID, categoryName) => {
-    // Navigate to the page related to the clicked category
     navigate(`/categories/${categoryID}/${categoryName}`);
+  };
+
+  const handleTagClick = (tagID, tagName) => {
+    navigate(`/tags/${tagID}/${tagName}`);
   };
 
   return (
@@ -80,63 +108,155 @@ const Header = (props) => {
             </Navbar.Brand>
           </div>
           <div className={cx("myvne_taskbar")}>
-            <Nav.Link className="text-decoration-none">
-              <Button
-                className={cx("btnLogin")}
-                onClick={() => setShowModal(true)}
-              >
-                <FaRegUser /> <div className={cx("b-text")} >Đăng nhập</div>
-              </Button>
-              <AuthModal
-                show={showModal}
-                setShow={setShowModal}
-                onHide={() => setShowModal(false)}
-              />
-            </Nav.Link>
+            {isAuthenticated ? (
+              <div>
+                <Dropdown
+                  menu={{ items }}
+                  trigger={["click"]}
+                  placement="bottom"
+                >
+                  <a onClick={(e) => e.preventDefault()}>
+                    <Space>
+                      {user?.user?.username || ""}
+                      <DownOutlined />
+                    </Space>
+                  </a>
+                </Dropdown>
+              </div>
+            ) : (
+              <Nav.Link className="text-decoration-none">
+                <Button
+                  className={cx("btnLogin")}
+                  onClick={() => setShowModal(true)}
+                >
+                  <FaRegUser /> <div className={cx("b-text")}>Đăng nhập</div>
+                </Button>
+                <AuthModal
+                  show={showModal}
+                  setShow={setShowModal}
+                  onHide={() => setShowModal(false)}
+                />
+              </Nav.Link>
+            )}
           </div>
         </div>
         <div className={cx("navContainer")}>
-          <Navbar bg="secondary" variant="dark">
-            <Container className={cx("Container")}>
-              {/* Hiển thị các category visible */}
-              <Nav className={cx("navItem")}>
-                <Link to="/">
-                  <div className={cx("IconHome")}>
-                    <FaHome />
-                  </div>
-                </Link>
-                {visibleCategories.map((item, index) => (
-                  <Nav.Item key={index}>
-                    <Nav.Link
-                      onClick={() =>
-                        handleCategoryClick(item.categoryID, item.categoryName)
-                      }
-                      className={cx("b-Categories")}
-                    >
-                      {item.categoryName}
-                    </Nav.Link>
-                  </Nav.Item>
-                ))}
-                {/* Nếu còn các category ẩn thì hiển thị trong Dropdown */}
-                {hiddenCategories.length > 0 && (
-                  <div className={cx("menu")}>
-                    <Nav>
-                      <NavDropdown title={<GiToggles />} id="nav-dropdown">
-                        {hiddenCategories.map((item, index) => (
-                          <NavDropdown.Item
-                            className={cx("ulCategori")}
-                            key={index}
-                            onClick={() => handleCategoryClick(item.categoryID, item.categoryName)}
+          <Navbar
+            expand="lg"
+            bg="secondary"
+            variant="dark"
+            className={cx("NavItem")}
+          >
+            <div className={cx("Item")}>
+              <Link to="/">
+                <FaHome className={cx("IconHome")} />
+              </Link>
+
+              {/* Kiểm tra nếu là chế độ mobile thì hiển thị tất cả category trong dropdown */}
+              {isMobileView ? (
+                <Dropdown
+                  menu={{
+                    items: listCategori.map((category, index) => ({
+                      key: category.categoryID,
+                      label: (
+                        <Button
+                          className={cx("b-cate")}
+                          onClick={() =>
+                            handleCategoryClick(
+                              category.categoryID,
+                              category.categoryName
+                            )
+                          }
+                        >
+                          {category.categoryName}
+                        </Button>
+                      ),
+                    })),
+                  }}
+                  placement="bottomRight"
+                >
+                  <Button className={cx("btn-cate")}>
+                    Danh mục <DownOutlined />
+                  </Button>
+                </Dropdown>
+              ) : (
+                <>
+                  {/* Hiển thị 5 danh mục đầu tiên khi không ở chế độ mobile */}
+                  {listCategori.slice(0, 5).map((item, index) => (
+                    <div key={index} className={cx("btn-cate")}>
+                      <Space direction="vertical">
+                        <Dropdown
+                          menu={{
+                            items: item.tags.map((tag) => ({
+                              key: tag.tagID,
+                              label: (
+                                <a
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  onClick={() =>
+                                    handleTagClick(tag.tagID, tag.tagName)
+                                  }
+                                >
+                                  {tag.tagName}
+                                </a>
+                              ),
+                            })),
+                          }}
+                          placement="bottomRight"
+                        >
+                          <Button
+                            className={cx("b-cate")}
+                            onClick={() =>
+                              handleCategoryClick(
+                                item.categoryID,
+                                item.categoryName
+                              )
+                            }
                           >
                             {item.categoryName}
-                          </NavDropdown.Item>
-                        ))}
-                      </NavDropdown>
-                    </Nav>
-                  </div>
-                )}
-              </Nav>
-            </Container>
+                          </Button>
+                        </Dropdown>
+                      </Space>
+                    </div>
+                  ))}
+
+                  {/* Dropdown cho các danh mục còn lại */}
+                  {listCategori.length > 5 && (
+                    <div className={cx("btn-cate")}>
+                      <Space direction="vertical">
+                        <Dropdown
+                          menu={{
+                            items: listCategori
+                              .slice(5)
+                              .map((category, index) => ({
+                                key: category.categoryID,
+                                label: (
+                                  <Button
+                                    className={cx("b-cate")}
+                                    onClick={() =>
+                                      handleCategoryClick(
+                                        category.categoryID,
+                                        category.categoryName
+                                      )
+                                    }
+                                  >
+                                    {category.categoryName}
+                                  </Button>
+                                ),
+                              })),
+                          }}
+                          placement="bottomRight"
+                        >
+                          <Button className={cx("b-cate")}>
+                            <MenuOutlined /> <DownOutlined />
+                          </Button>
+                        </Dropdown>
+                      </Space>
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
           </Navbar>
         </div>
       </div>

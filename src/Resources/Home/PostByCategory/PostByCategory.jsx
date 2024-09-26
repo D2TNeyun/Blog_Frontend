@@ -39,18 +39,15 @@ const PostByCategory = (props) => {
     fetchCategory();
   }, [id]);
 
-
-  const handleTagClick = (tagName) => {
-    // Navigate to the page related to the clicked category
-    navigate(`/categories/${tagName}`);
+  //handleCick Tag
+  const handleTagClick = (tagID, tagName) => {
+    navigate(`/tags/${tagID}/${tagName}`);
   };
 
-  const handlePostClick = (postID, postTitle) => {
-    // Navigate to the page related to the clicked post
-    navigate(`/posts/${postID}/${postTitle}`);
+  //handleCick Post
+  const handlePostClick = (postID, title) => {
+    navigate(`/posts/${postID}/${title}`);
   };
-
-
 
   return (
     <>
@@ -69,7 +66,15 @@ const PostByCategory = (props) => {
                       />
                     </div>
                   </div>
-                  <div className={cx("fleft")}>
+                  <div
+                    className={cx("fleft")}
+                    onClick={() =>
+                      handlePostClick(
+                        latestPosts[0].postID,
+                        latestPosts[0].title
+                      )
+                    }
+                  >
                     <h2>
                       tieu đê: {latestPosts[0] ? latestPosts[0].title : ""}
                     </h2>
@@ -77,10 +82,17 @@ const PostByCategory = (props) => {
                   <p className={cx("desc")}>
                     mo ta: {latestPosts[0] ? latestPosts[0].description : ""}
                   </p>
+
                   <div className={cx("boxtopcate")}>
                     <div className={cx("boxtop")}>
-                      {latestPosts.slice(1, 3).map((post) => ( // được lấy từ phần từ thứ 1 và lấy 3 bài kế tiếp
-                        <div className={cx("b-box")} key={post.postID}>
+                      {latestPosts.slice(1, 3).map((post) => (
+                        <div
+                          className={cx("b-box")}
+                          key={post.postID}
+                          onClick={() =>
+                            handlePostClick(post.postID, post.title)
+                          }
+                        >
                           <div className={cx("image")}>
                             <div className={cx("preview")}>
                               <img
@@ -106,18 +118,24 @@ const PostByCategory = (props) => {
                     <div className={cx("list-news-img")}>
                       <ul className={cx("list")}>
                         {latestPosts.map((post) => (
-                          <li key={post.postID} className={cx("news-img-left")}>
-                            <div className={cx("b-title")} href="">
-                              {post.title}
-                            </div>
+                          <li
+                            key={post.postID}
+                            className={cx("news-img-left")}
+                            onClick={() =>
+                              handlePostClick(post.postID, post.title)
+                            }
+                          >
+                            <div className={cx("b-title")}>{post.title}</div>
                             <div className={cx("b-img")} href="">
-                                <img
-                                  src={post.image}
-                                  alt=""
-                                  className={cx("preview")}
-                                />
-                              </div>
-                              <div className={cx("b-desc")}><p>{post.description}</p></div>
+                              <img
+                                src={post.image}
+                                alt=""
+                                className={cx("preview")}
+                              />
+                            </div>
+                            <div className={cx("b-desc")}>
+                              <p>{post.description}</p>
+                            </div>
                           </li>
                         ))}
                       </ul>
@@ -128,15 +146,7 @@ const PostByCategory = (props) => {
               <div className={cx("colcate2")}>
                 <div className={cx("colName")}>
                   <div className={cx("b-name")}>ĐỌC NHIỀU</div>
-                </div>
-                {/* <div>
-                  {latestPosts.map((post) => (
-                    <div key={post.postID}>
-                      <h2>{post.title}</h2>
-                      <p>{post.description}</p>
-                    </div>
-                  ))}
-                </div> */}
+                </div>=
               </div>
 
               <div className={cx("colcate3")}>
@@ -148,7 +158,14 @@ const PostByCategory = (props) => {
                       <div key={tag.tagID} className={cx("b-group")}>
                         {/* Display the tag name */}
                         <div className={cx("tag-name")}>
-                          <div className={cx("b-name")}>{tag.tagName}</div>
+                          <div
+                            className={cx("b-name")}
+                            onClick={() =>
+                              handleTagClick(tag.tagID, tag.tagName)
+                            }
+                          >
+                            {tag.tagName}
+                          </div>
                         </div>
 
                         {/* Filter and display posts associated with this tag */}
@@ -157,8 +174,13 @@ const PostByCategory = (props) => {
                             .filter((post) => post.tagID === tag.tagID) // Filter posts by tagID
                             .map((post) => (
                               <li key={post.postID}>
-                                <div className={cx("b-li")}>
-                                  <h3>{post.title}</h3>
+                                <div
+                                  className={cx("b-li")}
+                                  onClick={() =>
+                                    handlePostClick(post.postID, post.title)
+                                  }
+                                >
+                                  <h5>{post.title}</h5>
                                   <p>{post.description}</p>
                                 </div>
                               </li>

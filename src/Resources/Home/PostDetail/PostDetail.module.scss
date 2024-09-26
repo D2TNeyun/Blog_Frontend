@@ -1,0 +1,194 @@
+.wappercontainer {
+  float: left;
+  width: 100%;
+  padding: 20px;
+  margin: -12px 0px 0px 0px;
+
+  .Container {
+    padding-left: 10px;
+    padding-right: 10px;
+
+    .Content {
+      float: left;
+      width: 100%;
+      padding-left: 10px;
+      padding-right: 10px;
+      display: flex;
+      gap: 10px;
+
+    }
+
+  }
+}
+
+/* Cấu trúc Flexbox để bố trí cột ngang */
+.Content {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  /* Cho phép các cột tự xuống hàng khi màn hình nhỏ */
+}
+
+/* Bố cục dọc khi màn hình nhỏ */
+@media (max-width: 920px) {
+  .Content {
+    display: flex;
+    gap: 2px;
+    flex-wrap: wrap;
+  }
+
+  .colcate1 {
+    display: contents;
+  }
+
+  .colcate2 {
+    display: contents;
+  }
+
+  .colcate3 {
+    display: contents;
+    .ColItem{
+      .image{
+        display: none;
+      }
+    }
+  }
+}
+
+.colcate1 {
+  flex: 1 40%;
+
+  .b-Content {
+    margin-bottom: 10px;
+  }
+
+  .image {
+    width: 70%;
+    height: auto;
+    display: flex;
+    padding: 3px;
+    margin: auto;
+
+    .preview {
+      overflow: hidden;
+      display: inline-block;
+      width: 100%;
+      height: auto;
+      padding: 0;
+    }
+
+  }
+
+  .Comment {
+    width: 100%;
+    margin: 10px 10px 10px 0px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+
+  }
+}
+
+.colcate2 {
+  flex: 1 20%;
+
+  .colName {
+    background-color: gainsboro;
+    padding: 5px;
+    border-left: 5px solid;
+    border-left-color: brown;
+    font-family: inherit;
+    width: 100%;
+    margin: 9px 0 9px -9px;
+
+
+    .b-name {
+      color: RED;
+      font-size: larger;
+      font-weight: bold;
+
+      &:hover {
+        color: darkgray;
+        font-weight: bold;
+        box-shadow: inset;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+.colcate3 {
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+
+
+  .ColItem {
+    display: flex;
+
+    @media (max-width: 920px){
+      display: grid;
+    }
+
+    .post-item {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      gap: 10px;
+      margin-bottom: 20px;
+      box-sizing: border-box;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #f5f5f5;
+      }
+
+      .post-title {
+        font-size: 16px;
+        color: #333;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .image {
+        width: 100%;
+        height: auto;
+        // 
+        .preview {
+          overflow: hidden;
+          display: inline-block;
+          width: 100%;
+          height: auto;
+          padding: 0;
+        }
+      }
+
+    }
+  }
+
+  .colName {
+    background-color: gainsboro;
+    padding: 5px;
+    border-left: 5px solid;
+    border-left-color: brown;
+    font-family: inherit;
+    width: 100%;
+    margin-bottom: 10px;
+    display: flex;
+    gap: 5px;
+
+    .b-name {
+      color: RED;
+      font-size: larger;
+      font-weight: bold;
+    }
+  }
+
+
+
+
+}
