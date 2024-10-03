@@ -68,26 +68,33 @@ const PostDetail = (props) => {
               </div>
             </div>
             <div className={cx("colcate3")}>
-              <div className={cx("colName")}>
-                <div className={cx("b-name")}>ĐỌC THÊM</div>
-              </div>
-              <div className={cx("ColItem")}>
-                {postByTag && postByTag.length > 0 ? (
-                  postByTag.map((post) => (
-                    <div key={post.postID} className={cx("post-item")}>
-                      <div className={cx("post-title")}>
-                        <div className={cx("image")}>
-                          <div className={cx("preview")}>
-                            <img src={post.image} className={cx("preview")} />
+              <div className="row">
+                <div className={cx("colName")}>
+                  <div className={cx("b-name")}>ĐỌC THÊM</div>
+                </div>
+                <div className={cx("ColItem")}>
+                  <ul className={cx("related-list")}>
+                    {postByTag && postByTag.length > 0 ? (
+                      postByTag.map((post) => (
+                        <li
+                          key={post.postID}
+                          className="related-item col-xs-12 col-sm-4"
+                        >
+                          <div className={cx("news-img-top")}>
+                            <div className={cx("preview")}>
+                              <img src={post.image} className={cx("b-img")} />
+                            </div>
+                            <div className={cx("b-title")}>
+                              <h4>{post.title}</h4>
+                            </div>
                           </div>
-                        </div>
-                        <h5>{post.title}</h5>
-                      </div>
-                    </div>
-                  ))
-                ) : (
-                  <p>No related posts found.</p>
-                )}
+                        </li>
+                      ))
+                    ) : (
+                      <p>No related posts found.</p>
+                    )}
+                  </ul>
+                </div>
               </div>
             </div>
           </div>

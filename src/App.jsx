@@ -13,6 +13,10 @@ import TagByCate from "./Resources/Home/TagByCate/TagByCate.jsx";
 import PostDetail from "./Resources/Home/PostDetail/PostDetail.jsx";
 import LayoutAdmin from "./Components/Layouts/LayoutAdmin/LayoutAdmin.jsx";
 import LayoutUser from "./Components/Layouts/LayoutUser/LayoutUser.jsx";
+import { ToastContainer } from "react-toastify";
+import ManagePost from "./Resources/Admin/Post/ManagePost/ManagePost.jsx";
+import ManageUser from "./Resources/Admin/User/ManageUser/ManageUser.jsx";
+import ManageEmploy from "./Resources/Admin/User/ManageUser/ManageEmploy.jsx";
 
 const Layout = () => {
   return (
@@ -62,17 +66,45 @@ function App() {
       element: <LayoutAdmin/>,
       children: [
         // Admin routes here...
+        {
+          path: "/admin/manageEmploy",
+          element: <ManageEmploy />,
+        },
+        {
+          path: "/admin/manageUser",
+          element: <ManageUser />,
+        },
+        {
+          path: "/admin/managePost",
+          element: <ManagePost />,
+        }
       ],
     },
     {
       path: "/user",
-      element: <LayoutUser />
+      element: <LayoutUser />,
+      children: [
+        // User routes here...
+      ],
     }
   ]);
 
   return (
     <>
       <RouterProvider router={router} />
+
+      <ToastContainer
+        position="bottom-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </>
   );
 }

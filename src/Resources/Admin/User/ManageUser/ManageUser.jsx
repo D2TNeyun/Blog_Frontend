@@ -1,7 +1,7 @@
 import classNames from "classnames/bind";
-import styles from "./ManagePost.module.scss";
+import styles from "./ManageUser.module.scss";
 import { useEffect, useState } from "react";
-import { getAllPost } from "../../../../Services/apiServer";
+import { getAllUser } from "../../../../Services/apiServer";
 import {
   FilterOutlined,
   SearchOutlined,
@@ -13,22 +13,22 @@ import {
 const cx = classNames.bind(styles);
 
 const ManageEmploy = (props) => {
-  const [listPosts, setLisPosts] = useState([]);
+  const [listUser, setListUser] = useState([]);
 
-  const fetchPostsList = async () => {
+  const fetchUserList = async () => {
     try {
-      let res = await getAllPost();
-      console.log("Data getAll", res); // Kiểm tra giá trị trả về của getAllPost
-      if (res && res.posts) {
-        setLisPosts(res.posts);
+      let res = await getAllUser();
+      console.log("Data getAll", res); // Kiểm tra giá trị trả về của getAllUser
+      if (res && res.users) {
+        setListUser(res.users);
       }
     } catch (error) {
-      console.error("Failed to fetch post list:", error);
+      console.error("Failed to fetch user list:", error);
     }
   };
 
   useEffect(() => {
-    fetchPostsList();
+    fetchUserList();
   }, []);
 
   const handleKeyDown = (e) => {
@@ -44,7 +44,7 @@ const ManageEmploy = (props) => {
           <div className={cx("b-Title")}>Danh sach doc gia </div>
         </div>
         <div className={cx("ContentPage")}>
-          <div className={cx("headerListPost")}>
+          <div className={cx("headerListUser")}>
             <div className={cx("searchGroup")}>
               <div className={cx("searchBorder")}>
                 <input
@@ -62,31 +62,32 @@ const ManageEmploy = (props) => {
               </div>
             </div>
             {/* onClick={() => showModal()} */}
-            <button className={cx("btnAddPost")} >
-              Thêm tin tức
+            <button className={cx("btnAddUser")} >
+              Thêm người dùng
             </button>
           </div>
           <table className={cx("table", "table-hover", "table-bordered")}>
             <thead>
               <tr>
                 <th scope="col">ID</th>
-                <th scope="col">Tiêu đề</th>
-                <th scope="col">Thể loại</th>
-                <th scope="col">Tác Giả</th>
-                <th scope="col">Ngày đăng</th>
+                <th scope="col">Username</th>
+                <th scope="col">Email</th>
+                <th scope="col">Role</th>
+                <th scope="col">Trạng thái</th>
                 <th scope="col">Action</th>
               </tr>
             </thead>
             <tbody>
-              {listPosts && listPosts.length > 0 ? (
-                listPosts
-                  .map((post, i) => (
-                    <tr key={`${post.postID}-${i}`}>
+              {listUser && listUser.length > 0 ? (
+                listUser
+                  .filter((user) => user.roles.includes("User"))
+                  .map((user, i) => (
+                    <tr key={`${user.id}-${i}`}>
                       <td>{i + 1}</td>
-                      <td>{post.title}</td>
-                      <td>{post.category?.categoryName}</td>
-                      <td>{post.appUser?.username}</td>
-                      <td>{post.publishedDate}</td>
+                      <td>{user.username}</td>
+                      <td>{user.email}</td>
+                      <td>{user.roles}</td>
+                      <td>{user.isActive ? "Active" : "Inactive"}</td>
                       <td>
                         <button>Edit</button>
                         <button>Delete</button>
@@ -95,7 +96,7 @@ const ManageEmploy = (props) => {
                   ))
               ) : (
                 <tr>
-                  <td colSpan="5">No post found</td>
+                  <td colSpan="5">No user found</td>
                 </tr>
               )}
             </tbody>

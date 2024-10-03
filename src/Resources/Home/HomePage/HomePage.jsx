@@ -107,6 +107,33 @@ const HomePage = (props) => {
             </div>
             <div className={cx("NewTop")}>
               <div className={cx("b-title")}>Sự kiện Mới Nhất</div>
+              <div className={cx("b-item")}>
+                {listPosts.length > 0 ? (
+                  listPosts
+                    .sort(
+                      (a, b) =>
+                        new Date(b.publishedDate) - new Date(a.publishedDate)
+                    )
+                    .slice(0, 5) // Get the 5 most recent posts
+                    .map((post) => (
+                      // Use postID
+                      <div key={post.postID}>
+                        {/* Add your code here */}
+                        <div
+                          className={cx("item")}
+                          onClick={() =>
+                            handlePostClick(post.postID, post.title)
+                          }
+                        >
+                          <h4>{post.title}</h4>
+                          <div className={cx("b-dec")}>{post.description}</div>
+                        </div>
+                      </div>
+                    ))
+                ) : (
+                  <p>No posts found</p>
+                )}
+              </div>
             </div>
           </div>
           <hr />
@@ -162,7 +189,7 @@ const HomePage = (props) => {
                                 mostRecentPosts.map((post) => (
                                   <div className="col-md-6" key={post.postID}>
                                     {/* Use postID */}
-                                    <div
+                                    <ul
                                       className={cx("Box")}
                                       onClick={() =>
                                         handlePostClick(post.postID, post.title)
@@ -171,18 +198,17 @@ const HomePage = (props) => {
                                       <div className={cx("Title")}>
                                         {post.title}
                                       </div>
-                                      <div className={cx("image")}>
-                                        <div className={cx("preview")}>
+                                      <div className={cx("preview")}>
                                           <img
                                             src={post.image}
                                             alt={post.title}
+                                            className={cx("image")}
                                           />
                                         </div>
-                                      </div>
                                       <div className={cx("description")}>
-                                        {post.description}
+                                       <p> {post.description}</p>
                                       </div>
-                                    </div>
+                                    </ul>
                                   </div>
                                 ))
                               ) : (

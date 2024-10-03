@@ -1,0 +1,87 @@
+.container{
+    padding: 10px 20px;
+}
+.Title{
+    display: flex;
+    padding: 5px;
+    background: white;
+    border-radius: 8px;
+    .b-Title{
+        padding: 10px;
+        font-size: 20px;
+        font-weight: bold;
+        color: black;
+    }
+}
+
+
+.ContentPage {
+    padding: 10px 15px;
+    background-color: #fff;
+    margin-top: 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.headerListPost {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .btnAddPost {
+        background-image: linear-gradient(to right, #77A1D3 0%, #79CBCA 51%, #77A1D3 100%);
+        margin-right: 10px;
+        padding: 10px 20px;
+        text-align: center;
+        text-transform: uppercase;
+        transition: 0.5s;
+        background-size: 200% auto;
+        color: white;
+        box-shadow: 0 0 20px #eee;
+        border-radius: 10px;
+        float: right;
+        border: none;
+        // display: block;
+    }
+
+    .btnAddProduct:hover {
+        background-position: right center;
+        color: #0d121c;
+        text-decoration: none;
+    }
+
+    .searchGroup {
+        display: flex;
+
+
+        .searchBorder {
+
+            padding: 5px 10px;
+            border-radius: 10px;
+            box-shadow: 5px 5px 5px #a3a1a1;
+            border: 1px solid rgba(143, 138, 138, 0.34);
+
+            .iconSearch {
+                padding: 5px;
+                cursor: pointer;
+
+            }
+
+            .inputSearch {
+                border: none;
+                outline: none;
+                background-color: transparent;
+                max-width: 162px;
+                transition: max-width 0.3s ease;
+            }
+
+            @media screen and (max-width: 768px) {
+                .inputSearch {
+                    max-width: 100px;
+                }
+            }
+        }
+    }
+}

@@ -181,8 +181,8 @@ const Header = (props) => {
                 </Dropdown>
               ) : (
                 <>
-                  {/* Hiển thị 5 danh mục đầu tiên khi không ở chế độ mobile */}
-                  {listCategori.slice(0, 5).map((item, index) => (
+                  {/* Hiển thị danh mục đầu tiên khi không ở chế độ mobile */}
+                  {listCategori.slice(0, 9).map((item, index) => (
                     <div key={index} className={cx("btn-cate")}>
                       <Space direction="vertical">
                         <Dropdown
@@ -221,7 +221,7 @@ const Header = (props) => {
                   ))}
 
                   {/* Dropdown cho các danh mục còn lại */}
-                  {listCategori.length > 5 && (
+                  {listCategori.length > 9 && (
                     <div className={cx("btn-cate")}>
                       <Space direction="vertical">
                         <Dropdown

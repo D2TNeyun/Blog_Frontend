@@ -10,6 +10,18 @@ const postLogin = (Username, Password) => {
 const logoutApi = () => {
     return axios.post(`api/auth/logout`);
 }
+
+const Register = () => {
+    const data = new FormData();
+    data.append('username', Username);
+    data.append('email', Email);
+    data.append('password', Password);
+    return axios.post(`api/auth/register`, data);
+}
+
+const getAllUser = () => {
+    return axios.get(`api/user`);
+}
 //Category
 const getAllCategori = () => {
     return axios.get(`api/categories`); 
@@ -20,7 +32,6 @@ const getCategoryById = (id) => {
     data.append('id', id);  
     return axios.get(`api/categories/`+id, data);
 }
-
 
 //Post
 const getAllPost = () => {
@@ -53,5 +64,7 @@ export {
     getTagById,
     getAllTag,
     getPostById,
-    logoutApi
+    logoutApi,
+    Register,
+    getAllUser
  };

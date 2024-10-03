@@ -39,10 +39,10 @@
         font-size: 18px;
     }
 
-    .lable {
-        display: -webkit-box;
-        margin-block: 5px;
-        margin-left: 10px;
+    .iconInputForm {
+        color: #337CD5;
+        padding: 5px 5px 5px 15px;
+        font-size: 18px;
     }
 
     .input {
@@ -86,6 +86,23 @@
         background: #dddddd;
         color: #afafaf;
         cursor: no-drop;
+    }
+
+    .spinner {
+        font-size: 20px;
+        margin-right: 7px;
+        margin-bottom: 3px;
+        animation: spin 1s infinite linear;
+    }
+
+    @keyframes spin {
+        from {
+            transform: scale(1) rotate(0deg);
+        }
+
+        to {
+            transform: scale(1) rotate(360deg);
+        }
     }
 
 }
@@ -134,18 +151,64 @@
         }
     }
 }
+.groupForm {
+    display: grid;
+    grid-template-columns: 40px auto;
+    border-radius: 25px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+    padding: 5px;
+    border: 1px solid rgba(210, 207, 207, 0);
 
-.password-container {
-    display: flex;
-    align-items: center;
-    position: relative;
+    .iconInputForm {
+        color: #337CD5;
+        padding: 5px 5px 5px 15px;
+        font-size: 18px;
+    }
+
+    .inputForm {
+        border: none;
+        border-radius: 25px;
+        outline: none;
+
+    }
+    .error {
+        color: red;
+        margin: 10px 0px 0px 10px;
+    }
 }
 
-.iconEye {
-    position: absolute;
-    right: 10px;
-    margin-bottom: 3px;
-    cursor: pointer;
+.groupForm2 {
+    display: grid;
+    grid-template-columns: 40px auto 30px;
+    border-radius: 25px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+
+    padding: 5px;
+    border: 1px solid rgba(210, 207, 207, 0);
+
+    .iconInputForm2 {
+        color: #337CD5;
+        padding: 5px 5px 5px 15px;
+        font-size: 18px;
+    }
+
+    .inputForm2 {
+        border: none;
+        border-radius: 25px;
+        outline: none;
+        background-color: transparent;
+    }
+
+    .iconEye {
+        padding: 5px 5px 5px 0px;
+        font-size: 18px;
+        color: #337CD5;
+    }
+}
+
+.error {
+    color: red;
+    margin: 10px 0px 0px 10px;
 }
 
 .content {
@@ -247,3 +310,4 @@
     padding: 5px;
     margin: 20px 0px 10px 0px;
 }
+

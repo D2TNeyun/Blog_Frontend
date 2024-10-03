@@ -20,7 +20,6 @@
         // background-color: darkgray;
         .b-title {
             font-size: 18px;
-            font-weight: bold;
             padding: 3px;
             color: crimson;
             background-color: rgb(225, 225, 225);
@@ -29,13 +28,7 @@
             justify-self: center;
         }
 
-        // @media (max-width: 920px) {
-        //     .Content {
-        //       display: flex;
-        //       gap: 2px;
-        //       flex-wrap: wrap;
-        //     }
-        // }
+
     }
 
     .NewPost {
@@ -56,13 +49,27 @@
 
     }
 
-    .NewTop {}
+    .NewTop {
+        .item {
+            padding: 5px;
+            border-bottom: 1px dashed #e1e1e1;
+            cursor: pointer;
+
+            .b-dec {
+                font-weight: 200;
+            }
+
+            &:hover {
+                background-color: #f7f7f7;
+            }
+        }
+    }
 
     @media (max-width: 920px) {
         display: grid;
         text-align: center;
 
-        .NewPost{
+        .NewPost {
             width: 360px;
             display: flex;
             justify-content: center;
@@ -70,7 +77,7 @@
             padding: 3px;
             margin: auto;
 
-            .carousel .PostImage{
+            .carousel .PostImage {
                 margin: 10px;
                 width: 80%;
                 height: auto;
@@ -79,6 +86,11 @@
                 align-items: center;
                 justify-content: center;
             }
+        }
+        .NewTop{
+            display: grid;
+            width: 100% ;
+            height: auto;
         }
     }
 
@@ -174,36 +186,30 @@
                 box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
             }
 
-
-            .image {
+            .preview {
                 float: left;
-                width: 55%;
+                width: 45%;
                 padding-right: 10px;
-                position: relative;
 
-                .preview img {
+                .image {
+                    overflow: hidden;
+                    display: inline-block;
                     width: 100%;
                     height: auto;
-                    display: block;
+                    padding: 0;
                 }
             }
 
-
             .Title {
-                // position: absolute;
-                top: 10px;
-                left: 10px;
-                font-size: 18px;
                 font-weight: bold;
-                color: #060404;
-                // /* Làm nền tiêu đề mờ */
-                // padding: 5px 10px;
-                // z-index: 2;
+                font-size: 1.1rem;
+                font-family: Arial, Helvetica, sans-serif;
+                padding: 3px;
             }
 
             .description {
-                float: left;
-                width: 45%;
+                width: 100%;
+                height: auto;
 
             }
         }
