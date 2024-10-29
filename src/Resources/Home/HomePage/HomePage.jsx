@@ -104,7 +104,10 @@ const HomePage = (props) => {
               ) : (
                 <p>Không tìm thấy bài viết nào</p>
               )}
+
+              <div>thay thế vào là quảng cáo hoặc các bài biết top view!</div>
             </div>
+
             <div className={cx("NewTop")}>
               <div className={cx("b-title")}>Sự kiện Mới Nhất</div>
               <div className={cx("b-item")}>
@@ -199,14 +202,14 @@ const HomePage = (props) => {
                                         {post.title}
                                       </div>
                                       <div className={cx("preview")}>
-                                          <img
-                                            src={post.image}
-                                            alt={post.title}
-                                            className={cx("image")}
-                                          />
-                                        </div>
+                                        <img
+                                          src={post.image}
+                                          alt={post.title}
+                                          className={cx("image")}
+                                        />
+                                      </div>
                                       <div className={cx("description")}>
-                                       <p> {post.description}</p>
+                                        <p> {post.description}</p>
                                       </div>
                                     </ul>
                                   </div>

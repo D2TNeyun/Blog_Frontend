@@ -8,6 +8,8 @@ const initialState = {
         id: "",
         email: "",
         username: "",
+        roles:"",
+        isActives: "",
     },
 };
 
@@ -28,9 +30,11 @@ export const userSlice = createSlice({
                 id: "",
                 email: "",
                 username: "",
-                Role: "",
+                roles: "",
+                isActives: "",
             };
         },
+        
     },
 });
 

@@ -64,27 +64,14 @@ const AuthModal = (props) => {
       let data = await postLogin(Username, Password);
       if (data && data.success === true) {
         dispatch(doLoginAction(data));
-        // toast.success(data.Message);
         handleClose();
+        toast.success("Đăng nhập thành công!");
         navigate("/");
       } else {
-        toast.error(data.Message);
+        toast.error("Tên người dùng hoặc mật khẩu không hợp lệ!");
         setErrors({ general: "Login failed. Please check your credentials." });
       }
     } catch (error) {
-      // Explicitly handle a 401 Unauthorized error
-      if (error.response && error.response.status === 401) {
-        toast.error("Unauthorized: Invalid credentials.");
-        setErrors({
-          general: "Unauthorized: Invalid credentials.",
-        });
-      } else {
-        // Handle general errors
-        toast.error("An error occurred during login. Please try again later.");
-        setErrors({
-          general: "An error occurred during login. Please try again later.",
-        });
-      }
       console.error("Error during login:", error);
     } finally {
       setIsLoading(false);
@@ -121,12 +108,16 @@ const AuthModal = (props) => {
     try {
       let data = await Register(Username, Email, Password);
       if (data && data.success == true) {
-        toast.success(data.Message);
+        toast.success("Đăng ký thành công!");
         handleClose();
         navigate("/");
       } else {
-        toast.error(data.Message);
+        toast.error("Mật khẩu bao gồm các ký tự đặc biệt!");
         setErrors({ general: "Đăng ký thất bại. Vui lòng thử lại." });
+        setIsLoading(false);
+        setUsername("");
+        setPassword("");
+        setEmail("");
       }
     } catch (error) {
       console.error("Error during register:", error);
@@ -162,7 +153,7 @@ const AuthModal = (props) => {
                           }`}
                         >
                           <label
-                            htmlFor="email"
+                            htmlFor="Username"
                             className={cx("iconInputForm")}
                           >
                             <FaUser />

@@ -1,9 +1,11 @@
 .wappercontainer {
     .MainContainer {
-        position: inherit;
-        align-items: center;
+        padding: 10px 30px;
         margin: auto;
+
+
     }
+
 }
 
 .NewPostContainer {
@@ -34,19 +36,17 @@
     .NewPost {
         font-size: 15px;
         padding: 3px;
-        background-color: rgb(225, 225, 225);
         width: 60%;
-        display: flex;
+        display: grid;
         justify-content: center;
         float: left;
 
-        .carousel {
+        .carousel{
             position: relative;
             width: 100%;
             text-align: center;
+            background-color: rgb(225, 225, 225);
         }
-
-
     }
 
     .NewTop {
@@ -87,9 +87,10 @@
                 justify-content: center;
             }
         }
-        .NewTop{
+
+        .NewTop {
             display: grid;
-            width: 100% ;
+            width: 100%;
             height: auto;
         }
     }

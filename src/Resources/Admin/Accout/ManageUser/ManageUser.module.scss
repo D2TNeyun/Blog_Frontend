@@ -1,14 +1,12 @@
-.container {
+.container{
     padding: 10px 20px;
 }
-
-.Title {
+.Title{
     display: flex;
     padding: 5px;
     background: white;
     border-radius: 8px;
-
-    .b-Title {
+    .b-Title{
         padding: 10px;
         font-size: 20px;
         font-weight: bold;
@@ -27,13 +25,12 @@
     gap: 30px;
 }
 
-.headerListPost {
+.headerListUser {
     display: flex;
     align-items: center;
     justify-content: space-between;
 
-
-    .btnAddService {
+    .btnAddUser {
         background-image: linear-gradient(to right, #77A1D3 0%, #79CBCA 51%, #77A1D3 100%);
         padding: 10px 35px;
         text-align: center;
@@ -53,11 +50,11 @@
         }
     }
 
-
     .searchGroup {
         display: flex;
 
         .searchBorder {
+
             padding: 5px 10px;
             border-radius: 10px;
             box-shadow: 5px 5px 5px #a3a1a1;

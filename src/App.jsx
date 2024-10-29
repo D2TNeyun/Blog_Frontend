@@ -1,9 +1,5 @@
 // import { useState } from 'react'
-import {
-  Outlet,
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
+import { Outlet, createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import Header from "./Components/Layouts/DefaultLayout/Header/Header.jsx";
 import AuthModal from "./Resources/Auth/Auth.jsx";
@@ -15,20 +11,31 @@ import LayoutAdmin from "./Components/Layouts/LayoutAdmin/LayoutAdmin.jsx";
 import LayoutUser from "./Components/Layouts/LayoutUser/LayoutUser.jsx";
 import { ToastContainer } from "react-toastify";
 import ManagePost from "./Resources/Admin/Post/ManagePost/ManagePost.jsx";
-import ManageUser from "./Resources/Admin/User/ManageUser/ManageUser.jsx";
-import ManageEmploy from "./Resources/Admin/User/ManageUser/ManageEmploy.jsx";
+import ManageEmploy from "./Resources/Admin/Accout/ManageUser/ManageEmploy.jsx";
+import ManageUser from "./Resources/Admin/Accout/ManageUser/ManageUser.jsx";
+
+import AddPost from "./Resources/Admin/Post/AddPost/AddPost.jsx";
+import LayoutEmploy from "./Components/Layouts/LayoutEmploy/LayoutEmploy.jsx";
+import ManagePostByEmploy from "./Resources/Employee/Post/ManagePost/ManagePost.jsx";
+import ManageEmploy2 from "./Resources/Employee/Accout/ManageEmploy2.jsx";
+import ManageCategory from "./Resources/Admin/Categories/manageCategory.jsx";
+import ProtectedRoute from "./Components/ProtectRoute/ProtectRoute.jsx";
+import { useSelector } from "react-redux";
+import Loading from "./Components/Loading/Loading.jsx";
+import OnTopButton from "./Components/OnTopButton/OnTopButton.jsx";
 
 const Layout = () => {
   return (
     <div>
       <Header />
       <Outlet />
+      <OnTopButton/>
     </div>
   );
 };
 
 function App() {
-  // const [count, setCount] = useState(0)
+  const isLoading = useSelector((state) => state.user.isLoading);
 
   const router = createBrowserRouter([
     {
@@ -37,7 +44,7 @@ function App() {
       children: [
         {
           index: true,
-          element: <HomePage/>,
+          element: <HomePage />,
         },
         {
           path: "/",
@@ -53,45 +60,92 @@ function App() {
         },
         {
           path: "/posts/:id/:title",
-          element: <PostDetail/>,  
-        }
-    
-      ],  
-      // path: "/about",
-      // element: <AboutPage />,
-      // Add more routes here...
+          element: <PostDetail />,
+        },
+      ],
     },
     {
       path: "/admin",
-      element: <LayoutAdmin/>,
+      element: (
+        <ProtectedRoute>
+          <LayoutAdmin />
+        </ProtectedRoute>
+      ),
       children: [
         // Admin routes here...
         {
-          path: "/admin/manageEmploy",
+          path: "manageEmploy",
           element: <ManageEmploy />,
         },
         {
-          path: "/admin/manageUser",
+          path: "manageUser",
           element: <ManageUser />,
         },
         {
-          path: "/admin/managePost",
+          path: "managePost",
           element: <ManagePost />,
-        }
+        },
+        {
+          path: "addPost",
+          element: <AddPost />,
+        },
+        {
+          path: "manageCategory",
+          element: <ManageCategory />,
+        },
+      ],
+    },
+    {
+      path: "/employ",
+      element: (
+        <ProtectedRoute>
+          <LayoutEmploy />
+        </ProtectedRoute>
+      ),
+      children: [
+        {
+          path: "managePost",
+          element: <ManagePostByEmploy />,
+        },
+        {
+          path: "addPost",
+          element: <AddPost />,
+        },
+        {
+          path: "manageEmploy",
+          element: <ManageEmploy2 />,
+        },
+        {
+          path: "manageUser",
+          element: <ManageUser />,
+        },
       ],
     },
     {
       path: "/user",
-      element: <LayoutUser />,
+      element: (
+        <ProtectedRoute>
+          <LayoutUser />
+        </ProtectedRoute>
+      ),
       children: [
         // User routes here...
       ],
-    }
+    },
   ]);
 
   return (
     <>
-      <RouterProvider router={router} />
+    {isLoading === false || 
+      window.location.pathname === "/" ||
+      window.location.pathname === "/posts" ||
+      window.location.pathname === "/categories" ||
+      window.location.pathname === "/tags" ? (
+        <RouterProvider router={router} />
+      ) : (
+        <Loading/>
+      )
+     }
 
       <ToastContainer
         position="bottom-center"

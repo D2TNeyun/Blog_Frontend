@@ -76,16 +76,16 @@ const PostByCategory = (props) => {
                     }
                   >
                     <h2>
-                      tieu đê: {latestPosts[0] ? latestPosts[0].title : ""}
+                      {latestPosts[0] ? latestPosts[0].title : ""}
                     </h2>
                   </div>
                   <p className={cx("desc")}>
-                    mo ta: {latestPosts[0] ? latestPosts[0].description : ""}
+                    {latestPosts[0] ? latestPosts[0].description : ""}
                   </p>
 
                   <div className={cx("boxtopcate")}>
                     <div className={cx("boxtop")}>
-                      {latestPosts.slice(1, 3).map((post) => (
+                      {latestPosts.slice(1, 4).map((post) => (
                         <div
                           className={cx("b-box")}
                           key={post.postID}

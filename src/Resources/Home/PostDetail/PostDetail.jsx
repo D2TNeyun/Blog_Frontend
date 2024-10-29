@@ -1,14 +1,32 @@
 import { useParams } from "react-router-dom";
 import styles from "./PostDetail.module.scss";
 import classNames from "classnames/bind";
-import { getPostById, getTagById } from "../../../Services/apiServer";
+import {
+  getComments,
+  getPostById,
+  getTagById,
+  postCmt,
+} from "../../../Services/apiServer";
 import { useEffect, useState } from "react";
+import { IoSend } from "react-icons/io5";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { ImSpinner5 } from "react-icons/im";
 
 const cx = classNames.bind(styles);
 const PostDetail = (props) => {
-  const { id, title } = useParams(); // Get the id and category name from the
+  const { id, title } = useParams();
   const [postData, setPostData] = useState(null); // chi 1 doi tuong
   const [postByTag, setPostByTag] = useState([]);
+  const [Content, setContent] = useState("");
+  const [comments, setComments] = useState([]);
+  const AppUserID = useSelector((state) => state.user.user?.user?.id);
+  const PostId = id;
+  const [isLoading, setIsLoading] = useState(false);
+  const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
+  const in4User = useSelector((state) => state.user.user.user);
+  console.log(in4User);
+  // const isActives = useSelector((state) => state.user.user.user.isActives);
 
   //Apipost
   const fetchPostById = async () => {
@@ -35,6 +53,78 @@ const PostDetail = (props) => {
     fetchPostById();
   }, [id]);
 
+  //Api Cmt
+  const fetchComments = async () => {
+    try {
+      // Fetch the comments data from the API
+      let commentsData = await getComments();
+      if (commentsData && commentsData.comments) {
+        // Set the comments data in the component state
+        setComments(commentsData.comments);
+      }
+    } catch (error) {
+      console.error("Error fetching comments data:", error);
+    }
+  };
+  useEffect(() => {
+    fetchComments();
+  }, []);
+
+  //handlePOSRCMT
+  const handlePostComment = async () => {
+    setIsLoading(true);
+
+    if (!Content || Content.trim() === "") {
+      toast.error("Nội dung bình luận không được để trống!");
+      setIsLoading(true);
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000); // Thời gian delay là 2000 milliseconds (2 giây)
+      return;
+    }
+    if (!isAuthenticated) {
+      toast.error("Bạn cần đăng nhập để bình luận!");
+      setIsLoading(true);
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000); 
+      return;
+    } 
+
+    if (in4User.isActives.includes("B")) {
+      toast.error("Tài khoản của bạn đã bị chặn bình luận!");
+      setIsLoading(true);
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
+      return;
+    }
+
+    try {
+      // Gửi bình luận qua API
+      let updatedPost = await postCmt(PostId, AppUserID, Content);
+      if (updatedPost && updatedPost.comment) {
+        setIsLoading(true);
+        toast.success("Bình luận được ghi nhận!");
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      } else {
+        setIsLoading(true);
+        toast.error("Bình luận không thành công. Vui lòng thử lại!");
+      }
+    } catch (error) {
+      setIsLoading(true);
+      toast.error("Bình luận không thành công. Vui lòng thử lại!");
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
+    }finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <>
       <div className={cx("wappercontainer")}>
@@ -53,13 +143,74 @@ const PostDetail = (props) => {
                           <img src={postData.image} className={cx("preview")} />
                         </div>
                       </div>
-                      <p>{postData.content}</p>
+                      <p className="mt-2" dangerouslySetInnerHTML={{ __html: postData?.content }}></p>
                       <p>Tac gia: {postData.appUser?.username}</p>
                       <p>Ngay dang: {postData.publishedDate}</p>
                     </div>
                   )}
                 </div>
-                <div className={cx("Comment")}>Binh luan danh gia</div>
+                <div className={cx("Comment")}>
+                  <p>Bình luận đánh giá</p>
+                  <div className={cx("b-Comment")}>
+                    {comments && comments.length > 0 ? (
+                      comments
+                        .filter((comment) => comment.postId === parseInt(id))
+                        .map((comment) => (
+                          <div
+                            key={comment.commentId}
+                            className={cx("comment-item")}
+                          >
+                            <div className={cx("comment-author")}>
+                              <div className={cx("b-name")}>
+                                {comment.appUser?.username}
+                              </div>
+                              <div className={cx("b-date")}>
+                                {comment.commentDate}
+                              </div>
+                            </div>
+                            <div className={cx("comment-content")}>
+                              <p>{comment.content}</p>
+                              
+                            </div>
+                          </div>
+                        ))
+                    ) : (
+                      <p>Không có bình luận.</p>
+                    )}
+                  </div>
+                  <div className={cx("b-CreateCmt")}>
+                    <form className={cx("b-form")}>
+                      <div className="mb-3">
+                        <label
+                          htmlFor="exampleFormControlTextarea1"
+                          className="form-label"
+                        >
+                          Bình luận
+                        </label>
+                        <textarea
+                          className="form-control"
+                          id="exampleFormControlTextarea1"
+                          rows="3"
+                          value={Content}
+                          onChange={(e) => setContent(e.target.value)}
+                        ></textarea>
+                      </div>
+                      <div className={cx("b-btn")}>
+                        <button
+                          type="submit"
+                          className={cx("btn-send")}
+                          onClick={handlePostComment}
+                          disabled={isLoading}
+                        >
+                          <IoSend /> Gửi bình luận
+                          {isLoading === true && (
+                            <ImSpinner5 className={cx("spinner")} />
+                          )}
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
               </div>
               <div className={cx("colcate2")}>
                 <div className={cx("colName")}>

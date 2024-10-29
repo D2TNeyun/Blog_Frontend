@@ -8,13 +8,11 @@
 }
 .navbrand {
     display: flex;
-    margin: 5px 0px 5px 0px;
-    // width: 100%;
+    margin: auto;
+    padding: 10px 7rem;
     align-items: center;
     justify-content: space-between;
-    position: sticky;
-    // left: 5%;
-
+    
     .brand {
         margin-inline-start: 2.5rem;
         padding: 3px;
@@ -72,6 +70,7 @@
 }
 
 .navContainer{
+    
     .NavItem{
         display: flex;
         gap: 6px;
@@ -80,7 +79,7 @@
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
-            margin: 0 0 0 3.5rem;
+            margin: auto;
 
             .IconHome{
                 color: #0d0707;

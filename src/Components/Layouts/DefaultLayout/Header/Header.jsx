@@ -25,8 +25,6 @@ const Header = (props) => {
 
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.user);
-  // console.log("User:", user);
-  // console.log("Roles:", user?.user?.roles);
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
 
   const items = [
@@ -34,7 +32,7 @@ const Header = (props) => {
       key: "0",
       label: (
         <Link
-          to={user?.user?.roles == "Admin" ? "/admin" : "/user"}
+          to={user?.user?.roles ==  "User" ? "/user" : (user?.user?.roles == "Admin" ? "/admin" : "/employ" )}
           className={`${cx("dropdownItem")} text-decoration-none`}
         >
           Thông tin cá nhân
@@ -54,7 +52,7 @@ const Header = (props) => {
   const handleLogout = async () => {
     try {
       await logoutApi();
-      // localStorage.removeItem("token");
+      localStorage.removeItem("persist:root");
       dispatch(doLogoutAction());
       navigate("/");
     } catch (error) {
@@ -99,165 +97,167 @@ const Header = (props) => {
   return (
     <>
       <div className={cx("wapperheader")}>
-        <div className={cx("navbrand")}>
-          <div className={cx("brand")}>
-            <Navbar.Brand>
-              <Link to="/">
-                <img className={cx("imgLogo")} src={logo} alt="Logo" />
-              </Link>
-            </Navbar.Brand>
-          </div>
-          <div className={cx("myvne_taskbar")}>
-            {isAuthenticated ? (
-              <div>
-                <Dropdown
-                  menu={{ items }}
-                  trigger={["click"]}
-                  placement="bottom"
-                >
-                  <a onClick={(e) => e.preventDefault()}>
-                    <Space>
-                      {user?.user?.username || ""}
-                      <DownOutlined />
-                    </Space>
-                  </a>
-                </Dropdown>
-              </div>
-            ) : (
-              <Nav.Link className="text-decoration-none">
-                <Button
-                  className={cx("btnLogin")}
-                  onClick={() => setShowModal(true)}
-                >
-                  <FaRegUser /> <div className={cx("b-text")}>Đăng nhập</div>
-                </Button>
-                <AuthModal
-                  show={showModal}
-                  setShow={setShowModal}
-                  onHide={() => setShowModal(false)}
-                />
-              </Nav.Link>
-            )}
-          </div>
-        </div>
-        <div className={cx("navContainer")}>
-          <Navbar
-            expand="lg"
-            bg="secondary"
-            variant="dark"
-            className={cx("NavItem")}
-          >
-            <div className={cx("Item")}>
-              <Link to="/">
-                <FaHome className={cx("IconHome")} />
-              </Link>
-
-              {/* Kiểm tra nếu là chế độ mobile thì hiển thị tất cả category trong dropdown */}
-              {isMobileView ? (
-                <Dropdown
-                  menu={{
-                    items: listCategori.map((category, index) => ({
-                      key: category.categoryID,
-                      label: (
-                        <Button
-                          className={cx("b-cate")}
-                          onClick={() =>
-                            handleCategoryClick(
-                              category.categoryID,
-                              category.categoryName
-                            )
-                          }
-                        >
-                          {category.categoryName}
-                        </Button>
-                      ),
-                    })),
-                  }}
-                  placement="bottomRight"
-                >
-                  <Button className={cx("btn-cate")}>
-                    Danh mục <DownOutlined />
-                  </Button>
-                </Dropdown>
+        <div className="hidden-xs">
+          <div className={cx("navbrand")}>
+            <div className={cx("brand")}>
+              <Navbar.Brand>
+                <Link to="/">
+                  <img className={cx("imgLogo")} src={logo} alt="Logo" />
+                </Link>
+              </Navbar.Brand>
+            </div>
+            <div className={cx("myvne_taskbar")}>
+              {isAuthenticated ? (
+                <div>
+                  <Dropdown
+                    menu={{ items }}
+                    trigger={["click"]}
+                    placement="bottom"
+                  >
+                    <a onClick={(e) => e.preventDefault()}>
+                      <Space>
+                        {user?.user?.username || ""}
+                        <DownOutlined />
+                      </Space>
+                    </a>
+                  </Dropdown>
+                </div>
               ) : (
-                <>
-                  {/* Hiển thị danh mục đầu tiên khi không ở chế độ mobile */}
-                  {listCategori.slice(0, 9).map((item, index) => (
-                    <div key={index} className={cx("btn-cate")}>
-                      <Space direction="vertical">
-                        <Dropdown
-                          menu={{
-                            items: item.tags.map((tag) => ({
-                              key: tag.tagID,
-                              label: (
-                                <a
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  onClick={() =>
-                                    handleTagClick(tag.tagID, tag.tagName)
-                                  }
-                                >
-                                  {tag.tagName}
-                                </a>
-                              ),
-                            })),
-                          }}
-                          placement="bottomRight"
-                        >
+                <Nav.Link className="text-decoration-none">
+                  <Button
+                    className={cx("btnLogin")}
+                    onClick={() => setShowModal(true)}
+                  >
+                    <FaRegUser /> <div className={cx("b-text")}>Đăng nhập</div>
+                  </Button>
+                  <AuthModal
+                    show={showModal}
+                    setShow={setShowModal}
+                    onHide={() => setShowModal(false)}
+                  />
+                </Nav.Link>
+              )}
+            </div>
+          </div>
+          <div className={cx("navContainer")}>
+            <Navbar
+              expand="lg"
+              bg="secondary"
+              variant="dark"
+              className={cx("NavItem")}
+            >
+              <div className={cx("Item")}>
+                <Link to="/">
+                  <FaHome className={cx("IconHome")} />
+                </Link>
+  
+                {/* Kiểm tra nếu là chế độ mobile thì hiển thị tất cả category trong dropdown */}
+                {isMobileView ? (
+                  <Dropdown
+                    menu={{
+                      items: listCategori.map((category, index) => ({
+                        key: category.categoryID,
+                        label: (
                           <Button
                             className={cx("b-cate")}
                             onClick={() =>
                               handleCategoryClick(
-                                item.categoryID,
-                                item.categoryName
+                                category.categoryID,
+                                category.categoryName
                               )
                             }
                           >
-                            {item.categoryName}
+                            {category.categoryName}
                           </Button>
-                        </Dropdown>
-                      </Space>
-                    </div>
-                  ))}
-
-                  {/* Dropdown cho các danh mục còn lại */}
-                  {listCategori.length > 9 && (
-                    <div className={cx("btn-cate")}>
-                      <Space direction="vertical">
-                        <Dropdown
-                          menu={{
-                            items: listCategori
-                              .slice(5)
-                              .map((category, index) => ({
-                                key: category.categoryID,
+                        ),
+                      })),
+                    }}
+                    placement="bottomRight"
+                  >
+                    <Button className={cx("btn-cate")}>
+                      Danh mục <DownOutlined />
+                    </Button>
+                  </Dropdown>
+                ) : (
+                  <>
+                    {/* Hiển thị danh mục đầu tiên khi không ở chế độ mobile */}
+                    {listCategori.slice(0, 10).map((item, index) => (
+                      <div key={index} className={cx("btn-cate")}>
+                        <Space direction="vertical">
+                          <Dropdown
+                            menu={{
+                              items: item.tags.map((tag) => ({
+                                key: tag.tagID,
                                 label: (
-                                  <Button
-                                    className={cx("b-cate")}
+                                  <a
+                                    target="_blank"
+                                    rel="noopener noreferrer"
                                     onClick={() =>
-                                      handleCategoryClick(
-                                        category.categoryID,
-                                        category.categoryName
-                                      )
+                                      handleTagClick(tag.tagID, tag.tagName)
                                     }
                                   >
-                                    {category.categoryName}
-                                  </Button>
+                                    {tag.tagName}
+                                  </a>
                                 ),
                               })),
-                          }}
-                          placement="bottomRight"
-                        >
-                          <Button className={cx("b-cate")}>
-                            <MenuOutlined /> <DownOutlined />
-                          </Button>
-                        </Dropdown>
-                      </Space>
-                    </div>
-                  )}
-                </>
-              )}
-            </div>
-          </Navbar>
+                            }}
+                            placement="bottomRight"
+                          >
+                            <Button
+                              className={cx("b-cate")}
+                              onClick={() =>
+                                handleCategoryClick(
+                                  item.categoryID,
+                                  item.categoryName
+                                )
+                              }
+                            >
+                              {item.categoryName}
+                            </Button>
+                          </Dropdown>
+                        </Space>
+                      </div>
+                    ))}
+  
+                    {/* Dropdown cho các danh mục còn lại */}
+                    {/* {listCategori.length > 1 && (
+                      <div className={cx("btn-cate")}>
+                        <Space direction="vertical">
+                          <Dropdown
+                            menu={{
+                              items: listCategori
+                                .slice(5)
+                                .map((category, index) => ({
+                                  key: category.categoryID,
+                                  label: (
+                                    <Button
+                                      className={cx("b-cate")}
+                                      onClick={() =>
+                                        handleCategoryClick(
+                                          category.categoryID,
+                                          category.categoryName
+                                        )
+                                      }
+                                    >
+                                      {category.categoryName}
+                                    </Button>
+                                  ),
+                                })),
+                            }}
+                            placement="bottomRight"
+                          >
+                            <Button className={cx("b-cate")}>
+                              <MenuOutlined /> <DownOutlined />
+                            </Button>
+                          </Dropdown>
+                        </Space>
+                      </div>
+                    )} */}
+                  </>
+                )}
+              </div>
+            </Navbar>
+          </div>
         </div>
       </div>
     </>

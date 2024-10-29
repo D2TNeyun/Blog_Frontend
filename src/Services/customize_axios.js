@@ -15,14 +15,13 @@ NProgress.configure({
 // Tạo ra phiên bản axios mà theo í của mình
 const instance = axios.create({
     baseURL: "http://localhost:5273",
-    // withCredentials: true, 
+    withCredentials: true, 
 
 });
 
 // Add a request interceptor
 instance.interceptors.request.use(function (config) {
     NProgress.start();
-    console.log("check store ", store.getState());
     // Get the token from the Redux store
     // Lấy token từ localStorage hoặc từ store nếu cần thiết
     
@@ -30,7 +29,6 @@ instance.interceptors.request.use(function (config) {
     if (token) {
         config.headers['Authorization'] = "Bearer "+token;
     }
-    console.log("check token ", token);
     
     // Do something before request is sent
     return config;

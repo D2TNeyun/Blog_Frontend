@@ -7,23 +7,19 @@ import { useEffect, useState } from "react";
 const cx = classNames.bind(styles);
 
 const TagByCate = (props) => {
-  const { id, categoryName } = useParams(); // Get the id and category name from the URL
+  const { id } = useParams(); // Get the id and category name from the URL
   const [latestPosts, setLatestPosts] = useState([]);
-   const [listTag, setListTag] = useState([]);
+  const [listTag, setListTag] = useState([]);
 
-   const navigate = useNavigate();
+  const navigate = useNavigate();
 
   // Fetch all tags
   const fetchTag = async () => {
     try {
       let res = await getAllTag();
       if (res && res.tags) {
-        // lay 5 bai gan nhat
-        const sortedPosts = res.tags.sort(
-          (a, b) => new Date(b.publishedDate) - new Date(a.publishedDate)
-        );
-        setListTag(sortedPosts.slice(0, 5));
-        console.log("Fetched all tags:", res);
+        setListTag(res.tags);
+        console.log("Fetched listTag:", res);
       }
     } catch (error) {
       console.log(error);
@@ -34,8 +30,8 @@ const TagByCate = (props) => {
     fetchTag();
   }, []);
 
-   //handleCick Tag
-   const handleTagClick = (tagID, tagName) => {
+  //handleCick Tag
+  const handleTagClick = (tagID, tagName) => {
     navigate(`/tags/${tagID}/${tagName}`);
   };
 
@@ -53,6 +49,7 @@ const TagByCate = (props) => {
           (a, b) => new Date(b.publishedDate) - new Date(a.publishedDate)
         );
         setLatestPosts(sortedPosts.slice(0, 5));
+        console.log("latestPosts", res);
       }
     } catch (error) {
       console.error("Failed to fetch data:", error);
@@ -72,16 +69,8 @@ const TagByCate = (props) => {
               <div className={cx("colcate1")}>
                 <div id="topcate">
                   <div className={cx("Title")}>
-                    {listTag && listTag.length >0 ? (
-                      listTag
-                      .filter((item) => item.tagID === parseInt(id)) 
-                      .map((item, i) => (
-                        <div  key={`tag-${item.tagID}-${i}`} >
-                          <div className={cx("b-name")}>{item.tagName}</div>
-                        </div>
-                      ) 
-                    )): null}
-                    </div>
+                    {latestPosts[0] && latestPosts[0].tag?.tagName}
+                  </div>
                   <div className={cx("image")}>
                     <div className={cx("preview")}>
                       <img
@@ -90,13 +79,15 @@ const TagByCate = (props) => {
                       />
                     </div>
                   </div>
-                  <div className={cx("fleft")}
+                  <div
+                    className={cx("fleft")}
                     onClick={() =>
                       handlePostClick(
                         latestPosts[0].postID,
                         latestPosts[0].title
                       )
-                    }>
+                    }
+                  >
                     <h2>
                       tieu đê: {latestPosts[0] ? latestPosts[0].title : ""}
                     </h2>
@@ -175,35 +166,48 @@ const TagByCate = (props) => {
                 {/* Kiểm tra nếu có dữ liệu và loại trừ phần tử mảng 0 */}
                 {listTag && listTag.length > 0 ? (
                   listTag
-                  .filter((item) => item.tagID !== parseInt(id)) // Loại trừ tagID đã gọi
-                  .slice(0).map((item, i) => (
-                    <div
-                      key={`tag-${item.tagID}-${i}`}
-                      className={cx("colName")}
-                    >
-                      <div className={cx("b-name")}
-                      onClick={() => handleTagClick(item.tagID, item.tagName)}>{item.tagName}</div>
-                      <ul className={cx("post-list")}>
-                        {item.posts && item.posts.length > 0 ? (
-                          item.posts.map((post) => (
-                            <li key={post.postID} className={cx("post-item")}>
-                              <div
-                                className={cx("post-title")}
-                                onClick={() =>
-                                  handlePostClick(post.postID, post.title)
-                                }
-                              >
-                                <h5>{post.title}</h5>
-                                <p>{post.description}</p>
-                              </div>
-                            </li>
-                          ))
-                        ) : (
-                          <p>Không có bài viết nào cho thẻ này.</p>
-                        )}
-                      </ul>
-                    </div>
-                  ))
+                    .filter(
+                      (item) =>
+                        item.categoryID === latestPosts[0]?.tag?.categoryID
+                    )
+                    .filter((item) => item.tagID !== parseInt(id)) // Loại trừ tagID đã được gọi trước đó
+                    // .slice(0)
+                    .map((item, i) => (
+                      <div
+                        key={`tag-${item.tagID}-${i}`}
+                        className={cx("colName")}
+                      >
+                        <div
+                          className={cx("b-name")}
+                          onClick={() =>
+                            handleTagClick(item.tagID, item.tagName)
+                          }
+                        >
+                          {item.tagName}
+                        </div>
+                        <ul className={cx("post-list")}>
+                          {item.posts && item.posts.length > 0 ? (
+                            item.posts.map((post) => (
+                              <li key={post.postID}>
+                                <div className={cx("post-item")}>
+                                  <div
+                                    className={cx("post-title")}
+                                    onClick={() =>
+                                      handlePostClick(post.postID, post.title)
+                                    }
+                                  >
+                                    <h5>{post.title}</h5>
+                                    <p>{post.description}</p>
+                                  </div>
+                                </div>
+                              </li>
+                            ))
+                          ) : (
+                            <p>Không có bài viết nào cho thẻ này.</p>
+                          )}
+                        </ul>
+                      </div>
+                    ))
                 ) : (
                   <div className={cx("colName")}>
                     <div className={cx("b-name")}>Không có dữ liệu</div>

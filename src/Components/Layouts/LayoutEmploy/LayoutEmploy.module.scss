@@ -1,0 +1,55 @@
+
+.logoSlider {
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .imgLogo {
+        width: 40px;
+        display: inline-block;
+    }
+
+    .textLogo {
+        font-weight: bold;
+        font-family: 'Reem Kufi', sans-serif;
+        display: inline-block;
+        transform: translate(0, 7px);
+        font-size: 24px;
+        margin-left: 5px;
+        color: #fff;
+    }
+}
+
+.headerAdminLayout {
+    border-bottom: 1px solid rgb(204, 203, 203);
+    background-color: #fff;
+    display: flex;
+
+}
+
+.infoUser {
+    margin: 0px 0px 0px auto;
+}
+
+.imgAvatar {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+    border-radius: 5px;
+}
+
+@media only screen and (max-width: 440px) {
+    .imgAvatar {
+        display: none;
+    }
+}
+
+.iconBell:hover {
+    color: blue;
+    cursor: pointer;
+}
+
+.iconSidebar {
+    width: 20px;
+}

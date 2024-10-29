@@ -1,0 +1,20 @@
+.onTop {
+    position: fixed;
+    background-color: #347DCF;
+    bottom: 15px;
+    right: 15px;
+    border-radius: 10px;
+    z-index: 10;
+    display: flex;
+
+    .iconTop {
+        height: 50px;
+        width: 50px;
+        padding: 5px;
+        color: #fff;
+    }
+}
+
+html {
+    scroll-behavior: smooth;
+}

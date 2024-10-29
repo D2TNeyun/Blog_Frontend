@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import classNames from "classnames/bind";
-import styles from "./LayoutAdmin.module.scss";
+import styles from "./LayoutEmploy.module.scss";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { Dropdown, Button } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { Layout, Menu, theme } from "antd";
 import { logoutApi } from "../../../Services/apiServer";
-import { BiCategory } from "react-icons/bi";
+
 import {
   DashboardOutlined,
   UserOutlined,
@@ -57,16 +57,23 @@ const itemsSlider = [
       alt=""
     />
   ),
-  getItem(<Link to="/admin" className='text-decoration-none'>Dashboard</Link>, '1', <DashboardOutlined />),
+  getItem(
+    <Link to="/employ" className="text-decoration-none">
+      Dashboard
+    </Link>,
+    "1",
+    <DashboardOutlined />,
+    []
+  ),
   getItem("Tài Khoản", "Sub1", <UserOutlined />, [
     getItem(
-      <Link to="/admin/manageEmploy" className="text-decoration-none">
+      <Link to="/employ/manageEmploy" className="text-decoration-none">
         Nhân viên
       </Link>,
       "2"
     ),
     getItem(
-      <Link to="/admin/manageUser" className="text-decoration-none">
+      <Link to="/employ/manageUser" className="text-decoration-none">
         Đọc giả
       </Link>,
       "3"
@@ -75,51 +82,42 @@ const itemsSlider = [
 
   getItem("Bài đăng", "Sub2", <ProjectOutlined />, [
     getItem(
-      <Link to="/admin/managePost" className="text-decoration-none">
+      <Link to="/employ/managePost" className="text-decoration-none">
         Danh sách bài đăng
       </Link>,
       "4"
     ),
   ]),
 
-  getItem("Thể loại", "Sub3", <BiCategory/> , [
+  getItem("Chat", "Sub3", <WechatOutlined />, [
     getItem(
-      <Link to="/admin/manageCategory" className="text-decoration-none">
-        Danh sách thể loại
+      <Link to="/employ/chat" className="text-decoration-none">
+        Phòng chat
       </Link>,
       "5"
     ),
   ]),
 
-  getItem("Chat", "Sub4", <WechatOutlined />, [
+  getItem("Phản hồi", "Sub4", <WechatOutlined />, [
     getItem(
-      <Link to="/admin/chat" className="text-decoration-none">
+      <Link to="/employ/cmt" className="text-decoration-none">
         Phòng chat
       </Link>,
       "6"
     ),
   ]),
 
-  getItem("Phản hồi", "Sub5", <WechatOutlined />, [
+  getItem("Thông tin", "Sub5", <IdcardOutlined />, [
     getItem(
-      <Link to="/admin/cmt" className="text-decoration-none">
-        Phòng chat
+      <Link to="/employ/profile" className="text-decoration-none">
+        Thông tin cá nhân
       </Link>,
       "7"
     ),
   ]),
-
-  getItem("Thông tin", "Sub6", <IdcardOutlined />, [
-    getItem(
-      <Link to="/admin/profile" className="text-decoration-none">
-        Thông tin cá nhân
-      </Link>,
-      "8"
-    ),
-  ]),
 ];
 
-const LayoutAdmin = () => {
+const LayoutEmploy = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.user);
@@ -197,4 +195,4 @@ const LayoutAdmin = () => {
   );
 };
 
-export default LayoutAdmin;
+export default LayoutEmploy;

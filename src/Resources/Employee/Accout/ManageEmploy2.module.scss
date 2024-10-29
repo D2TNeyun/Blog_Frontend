@@ -32,8 +32,7 @@
 
     .btnAddUser {
         background-image: linear-gradient(to right, #77A1D3 0%, #79CBCA 51%, #77A1D3 100%);
-        margin-right: 10px;
-        padding: 10px 20px;
+        padding: 10px 35px;
         text-align: center;
         text-transform: uppercase;
         transition: 0.5s;
@@ -41,20 +40,18 @@
         color: white;
         box-shadow: 0 0 20px #eee;
         border-radius: 10px;
-        float: right;
+        display: block;
         border: none;
-        // display: block;
-    }
 
-    .btnAddProduct:hover {
-        background-position: right center;
-        color: #0d121c;
-        text-decoration: none;
+        &:hover {
+            background-position: right center;
+            color: #fff;
+            text-decoration: none;
+        }
     }
 
     .searchGroup {
         display: flex;
-
 
         .searchBorder {
 
