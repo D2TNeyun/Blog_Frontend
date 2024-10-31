@@ -1,15 +1,22 @@
 import classNames from "classnames/bind";
 import styles from "./ManageUser.module.scss";
 import { useEffect, useState } from "react";
-import { getAllUser } from "../../../../Services/apiServer";
 import {
-  FilterOutlined,
+  AddUser,
+  getAllUser,
+  searchUser,
+  deleteUser,
+} from "../../../../Services/apiServer";
+import {
   SearchOutlined,
-  MoreOutlined,
   EditOutlined,
   DeleteOutlined,
 } from "@ant-design/icons";
+import { FaUser, FaLock, FaUserCog } from "react-icons/fa";
+import { MdEmail } from "react-icons/md";
+
 import { Modal, Table, Space, Tag } from "antd";
+import { toast } from "react-toastify";
 
 const cx = classNames.bind(styles);
 
@@ -41,7 +48,6 @@ const ManageEmploy = (props) => {
         return index + 1;
       },
       align: "center",
-
     },
     {
       title: "Tên người dùng",
@@ -51,7 +57,6 @@ const ManageEmploy = (props) => {
         return <div className={cx("userName")}>{record?.username}</div>;
       },
       align: "center",
-
     },
     {
       title: "Email",
@@ -61,16 +66,23 @@ const ManageEmploy = (props) => {
         return <div className={cx("emailUser")}>{record?.email}</div>;
       },
       align: "center",
-
     },
     {
       title: "Quyền",
       dataIndex: "role",
       key: "role",
       render: (_, { roles, index }) => {
-        let color = roles.includes("Admin") ? "blue": roles.includes("Employee")? "orange": "green";
+        let color = roles.includes("Admin")
+          ? "blue"
+          : roles.includes("Employee")
+          ? "orange"
+          : "green";
 
-        let text = roles.includes("Admin") ? "Admin": roles.includes("Employee")? "Nhân viên": "Đọc giả";
+        let text = roles.includes("Admin")
+          ? "Admin"
+          : roles.includes("Employee")
+          ? "Nhân viên"
+          : "Đọc giả";
         return (
           <div className={cx("roleUser")}>
             <Tag
@@ -101,8 +113,16 @@ const ManageEmploy = (props) => {
       dataIndex: "status",
       key: "status",
       render: (_, { isActives, index }) => {
-        let color = isActives.includes("Y")  ? "blue" : isActives.includes("D")  ? "red" : "green";
-        let text = isActives.includes("Y") ? "Active" : isActives.includes("D") ? "Deleted" : "Blocked";
+        let color = isActives.includes("Y")
+          ? "blue"
+          : isActives.includes("D")
+          ? "red"
+          : "green";
+        let text = isActives.includes("Y")
+          ? "Active"
+          : isActives.includes("D")
+          ? "Deleted"
+          : "Blocked";
 
         return (
           <Tag
@@ -151,10 +171,138 @@ const ManageEmploy = (props) => {
     setPagination(data);
   }
 
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
-      handleSearch(e.target.value);
+  const handleSearch = async (UserName) => {
+    try {
+      if (UserName.trim() === "") {
+        toast.warning("Từ khóa tìm kiếm không được để trống!");
+        return;
+      } else {
+        let res = await searchUser(UserName);
+        console.log("Data search", res); // Kiểm tra giá trị trả về của getAllUser
+        if (res && res.users) {
+          setListUser(res.users);
+        } else {
+          toast.error(
+            "Không tìm thấy người dùng nào phù hợp với từ khóa tìm kiếm!"
+          );
+          setListUser([]);
+        }
+      }
+    } catch (error) {
+      console.log("Failed to search user: " + error);
     }
+  };
+
+  const [searchInput, setSearchInput] = useState("");
+
+  const handleInputChange = (e) => {
+    setSearchInput(e.target.value);
+  };
+
+  const handleDown = (e) => {
+    if (e.key === "Enter") {
+      handleSearch(searchInput);
+    }
+  };
+
+  //modal adduser
+  const [showModal, setShowModal] = useState(false);
+  const handleAddUser = () => {
+    setShowModal(true);
+  };
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setErrors({});
+    setEmail("");
+    setUserName("");
+    setPassword("");
+    setRole("");
+  };
+
+  const [Role, setRole] = useState("");
+  const [UserName, setUserName] = useState("");
+  const [Email, setEmail] = useState("");
+  const [Password, setPassword] = useState("");
+  const [errors, setErrors] = useState({});
+
+  const SubmitOkAddUser = async () => {
+    const newErr = {};
+
+    if (UserName.trim() === "") {
+      newErr.UserName = "Tên đăng nhập không được để trống";
+    }
+    if (Password.trim() === "") {
+      newErr.Password = "Mật khẩu không được để trống";
+    } else if (Password.length < 6) {
+      newErr.Password = "Mật khẩu phải ít nhất 6 ký tự";
+    }
+    if (Email.trim() == "") {
+      newErr.Email = "Email không được để trống";
+    } else if (!/\S+@\S+\.\S+/.test(Email)) {
+      newErr.Email = "Email không đúng định dạng";
+    }
+    if (!Role) {
+      newErr.Role = "Vui lòng chọn quyền người dùng";
+    }
+    if (Object.keys(newErr).length > 0) {
+      setErrors(newErr);
+      return;
+    }
+    try {
+      let user = await AddUser(UserName, Email, Password, Role);
+      if (user && user.message) {
+        toast.success("Thêm người dùng thành công!");
+        handleCloseModal();
+        fetchUserList();
+      } else {
+        toast.error("Thông tin người dùng đã tồn tại!");
+      }
+    } catch (error) {
+      toast.error("Thêm người dùng thất bại!");
+      console.log("Failed to add user: " + error);
+    }
+  };
+
+  //modal delete user
+  const [showModalDelete, setShowModalDelete] = useState(false);
+  const [deleteUserName, setDeleteUser] = useState(null);
+  const handleDelete = (user) => {
+    setShowModalDelete(true);
+    setDeleteUser(user);
+  };
+  const handleCloseModalDelete = () => {
+    setShowModalDelete(false);
+    setDeleteUser(null);
+  };
+  const handleDeleteUser = async () => {
+    try {
+      if (deleteUserName && deleteUserName.id) {
+        let res = await deleteUser(deleteUserName.id);
+        if (res && res.message) {
+          toast.success("Xóa người dùng thành công!");
+          handleCloseModalDelete();
+          fetchUserList();
+        } else {
+          toast.error("Xóa người dùng thất bại!");
+        }
+      } else {
+        toast.error("Người dùng không hợp lệ!");
+      }
+    } catch (error) {
+      toast.error("Xóa người dùng thất bại!");
+      console.log("Failed to delete user: ", error);
+    }
+  };
+
+  //modal edit user
+  const [showModalEdit, setShowModalEdit] = useState(false);
+  const [editUser, setEditUser] = useState(null);
+  const handleEdit = (user) => {
+    setShowModalEdit(true);
+    setEditUser(user);
+  };
+  const handleCloseModalEdit = () => {
+    setShowModalEdit(false);
   };
 
   return (
@@ -170,19 +318,25 @@ const ManageEmploy = (props) => {
                 <input
                   type="text"
                   className={cx("inputSearch")}
-                  onKeyDown={handleKeyDown}
+                  onKeyDown={handleDown}
+                  onChange={handleInputChange}
                   name=""
                   id="search"
                   placeholder="Tìm kiếm..."
                   autoComplete="off"
                 />
-                <label htmlFor="search" className={cx("iconSearch")}>
+                <label
+                  htmlFor="search"
+                  onClick={() => handleSearch(searchInput)}
+                  className={cx("iconSearch")}
+                >
                   <SearchOutlined />
                 </label>
               </div>
             </div>
-            {/* onClick={() => showModal()} */}
-            <button className={cx("btnAddUser")}>Thêm người dùng</button>
+            <button className={cx("btnAddUser")} onClick={handleAddUser}>
+              Thêm người dùng
+            </button>
           </div>
           <Table
             className="mt-4"
@@ -196,9 +350,131 @@ const ManageEmploy = (props) => {
             rowKey="email"
             dataSource={
               listUser &&
-              listUser.filter((user) => user.roles.includes("Admin") || user.roles.includes("Employee"))
+              listUser.filter(
+                (user) =>
+                  user.roles.includes("Admin") ||
+                  user.roles.includes("Employee")
+              )
             }
           />
+
+          {/* modal add user */}
+          <Modal
+            title="Thêm người dùng"
+            open={showModal}
+            onOk={SubmitOkAddUser}
+            onCancel={handleCloseModal}
+            width={520}
+            centered
+          >
+            <div className={cx("formGroup")}>
+              <div className={`${errors && errors.UserName ? "" : "mb-4"}`}>
+                <div
+                  className={`${cx("groupForm")} ${
+                    errors && errors.UserName ? "border-danger" : ""
+                  }`}
+                >
+                  <label htmlFor="Username" className={cx("iconInputForm")}>
+                    <FaUser />
+                  </label>
+                  <input
+                    type="text"
+                    className={cx("inputForm")}
+                    name="Username"
+                    id="Username"
+                    value={UserName}
+                    onChange={(e) => setUserName(e.target.value)}
+                    autoComplete="off"
+                    placeholder="Username"
+                  />
+                </div>
+                {errors && <p className={cx("error")}>{errors.UserName}</p>}
+              </div>
+
+              <div className={`${errors && errors.Email ? "" : "mb-4"}`}>
+                <div
+                  className={`${cx("groupForm")} ${
+                    errors && errors.Email ? "border-danger" : ""
+                  }`}
+                >
+                  <label htmlFor="Email" className={cx("iconInputForm")}>
+                    <MdEmail />
+                  </label>
+                  <input
+                    type="text"
+                    className={cx("inputForm")}
+                    name="Email"
+                    id="Email"
+                    value={Email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    autoComplete="off"
+                    placeholder="Email"
+                  />
+                </div>
+                {errors && <p className={cx("error")}>{errors.Email}</p>}
+              </div>
+
+              <div className={`${errors && errors.Password ? "" : "mb-4"}`}>
+                <div
+                  className={`${cx("groupForm")} ${
+                    errors && errors.Password ? "border-danger" : ""
+                  }`}
+                >
+                  <label htmlFor="Password" className={cx("iconInputForm")}>
+                    <FaLock />
+                  </label>
+                  <input
+                    type="text"
+                    className={cx("inputForm")}
+                    name="Password"
+                    id="Password"
+                    value={Password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    autoComplete="off"
+                    placeholder="Password"
+                  />
+                </div>
+                {errors && <p className={cx("error")}>{errors.Password}</p>}
+              </div>
+
+              <div className={`${errors && errors.Role ? "" : "mb-4"}`}>
+                <div
+                  className={`${cx("groupForm")} ${
+                    errors && errors.Role ? "border-danger" : ""
+                  }`}
+                >
+                  <label htmlFor="Role" className={cx("iconInputForm")}>
+                    <FaUserCog />
+                  </label>
+                  <select
+                    name="Role"
+                    id="Role"
+                    className={cx("inputForm")}
+                    value={Role}
+                    onChange={(e) => setRole(e.target.value)}
+                  >
+                    <option value="">Chọn vai trò</option>
+                    <option value="Admin">Admin</option>
+                    <option value="Employee">Employee</option>
+                    <option value="User">User</option>
+                  </select>
+                </div>
+                {errors && <p className={cx("error")}>{errors.Role}</p>}
+              </div>
+            </div>
+          </Modal>
+          {/* modal delete user */}
+          <Modal
+            title="Xóa người dùng"
+            open={showModalDelete}
+            onOk={handleDeleteUser}
+            onCancel={handleCloseModalDelete}
+            width={520}
+          >
+            <p>
+              Bạn có chắc muốn xóa người dùng này? <b>{deleteUserName ? deleteUserName.username : ""}</b>
+            </p>
+          </Modal>
         </div>
       </div>
     </>

@@ -113,10 +113,10 @@ const ManageEmploy = (props) => {
       } else {
         const res = await searchTerm(Title);
         if (res && res.posts) {
-          setLisPosts(res.posts); // Cập nhật listPosts với dữ liệu tìm kiếm
+          setLisPosts(res.posts); 
         } else {
           toast.info("Không tìm thấy bài viết phù hợp.");
-          setLisPosts([]); // Xóa dữ liệu trong bảng nếu không tìm thấy bài viết nào
+          setLisPosts([]); 
         }
       }
     } catch (error) {
@@ -130,7 +130,6 @@ const ManageEmploy = (props) => {
     setSearchTitle(e.target.value);
   };
 
-  // Gọi hàm handleSearch với searchTitle khi người dùng nhấn Enter
   const handleDown = (e) => {
     if (e.key === "Enter") {
       handleSearch(searchTitle);
@@ -160,7 +159,6 @@ const ManageEmploy = (props) => {
                 <label
                   htmlFor="search"
                   className={cx("iconSearch")}
-                  // onClick={() => handleSearch()}
                   onClick={() => handleSearch(searchTitle)}
                 >
                   <SearchOutlined />

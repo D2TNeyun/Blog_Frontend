@@ -6,8 +6,9 @@ import {
   deleteCategory,
   getAllCategori,
   PuteditCategory,
-  getCategoryById,
   addTag,
+  puttag,
+  deleteTag,
 } from "../../../Services/apiServer";
 import {
   FilterOutlined,
@@ -38,8 +39,7 @@ const ManageCategory = () => {
     try {
       let res = await getAllCategori();
       if (res && res.categories && res.categories.length > 0) {
-        setListCagories(res.categories);
-        console.log("Fetched list categories:", res.categories);
+        setListCagories(res.categories); // Update categories
       }
     } catch (error) {
       console.error("Failed to fetch list:", error);
@@ -184,12 +184,11 @@ const ManageCategory = () => {
   //DeleteModal
   const handleDelete = async () => {
     if (!record || !record.categoryID) {
-      console.error("Record is undefined or does not have an id.");
       toast.error("Có lỗi xảy ra! Không tìm thấy thể loại để xóa.");
-      return; // Ngừng thực thi nếu record không hợp lệ
+      return;
     }
 
-    const { categoryID } = record; // Lấy id từ record
+    const { categoryID } = record;
     try {
       let data = await deleteCategory(categoryID);
       if (data && data.message) {
@@ -204,6 +203,8 @@ const ManageCategory = () => {
       toast.error("Có lỗi xảy ra khi xóa thể loại!");
     }
   };
+
+ 
 
   //EditModal
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -228,7 +229,6 @@ const ManageCategory = () => {
   };
 
   const handleEditSubmit = async () => {
-    const newErrors = {};
     setIsLoading(true);
 
     try {
@@ -257,22 +257,60 @@ const ManageCategory = () => {
     tagID: null,
     tagName: "",
   });
-  const handleShoweditTag = (record) => {
+  const handleShoweditTag = (tag) => {
     setIsEditTagModalOpen(true);
     setEditTag({
-      tagID: record.tagID,
-      tagName: record.tagName,
+      tagID: tag.tagID,
+      tagName: tag.tagName,
     });
-    setRecord(record);
   };
   const handleCloseEditTag = () => {
     setIsEditTagModalOpen(false);
     setEditTag({ tagID: null, tagName: "" });
-    setRecord(null);
   };
-  
 
-  const SubmitEdit = async () => {};
+  const SubmitEdit = async () => {
+    try {
+      let res = await puttag(editTag.tagID, editTag.tagName);
+      if (res && res.tagID) {
+        toast.success("Cập nhật tag thành công!");
+        setIsEditTagModalOpen(false);
+        fetchListCategori();
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      } else {
+        toast.error("Cập nhật tag thất bại!");
+      }
+    } catch (error) {
+      toast.error("Thêm mới thể loại thất bại!");
+    }
+  };
+
+  const [selectedTagID, setSelectedTagID] = useState(null); 
+  const handleShowDeleteTag = (tag) => {
+    setIsModalOpen(true);
+    setSelectedTagID(tag.tagID); 
+    setRecord(tag); 
+  };
+  const handleDeleteTag = async () => {
+    try {
+      if (selectedTagID) {
+        let res = await deleteTag(selectedTagID);
+        if (res && res.message) {
+          toast.success("Xóa tag thành công!");
+          setIsModalOpen(false);
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        } else {
+          toast.error("Xóa tag thất bại!");
+        }
+      }
+    } catch (error) {
+      toast.error("Đã xảy ra lỗi khi xóa tag!");
+    }
+  };
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
@@ -363,42 +401,17 @@ const ManageCategory = () => {
                             <li key={tag.tagID}>
                               {tag.tagName}
                               <EditOutlined
-                                onClick={() => handleShoweditTag(record)}
+                                onClick={() => handleShoweditTag(tag)}
                                 style={{ color: "#106cb2", padding: "3px" }}
                               />
                               <DeleteOutlined
-                                onClick={() => showModal(record)}
+                                onClick={() => handleShowDeleteTag(tag)}
                                 style={{ color: "#d12323", padding: "3px" }}
                               />
                             </li>
                           ))}
                         </ul>
                       </div>
-                      <Modal
-                        title="Chỉnh sửa thể loại"
-                        open={isEditTagModalOpen}
-                        onOk={handleEditSubmit}
-                        onCancel={handleCloseEditTag}
-                        okButtonProps={{
-                          style: { backgroundColor: "#4caf50" },
-                        }}
-                      >
-                        <div className="mb-3 mt-4">
-                          <label htmlFor="categoryName">Tên thể loại</label>
-                          <input
-                            type="text"
-                            id="categoryName"
-                            className="form-control"
-                            value={editTag.tagName}
-                            onChange={(e) =>
-                              setEditTag({
-                                ...editTag,
-                                tagName: e.target.value,
-                              })
-                            }
-                          />
-                        </div>
-                      </Modal>
                     </>
                   )}
                   <input
@@ -448,6 +461,7 @@ const ManageCategory = () => {
                   <p>Bạn chắc chắn muốn xóa thể loại: {record?.categoryName}</p>
                 </div>
               </Modal>
+
               <Modal
                 title="Chỉnh sửa thể loại"
                 open={isEditModalOpen}
@@ -469,6 +483,44 @@ const ManageCategory = () => {
                       })
                     }
                   />
+                </div>
+              </Modal>
+
+              <Modal
+                title="Chỉnh sửa Tag"
+                open={isEditTagModalOpen}
+                onOk={SubmitEdit}
+                onCancel={handleCloseEditTag}
+                okButtonProps={{
+                  style: { backgroundColor: "#4caf50" },
+                }}
+              >
+                <div className="mb-3 mt-4">
+                  <label htmlFor="tagName">Tên Tag</label>
+                  <input
+                    type="text"
+                    id="tagName"
+                    className="form-control"
+                    value={editTag.tagName}
+                    onChange={(e) =>
+                      setEditTag({
+                        ...editTag,
+                        tagName: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+              </Modal>
+
+              <Modal
+                title="Xóa Tag"
+                open={isModalOpen}
+                onCancel={handleCancel}
+                onOk={handleDeleteTag}
+                okButtonProps={{ style: { backgroundColor: "red" } }}
+              >
+                <div className="mb-3 mt-4">
+                  <p>Bạn chắc chắn muốn xóa Tag: {record?.tagName}</p>
                 </div>
               </Modal>
             </div>

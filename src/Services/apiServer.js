@@ -11,7 +11,7 @@ const logoutApi = () => {
     return axios.post(`api/auth/logout`);
 }
 
-const Register = () => {
+const Register = (Username, Email, Password) => {
     const data = new FormData();
     data.append('username', Username);
     data.append('email', Email);
@@ -22,6 +22,26 @@ const Register = () => {
 const getAllUser = () => {
     return axios.get(`api/user`);
 }
+
+const searchUser = (UserName) => {
+    const data = new FormData();
+    data.append('title', UserName);
+    return axios.get(`api/user?UserName=`+UserName, data);
+}
+
+const AddUser = (UserName, Email, Password, Role) => {
+    const data = new FormData();
+    data.append('username', UserName);
+    data.append('email', Email);
+    data.append('password', Password);
+    data.append('Role', Role);
+    return axios.post(`api/user/addUser`, data);
+}
+
+const deleteUser = (id) =>{
+    return axios.delete(`api/user/`+id);
+}
+
 //Category
 const getAllCategori = () => {
     return axios.get(`api/categories`); 
@@ -95,6 +115,16 @@ const addTag = (CategoryID,TagName) => {
     return axios.post(`api/tag`, data);
 }
 
+const puttag = (id, TagName) => {
+    const data = new FormData();
+    data.append('id', id);
+    data.append('TagName', TagName);
+    return axios.put(`api/tag/`+id, data);
+}
+
+const deleteTag = (id) => {
+    return axios.delete(`api/tag/`+id);
+}
 //Comment
 const postCmt = (PostId, AppUserID, Content) => {
     const data = new FormData();
@@ -126,5 +156,10 @@ export {
     deleteCategory,
     PuteditCategory,
     searchTerm,
-    addTag
+    addTag,
+    puttag,
+    deleteTag,
+    searchUser,
+    AddUser,
+    deleteUser
  };
