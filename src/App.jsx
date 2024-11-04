@@ -23,6 +23,7 @@ import ProtectedRoute from "./Components/ProtectRoute/ProtectRoute.jsx";
 import { useSelector } from "react-redux";
 import Loading from "./Components/Loading/Loading.jsx";
 import OnTopButton from "./Components/OnTopButton/OnTopButton.jsx";
+import Profile from "./Resources/Admin/Accout/Profile/Profile.jsx";
 
 const Layout = () => {
   return (
@@ -93,6 +94,10 @@ function App() {
           path: "manageCategory",
           element: <ManageCategory />,
         },
+        {
+          path: "profile",
+          element: <Profile/>
+        }
       ],
     },
     {

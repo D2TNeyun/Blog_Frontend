@@ -1,0 +1,113 @@
+.PageContainer {
+    padding: 10px 20px;
+}
+
+.Title {
+    display: flex;
+    padding: 5px;
+    background: white;
+    border-radius: 8px;
+
+    .b-Title {
+        padding: 10px;
+        font-size: 20px;
+        font-weight: bold;
+        color: black;
+    }
+}
+
+.ProfileContainer {
+    padding: 10px 20px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    display: flex;
+
+
+    .ProfileImage {
+        border-radius: 50%;
+        object-fit: cover;
+        background: white;
+        border-radius: 8px;
+        padding: 10px;
+        width: 77%;
+
+        .Preview {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            background: #f1f1f1;
+            border: 2px solid #ccc;
+
+            .Image {
+                width: 100%;
+                height: auto;
+                border-radius: 11rem;
+                border: 1px solid;
+            }
+        }
+    }
+
+    .ProfileInfo {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 10px;
+        text-align: center;
+        background: white;
+        border-radius: 8px;
+        padding: 10px;
+        width: 155%;
+        height: 90%;
+
+        .textProfile {
+            .active {
+                padding: 4px 20px;
+                border: none;
+                border-radius: 7px;
+                margin: 5px;
+                color: #0958d9;
+                background: #e6f4ff;
+                border-color: #91caff;
+            }
+        }
+    }
+}
+
+.btn-update {
+    background-image: linear-gradient(to right, #1c98f8 0%, #4bc3d5 51%, #469fda 100%);
+    margin: 15px 5px;
+    padding: 6px 10px;
+    text-align: center;
+    background-size: 200% auto;
+    color: white;
+    border-radius: 10px;
+    display: block;
+    border: none;
+    font-size: 15px;
+    font-weight: 500;
+
+    &:hover {
+        background-position: right center;
+        color: #263a58;
+        text-decoration: none;
+        box-shadow: 0 12px 16px 0 rgba(83, 74, 74, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+    }
+}
+
+.spinner {
+    font-size: 20px;
+    margin-right: 7px;
+    margin-bottom: 3px;
+    animation: spin 1s infinite linear;
+}
+
+@keyframes spin {
+    from {
+        transform: scale(1) rotate(0deg);
+    }
+
+    to {
+        transform: scale(1) rotate(360deg);
+    }
+}

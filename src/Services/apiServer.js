@@ -23,6 +23,12 @@ const getAllUser = () => {
     return axios.get(`api/user`);
 }
 
+const getUserById = (id) => {
+    const data = new FormData();
+    data.append('id', id);
+    return axios.get(`api/user/`+id, data);
+}
+
 const searchUser = (UserName) => {
     const data = new FormData();
     data.append('title', UserName);
@@ -161,5 +167,6 @@ export {
     deleteTag,
     searchUser,
     AddUser,
-    deleteUser
+    deleteUser,
+    getUserById
  };
