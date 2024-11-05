@@ -24,6 +24,8 @@ import { useSelector } from "react-redux";
 import Loading from "./Components/Loading/Loading.jsx";
 import OnTopButton from "./Components/OnTopButton/OnTopButton.jsx";
 import Profile from "./Resources/Admin/Accout/Profile/Profile.jsx";
+import SearchResults from "./Resources/Home/SearchPost/SearchResults.jsx";
+import EditPost from "./Resources/Admin/Post/EditPost/EditPost.jsx";
 
 const Layout = () => {
   return (
@@ -63,6 +65,10 @@ function App() {
           path: "/posts/:id/:title",
           element: <PostDetail />,
         },
+        {
+          path: "/search-results",
+          element: <SearchResults/>
+        },
       ],
     },
     {
@@ -91,6 +97,10 @@ function App() {
           element: <AddPost />,
         },
         {
+          path: "edit-post/:id",
+          element: <EditPost/>
+        },
+        {
           path: "manageCategory",
           element: <ManageCategory />,
         },
@@ -115,6 +125,10 @@ function App() {
         {
           path: "addPost",
           element: <AddPost />,
+        },
+        {
+          path: "edit-post/:id",
+          element: <EditPost/>
         },
         {
           path: "manageEmploy",

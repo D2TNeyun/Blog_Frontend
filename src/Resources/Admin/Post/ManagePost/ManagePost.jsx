@@ -1,7 +1,11 @@
 import classNames from "classnames/bind";
 import styles from "./ManagePost.module.scss";
 import { useEffect, useState } from "react";
-import { getAllPost, searchTerm } from "../../../../Services/apiServer";
+import {
+  deletePost,
+  getAllPost,
+  searchTerm,
+} from "../../../../Services/apiServer";
 import {
   FilterOutlined,
   SearchOutlined,
@@ -21,7 +25,7 @@ const ManageEmploy = (props) => {
   const fetchPostsList = async () => {
     try {
       let res = await getAllPost();
-      console.log("Data getAll", res); // Kiểm tra giá trị trả về của getAllPost
+      // console.log("Data getAll", res); // Kiểm tra giá trị trả về của getAllPost
       if (res && res.posts) {
         setLisPosts(res.posts);
       }
@@ -77,6 +81,7 @@ const ManageEmploy = (props) => {
       dataIndex: "author",
       key: "author",
       render: (_, record, index) => {
+        // console.log(record);
         return <div className={cx("author")}>{record?.appUser?.username}</div>;
       },
       align: "center",
@@ -87,11 +92,11 @@ const ManageEmploy = (props) => {
       render: (_, record, index) => (
         <Space size="middle">
           <EditOutlined
-            onClick={() => handleEdit(record)}
+            onClick={() => handleEditPost(record)}
             style={{ color: "#106cb2", padding: "3px" }}
           />
           <DeleteOutlined
-            onClick={() => handleDelete(record)}
+            onClick={() => showModal(record)}
             style={{ color: "#d12323", padding: "3px" }}
           />
         </Space>
@@ -113,10 +118,10 @@ const ManageEmploy = (props) => {
       } else {
         const res = await searchTerm(Title);
         if (res && res.posts) {
-          setLisPosts(res.posts); 
+          setLisPosts(res.posts);
         } else {
           toast.info("Không tìm thấy bài viết phù hợp.");
-          setLisPosts([]); 
+          setLisPosts([]);
         }
       }
     } catch (error) {
@@ -133,6 +138,42 @@ const ManageEmploy = (props) => {
   const handleDown = (e) => {
     if (e.key === "Enter") {
       handleSearch(searchTitle);
+    }
+  };
+
+  //handle edit
+  const navigate = useNavigate();
+  const handleEditPost = (record) => {
+    navigate(`/admin/edit-post/${record.postID}`);
+  };
+
+  //modalDele
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [record, setRecord] = useState();
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+  const showModal = (record) => {
+    setIsModalOpen(true);
+    setRecord(record);
+  };
+  const handleDelete = async () => {
+    if (!record || !record.postID) {
+      toast.error("Có lỗi xảy ra! Không tìm thấy thể loại để xóa.");
+      return;
+    }
+    const { postID } = record;
+    try {
+      let result = await deletePost(postID);
+      if (result && result.message) {
+        toast.success("Xóa thể loại thành công!");
+        setIsModalOpen(false);
+        fetchPostsList();
+      } else {
+        toast.error("Xóa thể loại thất bại!");
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -183,6 +224,17 @@ const ManageEmploy = (props) => {
             rowKey="title"
             dataSource={listPosts}
           />
+          <Modal
+            title="Xóa thể loại "
+            open={isModalOpen}
+            onOk={handleDelete}
+            onCancel={handleCancel}
+            okButtonProps={{ style: { backgroundColor: "red" } }}
+          >
+            <div className="mb-3 mt-4">
+              <p>Bạn chắc chắn muốn xóa thể loại: {record?.title}</p>
+            </div>
+          </Modal>
         </div>
       </div>
     </>

@@ -1,0 +1,124 @@
+.containerPage {
+    padding: 10px 20px;
+}
+
+.titlePage {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 10px 15px;
+
+}
+
+.contentPage {
+    padding: 10px 15px;
+    background-color: #fff;
+    margin-top: 20px;
+    border-radius: 10px;
+}
+
+.titleContentService {
+    display: grid;
+    grid-template-columns: 50px auto;
+    margin-top: 10px;
+
+    .iconTitleContentService {
+        display: flex;
+        width: 55px;
+        margin-top: 0px;
+    }
+
+    .contentTitleContentService>p {
+        color: rgb(136, 131, 131);
+    }
+}
+
+.upload-avatar {
+    .label-upload {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        border: 1px solid red;
+        width: fit-content;
+        padding: 3px 5px;
+        border-radius: 5px;
+        background: #eeeeee;
+        border: none;
+        cursor: pointer;
+
+        &:hover {
+            background-color: #dcdcdc;
+        }
+    }
+}
+
+.img-preview {
+    border: 1px dashed #dee2e6;
+    border-radius: 5px;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ccc;
+    margin-top: 3px;
+
+    .preview {
+        max-width: 100%;
+        max-height: 100%;
+    }
+    .LogoImage{
+        width: 60%;
+        height: auto;
+        padding: 40px;
+    }
+}
+
+.btnAddService {
+    background-image: linear-gradient(to right, #118961 0%, #71f1a0 51%, #13815a 100%);
+    margin-top: 20px;
+    padding: 15px 45px;
+    text-align: center;
+    text-transform: uppercase;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;
+    box-shadow: 0 0 20px #eee;
+    border-radius: 10px;
+    display: block;
+    border: none;
+
+    .spinner{
+        font-size: 20px;
+        margin-right: 7px;
+        margin-bottom: 3px;
+        animation: spin 1s infinite linear;
+      }
+
+      @keyframes spin {
+        from {
+          transform: scale(1) rotate(0deg);
+        }
+
+        to {
+          transform: scale(1) rotate(360deg);
+        }
+      }
+}
+
+.btnAddService:hover {
+    background-position: right center;
+    color: #fff;
+    text-decoration: none;
+}
+
+.inputForm {
+    border: none;
+    border-radius: 25px;
+    outline: none;
+
+}
+.error {
+    color: red;
+    margin: 10px 0px 0px 10px;
+}
+
+  

@@ -7,13 +7,22 @@ import { FaRegUser } from "react-icons/fa";
 import logo from "../../../../assets/logo.png";
 import AuthModal from "../../../../Resources/Auth/Auth";
 import { useEffect, useState } from "react";
-import { getAllCategori, logoutApi } from "../../../../Services/apiServer";
+import {
+  getAllCategori,
+  logoutApi,
+  searchTerm,
+} from "../../../../Services/apiServer";
 import { FaHome } from "react-icons/fa";
 import { Button, Dropdown, Space } from "antd";
 import { DownOutlined, MenuOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { doLogoutAction } from "../../../../Redux/Reducer/UserSlice";
-
+import {
+  SearchOutlined,
+  EditOutlined,
+  DeleteOutlined,
+} from "@ant-design/icons";
+import { toast } from "react-toastify";
 const cx = classNames.bind(styles);
 
 const Header = (props) => {
@@ -32,7 +41,13 @@ const Header = (props) => {
       key: "0",
       label: (
         <Link
-          to={user?.user?.roles ==  "User" ? "/user" : (user?.user?.roles == "Admin" ? "/admin" : "/employ" )}
+          to={
+            user?.user?.roles == "User"
+              ? "/user"
+              : user?.user?.roles == "Admin"
+              ? "/admin"
+              : "/employ"
+          }
           className={`${cx("dropdownItem")} text-decoration-none`}
         >
           Thông tin cá nhân
@@ -42,7 +57,11 @@ const Header = (props) => {
     {
       key: "1",
       label: (
-        <Link to="/" className={`${cx("dropdownItem")}`} onClick={() => handleLogout()}>
+        <Link
+          to="/"
+          className={`${cx("dropdownItem")}`}
+          onClick={() => handleLogout()}
+        >
           ĐĂng xuất
         </Link>
       ),
@@ -94,6 +113,36 @@ const Header = (props) => {
     navigate(`/tags/${tagID}/${tagName}`);
   };
 
+  //SearchPost
+  const [searchInput, setSearchInput] = useState("");
+  const [lisPosts, setLisPosts] = useState([]);
+
+  const handleSearch = async () => {
+    try {
+      let res = await searchTerm(searchInput);
+      if (res && res.posts) {
+        navigate("/search-results", {
+          state: { posts: res.posts, query: searchInput },
+        });
+      } else {
+        toast.info("Không tìm thấy bài viết phù hợp.");
+        setLisPosts([]);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleInputChange = (e) => {
+    setSearchInput(e.target.value); // Cập nhật giá trị từ trường input
+  };
+
+  const handleDown = (e) => {
+    if (e.key === "Enter") {
+      handleSearch(); // Không cần truyền searchInput
+    }
+  };
+
   return (
     <>
       <div className={cx("wapperheader")}>
@@ -106,37 +155,62 @@ const Header = (props) => {
                 </Link>
               </Navbar.Brand>
             </div>
-            <div className={cx("myvne_taskbar")}>
-              {isAuthenticated ? (
-                <div>
-                  <Dropdown
-                    menu={{ items }}
-                    trigger={["click"]}
-                    placement="bottom"
-                  >
-                    <a onClick={(e) => e.preventDefault()}>
-                      <Space>
-                        {user?.user?.username || ""}
-                        <DownOutlined />
-                      </Space>
-                    </a>
-                  </Dropdown>
-                </div>
-              ) : (
-                <Nav.Link className="text-decoration-none">
-                  <Button
-                    className={cx("btnLogin")}
-                    onClick={() => setShowModal(true)}
-                  >
-                    <FaRegUser /> <div className={cx("b-text")}>Đăng nhập</div>
-                  </Button>
-                  <AuthModal
-                    show={showModal}
-                    setShow={setShowModal}
-                    onHide={() => setShowModal(false)}
+            <div className={cx("taskbar")}>
+              <div className={cx("searchGroup")}>
+                <div className={cx("searchBorder")}>
+                  <input
+                    type="text"
+                    className={cx("inputSearch")}
+                    onKeyDown={handleDown}
+                    onChange={handleInputChange}
+                    name=""
+                    id="search"
+                    placeholder="Tìm kiếm..."
+                    autoComplete="off"
                   />
-                </Nav.Link>
-              )}
+                  <label
+                    htmlFor="search"
+                    onClick={() => handleSearch(searchInput)}
+                    className={cx("iconSearch")}
+                  >
+                    <SearchOutlined />
+                  </label>
+                </div>
+              </div>
+
+              <div className={cx("myvne_taskbar")}>
+                {isAuthenticated ? (
+                  <div>
+                    <Dropdown
+                      menu={{ items }}
+                      trigger={["click"]}
+                      placement="bottom"
+                    >
+                      <a onClick={(e) => e.preventDefault()}>
+                        <Space>
+                          {user?.user?.username || ""}
+                          <DownOutlined />
+                        </Space>
+                      </a>
+                    </Dropdown>
+                  </div>
+                ) : (
+                  <Nav.Link className="text-decoration-none">
+                    <Button
+                      className={cx("btnLogin")}
+                      onClick={() => setShowModal(true)}
+                    >
+                      <FaRegUser />{" "}
+                      <div className={cx("b-text")}>Đăng nhập</div>
+                    </Button>
+                    <AuthModal
+                      show={showModal}
+                      setShow={setShowModal}
+                      onHide={() => setShowModal(false)}
+                    />
+                  </Nav.Link>
+                )}
+              </div>
             </div>
           </div>
           <div className={cx("navContainer")}>
@@ -150,7 +224,7 @@ const Header = (props) => {
                 <Link to="/">
                   <FaHome className={cx("IconHome")} />
                 </Link>
-  
+
                 {/* Kiểm tra nếu là chế độ mobile thì hiển thị tất cả category trong dropdown */}
                 {isMobileView ? (
                   <Dropdown
@@ -218,7 +292,7 @@ const Header = (props) => {
                         </Space>
                       </div>
                     ))}
-  
+
                     {/* Dropdown cho các danh mục còn lại */}
                     {/* {listCategori.length > 1 && (
                       <div className={cx("btn-cate")}>

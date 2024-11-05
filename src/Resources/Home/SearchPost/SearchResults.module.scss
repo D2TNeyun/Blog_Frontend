@@ -1,0 +1,44 @@
+.container {
+    padding-left: 10px;
+    padding-right: 10px;
+
+    .pageContent {
+        float: left;
+        width: 100%;
+        padding-left: 10px;
+        padding-right: 10px;
+
+        h4{
+            margin-top: 10px;
+        }
+    }
+
+}
+
+.groupQuery {
+    padding: inherit;
+    width: 65%;
+    .colItem {
+        border-bottom: 1px dashed #ddd;
+        padding-bottom: 20px;
+        margin-top: 10px;
+        display: flex;
+        &:hover{
+            background-color: #f5f5f5;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+            transition: box-shadow 0.3s ease;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+
+        }
+    }
+
+    .Image {
+        width: 180px;
+        margin-right: 5px;
+        padding: 1px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+
+    }
+}

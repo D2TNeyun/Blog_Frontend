@@ -103,6 +103,19 @@ const createNewPost = (AppUserID, Title, Description, Content, TagID, CategoryID
     data.append("Image", Image)
     return axios.post(`api/post/create`, data);
 }
+const UpdatePost = (id, CategoryID,TagID,Title, Description, Content, Image) => {
+    const data = new FormData();
+    data.append('categoryID', CategoryID);
+    data.append('tagID', TagID);
+    data.append('title', Title);
+    data.append('description', Description);
+    data.append('content', Content);
+    data.append("Image", Image)
+    return axios.put(`api/post/`+id, data);
+}
+const deletePost = (id) => {
+    return axios.delete(`api/post/`+id);
+}
 // Tag
 const getTagById = (id) => {
     const data = new FormData();
@@ -168,5 +181,7 @@ export {
     searchUser,
     AddUser,
     deleteUser,
-    getUserById
+    getUserById,
+    UpdatePost,
+    deletePost
  };

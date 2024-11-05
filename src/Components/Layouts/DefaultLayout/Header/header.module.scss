@@ -1,29 +1,64 @@
 @import url('https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400;500;600;700&display=swap');
 
-.wapperheader{
+.wapperheader {
     width: 100%;
     margin: 0 auto;
     float: left;
     background: none;
 }
+
 .navbrand {
     display: flex;
     margin: auto;
     padding: 10px 7rem;
     align-items: center;
     justify-content: space-between;
-    
+
     .brand {
         margin-inline-start: 2.5rem;
         padding: 3px;
     }
 
-    .myvne_taskbar {
-        margin-inline-end: 2.5rem;
-        padding: 3px;
+    .taskbar {
+        display: flex;
+        gap: 10px;
+        .myvne_taskbar {
+            margin-inline-end: 2.5rem;
+            padding: 3px;
+        }
+
+        .searchGroup {
+            display: flex;
+
+            .searchBorder {
+
+                padding: 2px 30px;
+                border-radius: 10px;
+                box-shadow: 5px 5px 5px #a3a1a1;
+                border: 1px solid rgba(143, 138, 138, 0.34);
+
+                .iconSearch {
+                    padding: 5px;
+                    cursor: pointer;
+
+                }
+
+                .inputSearch {
+                    border: none;
+                    outline: none;
+                    background-color: transparent;
+                    max-width: 162px;
+                    transition: max-width 0.3s ease;
+                }
+
+                @media screen and (max-width: 768px) {
+                    .inputSearch {
+                        max-width: 100px;
+                    }
+                }
+            }
+        }
     }
-
-
 }
 
 .imgLogo {
@@ -40,11 +75,7 @@
     margin-left: 5px;
 }
 
-.myvne_taskbar{
-    &:hover {
-        background-position: right center;
-        color: #733f3f;
-    }
+.myvne_taskbar {
     .btnLogin {
         background-image: linear-gradient(to right, #7474BF 0%, #21a3db 51%, #7474BF 100%);
         padding: 6px 15px;
@@ -55,45 +86,40 @@
         font-family: "Reem Kufi", sans-serif;
         font-weight: bold;
         font-size: 13px;
-
-        &:hover {
-            background-position: right center;
-            color: #733f3f;
-        }
-
-        .b-text{
-            margin: 2px 0px 0px 2px;
-            float: right;
-        }
-    
+    }
+    .b-text {
+        margin: 2px 0px 0px 2px;
+        float: right;
     }
 }
 
-.navContainer{
-    
-    .NavItem{
+.navContainer {
+
+    .NavItem {
         display: flex;
         gap: 6px;
         margin: auto;
-        .Item{
+
+        .Item {
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
             margin: auto;
 
-            .IconHome{
+            .IconHome {
                 color: #0d0707;
                 margin-top: inherit;
                 font-size: 25px;
                 cursor: pointer;
                 margin-top: 9px;
-                
-                &:hover{
+
+                &:hover {
                     color: darkgray;
                 }
             }
         }
-        .btn-cate{
+
+        .btn-cate {
             border-radius: 10px;
             border: none;
             font-family: "Reem Kufi", sans-serif;
@@ -106,7 +132,7 @@
             font-weight: bold;
 
 
-            .b-cate{
+            .b-cate {
                 margin: 2px 0px 0px 2px;
                 float: right;
                 background: none;
@@ -114,7 +140,7 @@
                 font-size: 17px;
                 font-weight: bold;
 
-              
+
             }
         }
     }
