@@ -208,13 +208,24 @@ const EditPost = () => {
               </div>
 
               <div className="mb-3">
-                <h5>Mô tả</h5>
+                <h5
+                  htmlFor="exampleFormControlTextarea1"
+                  className="form-label"
+                >
+                  Mô tả
+                </h5>
                 <textarea
-                  className={`form-control mt-2 ${cx("inputForm")}`}
+                  className={`form-control mt-2 ${cx("inputForm")} ${
+                    errors.Description ? "border border-danger" : ""
+                  } `}
+                  id="exampleFormControlTextarea1"
+                  placeholder="Nhập mô tả"
+                  rows="5"
+                  autoComplete="off"
                   value={Description}
                   onChange={(e) => setDescription(e.target.value)}
-                  placeholder="Nhập mô tả"
                 />
+                {errors && <p className={cx("error")}>{errors.Description}</p>}
               </div>
             </div>
             <div className="col-lg-6 col-md-12 col-sm-12">

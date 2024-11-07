@@ -232,7 +232,7 @@ const ManageEmploy = (props) => {
             okButtonProps={{ style: { backgroundColor: "red" } }}
           >
             <div className="mb-3 mt-4">
-              <p>Bạn chắc chắn muốn xóa thể loại: {record?.title}</p>
+              <p>Bạn chắc chắn muốn xóa thể loại: <b>{record?.title}</b></p>
             </div>
           </Modal>
         </div>
