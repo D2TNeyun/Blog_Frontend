@@ -111,3 +111,34 @@
         transform: scale(1) rotate(360deg);
     }
 }
+
+
+.groupForm {
+    display: grid;
+    grid-template-columns: 40px auto;
+    border-radius: 25px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+    padding: 5px;
+    border: 1px solid rgba(210, 207, 207, 0);
+
+    .iconInputForm {
+        color: #337CD5;
+        padding: 5px 5px 5px 15px;
+        font-size: 18px;
+    }
+
+    .inputForm {
+        border: none;
+        border-radius: 25px;
+        outline: none;
+
+    }
+    .error {
+        color: red;
+        margin: 10px 0px 0px 10px;
+    }
+}
+.error {
+    color: red;
+    margin: 10px 0px 0px 10px;
+}

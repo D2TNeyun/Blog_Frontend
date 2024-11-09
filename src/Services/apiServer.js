@@ -48,6 +48,16 @@ const deleteUser = (id) =>{
     return axios.delete(`api/user/`+id);
 }
 
+const PuteditUser = (id, UserName, Email, Role, StatusName) => {
+    const data = new FormData();
+    data.append('id', id);
+    data.append('username', UserName);
+    data.append('email', Email);
+    data.append('Role', Role);
+    data.append('StatusName', StatusName);
+    return axios.put(`api/user/`+id, data);
+}
+
 //Category
 const getAllCategori = () => {
     return axios.get(`api/categories`); 
@@ -183,5 +193,6 @@ export {
     deleteUser,
     getUserById,
     UpdatePost,
-    deletePost
+    deletePost,
+    PuteditUser
  };
