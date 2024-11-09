@@ -1,7 +1,7 @@
 import classNames from "classnames/bind";
 import styles from "./EditPost.module.scss";
 import { useNavigate, useParams } from "react-router-dom";
-import { getPostById, UpdatePost } from "../../../../Services/apiServer"; // Thêm API cập nhật bài viết
+import { getPostById, UpdatePost } from "../../../../Services/apiServer"; 
 import { useEffect, useState } from "react";
 import { getAllCategori } from "../../../../Services/apiServer";
 import { ImSpinner5 } from "react-icons/im";
@@ -15,6 +15,7 @@ import { useSelector } from "react-redux";
 import LogoImage from "../../../../assets/image-gallery.png";
 
 const mdParser = new MarkdownIt();
+import TurndownService from 'turndown';
 const cx = classNames.bind(styles);
 
 const EditPost = () => {
@@ -36,19 +37,23 @@ const EditPost = () => {
 
   const AppUserID = useSelector((state) => state.user.user?.user?.id);
 
+const turndownService = new TurndownService();
+
   // Hàm lấy dữ liệu bài viết theo ID
   const fetchPost = async () => {
     try {
       const res = await getPostById(id);
-      console.log("API Response:", res); // Kiểm tra phản hồi từ API
+      console.log("API Response:", res);
       if (res && res.post) {
         const post = res.post;
-        console.log("Post Data:", post); // Kiểm tra dữ liệu bài viết
+        console.log("Post Data:", post); 
         setTitle(post.title || "");
         setDescription(post.description || "");
         setSelectedCategory(post.categoryID || "");
-        setContentMarkdown(post.content || ""); // Thiết lập nội dung markdown
-        setContentHTML(mdParser.render(post.content || "")); // Thiết lập nội dung HTML
+        const markdownContent = post.content.includes("<") ? turndownService.turndown(post.content) : post.content;
+        setContentMarkdown(markdownContent || "");
+        setContentHTML(mdParser.render(markdownContent || ""));
+  
 
         if (post.tag) {
           setTags([post.tag]);
@@ -92,9 +97,9 @@ const EditPost = () => {
     setTags(selectedCategoryData ? selectedCategoryData.tags : []);
   };
 
-  const handleTagChange = (e) => {
-    setSelectedTags(e.target.value);
-  };
+  // const handleTagChange = (e) => {
+  //   setSelectedTags(e.target.value);
+  // };
 
   const handleEditorChange = ({ html, text }) => {
     setContentHTML(html);
@@ -124,7 +129,7 @@ const EditPost = () => {
         Description,
         Content,
         Image
-      ); // Giả sử bạn có hàm này
+      );
       toast.success("Bài viết đã được cập nhật thành công!");
       navigate("/admin/managePost");
     } catch (error) {
@@ -170,9 +175,9 @@ const EditPost = () => {
                   className={`form-control mt-2 ${cx("inputForm")} ${
                     errors.CategoryID ? "border-danger" : ""
                   }`}
-                  aria-label="Default select example"
                   id="categorySelect"
-                  value={selectedCategory}
+                  name="categorySelect"
+                  value={selectedCategory || ""}
                   onChange={handleCategoryChange}
                 >
                   <option value="">Chọn một danh mục</option>
@@ -186,17 +191,21 @@ const EditPost = () => {
                   ))}
                 </select>
                 {errors && <p className={cx("error")}>{errors.CategoryID}</p>}
+
                 {tags.length > 0 && (
                   <>
-                    <h5>Chọn tag</h5>
+                    <h5 htmlFor="tagName">Chọn tag</h5>
                     <select
+                      multiple={false}
+                      name="tagName"
+                      id="tagName"
                       className={`form-control mt-2 ${cx("inputForm")} ${
                         errors.tagID ? "border-danger" : ""
                       }`}
-                      // multiple
-                      value={selectedTags}
-                      onChange={handleTagChange}
+                      value={selectedTags || ""}
+                      onChange={(e) => setSelectedTags(e.target.value)}
                     >
+                      <option value="">Chọn một tag</option>
                       {tags.map((tag) => (
                         <option key={tag.tagID} value={tag.tagID}>
                           {tag.tagName}
@@ -246,7 +255,6 @@ const EditPost = () => {
                     <img className={cx("preview")} src={Preview} />
                   ) : (
                     <img className={cx("LogoImage")} src={LogoImage} />
-                    // <span className={cx("preview")}>Preview Image</span>
                   )}
                 </div>
               </div>
