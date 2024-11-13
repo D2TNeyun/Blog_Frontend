@@ -123,6 +123,7 @@ const LayoutAdmin = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.user);
+  console.log(user);
 
   const handleLogout = async () => {
     try {
@@ -173,8 +174,7 @@ const LayoutAdmin = () => {
             <div className={cx("infoUser")}>
               <img
                 className={cx("imgAvatar")}
-                // src={`${user?.user?.avatar}`}
-                src="https://i.pinimg.com/564x/75/c7/2c/75c72c999bab78b504f0e331e339fbb2.jpg" // replace with user avatar
+                src={`${user?.user?.user?.avata}`}
                 alt=""
               />
               <Dropdown

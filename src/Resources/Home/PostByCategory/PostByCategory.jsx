@@ -94,13 +94,11 @@ const PostByCategory = (props) => {
                           }
                         >
                           <div className={cx("image")}>
-                            <div className={cx("preview")}>
-                              <img
+                          <img
                                 src={post.image}
                                 className={cx("preview")}
                                 alt={post.title}
                               />
-                            </div>
                           </div>
                           <div className={cx("b-title")}>{post.title}</div>
                         </div>

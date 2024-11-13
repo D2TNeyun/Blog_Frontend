@@ -10,6 +10,7 @@ const initialState = {
         username: "",
         roles:"",
         isActives: "",
+        avata: ""
     },
 };
 
@@ -32,6 +33,7 @@ export const userSlice = createSlice({
                 username: "",
                 roles: "",
                 isActives: "",
+                avata: ""
             };
         },
         

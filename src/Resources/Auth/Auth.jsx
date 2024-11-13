@@ -8,12 +8,12 @@ import { MdEmail } from "react-icons/md";
 import { ImSpinner5 } from "react-icons/im";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { postLogin, Register } from "../../Services/apiServer";
+import { LoginGoogle, postLogin, Register } from "../../Services/apiServer";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
 import { doLoginAction } from "../../Redux/Reducer/UserSlice";
 import { toast } from "react-toastify";
-
+import axios from 'axios';
 const cx = classNames.bind(styles);
 
 const AuthModal = (props) => {
@@ -123,7 +123,24 @@ const AuthModal = (props) => {
       console.error("Error during register:", error);
     }
   };
-  
+
+  // const handleLoginGoogle = () => {
+  //   window.location.href = "https:/localhost:5273/signin-google";
+  // };
+
+  const handleLoginGoogle = async () => {
+    try {
+      let res = await LoginGoogle();
+      if (res && res.success === true) {
+        dispatch(doLoginAction(res));
+        handleClose();
+        toast.success("Đăng nhập thành công!");
+        navigate("/");
+      }
+    } catch (error) {
+      console.error("Error during Google login:", error);
+    }
+  }
 
   return (
     <>
@@ -370,7 +387,7 @@ const AuthModal = (props) => {
               <div className={cx("Auth-Contai")}>
                 <div className={cx("Title-Media")}> From with Media!</div>
                 <div className={cx("btn-gr")}>
-                  <Button className={cx("btn-gg")}>
+                  <Button className={cx("btn-gg")} onClick={handleLoginGoogle}>
                     <FcGoogle />
                     <div className={cx("b-text")}>Google</div>
                   </Button>

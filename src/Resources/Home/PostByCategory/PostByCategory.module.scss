@@ -107,6 +107,10 @@
   .boxtop {
     display: flex;
     gap: 5px;
+
+    .b-image{
+      width: 100%;
+    }
   }
   .b-box {
     padding: 5px;

@@ -83,29 +83,35 @@ const HomePage = (props) => {
         <div className={cx("MainContainer")}>
           <div className={cx("NewPostContainer")}>
             <div className={cx("NewPost")}>
-              {newestPosts && newestPosts.length > 0 ? (
-                <Carousel className={cx("carousel")}>
-                  {newestPosts.slice(0, 3).map((post) => (
-                    <Carousel.Item key={post.postID}>
-                      <div className={cx("PostImage")}>
-                        <img
-                          className={cx("Preview")}
-                          src={post.image}
-                          alt="First slide"
-                        />
-                      </div>
-                      <div className={cx("Caption")}>
-                        <h3>{post.title}</h3>
-                        <p>{post.description}</p>
-                      </div>
-                    </Carousel.Item>
-                  ))}
-                </Carousel>
-              ) : (
-                <p>Không tìm thấy bài viết nào</p>
-              )}
+              <div className="row">
+                <div className="row mt-3">
+                  {newestPosts && newestPosts.length > 0 ? (
+                    <Carousel className={cx("carousel")}>
+                      {newestPosts.slice(0, 3).map((post) => (
+                        <Carousel.Item key={post.postID}>
+                          <div className={cx("PostImage")}>
+                            <img
+                              className={cx("Preview")}
+                              src={post.image}
+                              alt="Slide image"
+                            />
+                          </div>
+                          {/* Position the caption below the image */}
+                          <div className={cx("CaptionWrapper")}>
+                            <h3 className={cx("CaptionTitle")}>{post.title}</h3>
+                          </div>
+                        </Carousel.Item>
+                      ))}
+                    </Carousel>
+                  ) : (
+                    <p>Không tìm thấy bài viết nào</p>
+                  )}
+                </div>
 
-              <div>thay thế vào là quảng cáo hoặc các bài biết top view!</div>
+                <div className="row mt-3">
+                  thay thế vào là quảng cáo hoặc các bài biết top view!
+                </div>
+              </div>
             </div>
 
             <div className={cx("NewTop")}>

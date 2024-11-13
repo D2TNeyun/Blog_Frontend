@@ -1,0 +1,147 @@
+.footer {
+    background: #f6f6f6;
+    padding: 40px 0;
+
+    .footer-top {
+        .container {
+            width: 1150px !important;
+            margin-right: auto;
+            margin-left: auto;
+            padding-left: 15px;
+            padding-right: 15px;
+
+            .list-categori {
+                display: flex;
+                gap: 30px;
+                border-bottom: 1px solid #d9d9d9;
+
+            }
+
+            .list {
+                display: inline;
+                margin-bottom: 5px;
+            }
+        }
+    }
+
+    .footer__middle {
+        .container {
+            width: 1150px !important;
+            margin-right: auto;
+            margin-left: auto;
+            padding-left: 15px;
+            padding-right: 15px;
+
+            .footer__middle-flex {
+                border-bottom: 1px solid #d9d9d9;
+                padding: 16px 0;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+
+                .logo {
+                    display: block;
+                    width: 152px;
+
+                    .b-img {
+                        width: 100%;
+                        max-width: 100%;
+                        display: block;
+                        image-rendering: -webkit-optimize-contrast;
+                        color: transparent;
+                    }
+                }
+
+                .footer__m-content {
+                    display: flex;
+                    align-items: center;
+
+                    .b-list {
+                        display: flex;
+                        align-items: center;
+                        border-right: 1px solid #d9d9d9;
+
+                        .listItem {
+                            display: block;
+                            margin-right: 24px;
+                            font-family: Inter;
+                            font-style: normal;
+                            font-weight: 600;
+                            font-size: 14px;
+                            line-height: 20px;
+                            color: #454545;
+
+                        }
+                    }
+
+                    .social {
+                        display: flex;
+                        align-items: center;
+                        margin-left: 16px;
+
+                        span {
+                            font-family: Inter;
+                            font-style: normal;
+                            font-weight: 400;
+                            font-size: 15px;
+                            line-height: 22px;
+                            color: #8b8b8b;
+                        }
+
+                        .list-sc {
+                            display: flex;
+                            gap: 8px;
+
+                            .item {
+                                display: flex;
+                                margin-left: 8px;
+                                gap: 8px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .footer__bottom{
+        padding-top: 16px;
+        .container {
+            width: 1150px !important;
+            margin-right: auto;
+            margin-left: auto;
+            padding-left: 15px;
+            padding-right: 15px;
+
+            .footer__bottom-flex {
+                display: flex;
+
+                .footer__contact {
+                    width: 160px;
+                    margin-right: 80px;
+                }
+
+                .footer__info {
+                    width: 400px;
+                    margin-right: 80px;
+                    font-family: Inter;
+                    font-style: normal;
+                    font-weight: 400;
+                    font-size: 13px;
+                    line-height: 18px;
+                    color: #8b8b8b;
+                }
+
+                .copy-right {
+                    flex: 1;
+                    font-family: Inter;
+                    font-style: normal;
+                    font-weight: 400;
+                    font-size: 13px;
+                    line-height: 18px;
+                    color: #8b8b8b;
+                }
+            }
+        }
+    }
+}

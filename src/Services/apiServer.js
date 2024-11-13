@@ -58,6 +58,10 @@ const PuteditUser = (id, UserName, Email, Role, StatusName) => {
     return axios.put(`api/user/`+id, data);
 }
 
+const LoginGoogle = () => {
+    return axios.get(`api/auth/signin-google`);
+}
+
 //Category
 const getAllCategori = () => {
     return axios.get(`api/categories`); 
@@ -194,5 +198,6 @@ export {
     getUserById,
     UpdatePost,
     deletePost,
-    PuteditUser
+    PuteditUser,
+    LoginGoogle
  };

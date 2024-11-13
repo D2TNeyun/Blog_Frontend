@@ -1,0 +1,20 @@
+.container {
+    margin: 30px 0px;
+
+    .ContentPage {
+        width: 1150px !important;
+        margin-right: auto;
+        margin-left: auto;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+}
+
+.title{
+    font-family: Merriweather;
+    font-size: 32px;
+    line-height: 48px;
+    color: #292929;
+    font-weight: 600;
+    border-bottom: solid 2px #0098D1;
+}

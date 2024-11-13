@@ -26,6 +26,9 @@ import OnTopButton from "./Components/OnTopButton/OnTopButton.jsx";
 import Profile from "./Resources/Admin/Accout/Profile/Profile.jsx";
 import SearchResults from "./Resources/Home/SearchPost/SearchResults.jsx";
 import EditPost from "./Resources/Admin/Post/EditPost/EditPost.jsx";
+import Footer from "./Components/Layouts/DefaultLayout/Footer/Footer.jsx";
+import Information from "./Resources/Home/Information/Information.jsx";
+import Policy from "./Resources/Home/Information/policy.jsx";
 
 const Layout = () => {
   return (
@@ -33,6 +36,7 @@ const Layout = () => {
       <Header />
       <Outlet />
       <OnTopButton/>
+      <Footer/>
     </div>
   );
 };
@@ -69,6 +73,17 @@ function App() {
           path: "/search-results",
           element: <SearchResults/>
         },
+        {
+          path: "/information", // chinh sach
+          element: <Information/>
+        },
+        {
+          path: "/policy",
+          element: <Policy/>
+        },
+        {
+          path: "/signin-google",
+        }
       ],
     },
     {
