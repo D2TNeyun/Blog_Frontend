@@ -10,7 +10,7 @@ const RoleBaseRoute = (props) => {
 
   if (isAdminRoute && userRole.includes("Admin")) {
     return <>{props.children}</>;
-  } else if (isEmployRoute && userRole.includes("Employ")) {
+  } else if (isEmployRoute && userRole.includes("Employee")) {
     return <>{props.children}</>;
   } else if (isUserRoute && userRole.includes("User")) {
     return <>{props.children}</>;

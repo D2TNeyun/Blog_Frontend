@@ -1,0 +1,113 @@
+.containerPage {
+    padding: 10px 20px;
+}
+
+.cardBody {
+    height: 100px;
+    margin: 10px;
+    position: relative;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: 0.5s;
+    box-shadow: 0px 10px 10px rgba(194, 191, 191, 0.3);
+    background-color: #fff;
+    border-radius: 10px;
+
+}
+
+.cardBody:hover {
+    transform: translateY(-5px);
+}
+
+
+.titleCard {
+    font-weight: bold;
+    color: #696464;
+    font-size: 16px;
+}
+
+.numberCard {
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 10px;
+    color: #000;
+}
+
+.iconCard {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 7px;
+}
+
+
+.cardBody.violet {
+    // border-left: 4px solid rgb(202, 131, 204);
+    color: #fff;
+
+    .iconCard {
+        color: rgb(202, 131, 204);
+        background-color: rgba(236, 189, 239, 0.77);
+    }
+
+}
+
+.cardBody.blue {
+    // border-left: 4px solid rgb(131, 198, 204);
+    color: #fff;
+
+    .iconCard {
+        color: rgb(131, 198, 204);
+        background-color: rgba(186, 233, 239, 0.564);
+    }
+
+}
+
+.cardBody.yellow {
+    // border-left: 4px solid rgb(255, 243, 115);
+    color: #fff;
+
+    .iconCard {
+        color: rgb(229, 219, 25);
+        background-color: rgba(245, 243, 187, 0.563);
+    }
+}
+
+.cardBody.darkblue {
+    // border-left: 4px solid rgb(55, 96, 209);
+    color: #fff;
+
+    .iconCard {
+        color: rgb(30, 110, 201);
+        background-color: rgba(188, 219, 245, 0.564);
+    }
+
+}
+
+.chatStar {
+    padding: 10px 15px;
+    margin-top: 10px;
+    background-color: #fff;
+    border-radius: 10px;
+}
+
+.dateRangePicker {
+    border: 1px solid rgb(191, 187, 187);
+    padding: 10px;
+    box-shadow: 5px 5px 5px #817e7ed4;
+}
+
+.table {
+    padding: 10px 15px;
+    margin-top: 10px;
+    background-color: #fff;
+    border-radius: 10px;
+}
+

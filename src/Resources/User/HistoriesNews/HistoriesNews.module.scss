@@ -1,0 +1,53 @@
+.container {
+    padding: 10px 20px;
+}
+
+.Title {
+    display: flex;
+    padding: 5px;
+    background: white;
+    border-radius: 8px;
+
+    .b-Title {
+        padding: 10px;
+        font-size: 20px;
+        font-weight: bold;
+        color: black;
+    }
+}
+
+
+.ContentPage {
+    padding: 10px 15px;
+    background-color: #fff;
+    margin-top: 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+.GroupItem{
+    display: grid;
+    gap: 15px
+}
+.colItem {
+    display: flex;
+    padding: 10px 15px;
+    border-bottom: 1px dashed #ddd;
+
+    .Image {
+        width: 20%;
+        height: auto;
+    }
+
+    .in4Item {
+        padding: 5px 15px;
+    }
+
+    &:hover {
+        transition: background-color 0.3s ease;
+        cursor: pointer;
+        transition: box-shadow 0.3s ease;
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    }
+}

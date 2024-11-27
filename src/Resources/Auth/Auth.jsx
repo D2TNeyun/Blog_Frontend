@@ -13,7 +13,7 @@ import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
 import { doLoginAction } from "../../Redux/Reducer/UserSlice";
 import { toast } from "react-toastify";
-import axios from 'axios';
+import axios from "axios";
 const cx = classNames.bind(styles);
 
 const AuthModal = (props) => {
@@ -37,6 +37,8 @@ const AuthModal = (props) => {
 
   const handleClose = () => {
     setShow(false);
+    setUsername("");
+    setPassword("");
   };
 
   const handleClickLogin = async () => {
@@ -62,17 +64,26 @@ const AuthModal = (props) => {
 
     try {
       let data = await postLogin(Username, Password);
-      if (data && data.success === true) {
+      if (typeof data === "string") {
+        if (data.includes("disabled")) {
+          toast.error("Tài khoản đã bị khóa!");
+        }
+        if (data.includes("Invalid")) {
+          toast.error(
+            data.message || "Tên người dùng hoặc mật khẩu không hợp lệ!"
+          );
+        }
+      } else if (data && data.success === true) {
         dispatch(doLoginAction(data));
         handleClose();
         toast.success("Đăng nhập thành công!");
         navigate("/");
       } else {
-        toast.error("Tên người dùng hoặc mật khẩu không hợp lệ!");
-        setErrors({ general: "Login failed. Please check your credentials." });
+        toast.error("Đã xảy ra lỗi không xác định!");
       }
     } catch (error) {
       console.error("Error during login:", error);
+      toast.error("Đã xảy ra lỗi máy chủ. Vui lòng thử lại sau.");
     } finally {
       setIsLoading(false);
     }
@@ -81,6 +92,8 @@ const AuthModal = (props) => {
   const handleRegister = async () => {
     const newErr = {};
     setIsLoading(true);
+    const passwordRequirements =
+      /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{6,}$/;
 
     if (Username.trim() === "") {
       newErr.Username = "Tên đăng nhập không được để trống";
@@ -88,8 +101,9 @@ const AuthModal = (props) => {
 
     if (Password.trim() === "") {
       newErr.Password = "Mật khẩu không được để trống";
-    } else if (Password.length < 6) {
-      newErr.Password = "Mật khẩu phải ít nhất 6 ký tự";
+    } else if (!passwordRequirements.test(Password)) {
+      newErr.Password =
+        "Mật khẩu phải ít nhất 6 ký tự, bao gồm chữ hoa, chữ thường, chữ số và ký tự đặc biệt";
     }
 
     if (Email.trim() == "") {
@@ -107,26 +121,18 @@ const AuthModal = (props) => {
 
     try {
       let data = await Register(Username, Email, Password);
-      if (data && data.success == true) {
+      if (data && data.message) {
         toast.success("Đăng ký thành công!");
         handleClose();
         navigate("/");
       } else {
-        toast.error("Mật khẩu bao gồm các ký tự đặc biệt!");
         setErrors({ general: "Đăng ký thất bại. Vui lòng thử lại." });
         setIsLoading(false);
-        setUsername("");
-        setPassword("");
-        setEmail("");
       }
     } catch (error) {
       console.error("Error during register:", error);
     }
   };
-
-  // const handleLoginGoogle = () => {
-  //   window.location.href = "https:/localhost:5273/signin-google";
-  // };
 
   const handleLoginGoogle = async () => {
     try {
@@ -140,7 +146,7 @@ const AuthModal = (props) => {
     } catch (error) {
       console.error("Error during Google login:", error);
     }
-  }
+  };
 
   return (
     <>

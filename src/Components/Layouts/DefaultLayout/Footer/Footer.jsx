@@ -80,7 +80,7 @@ const Footer = (props) => {
                             Phó tổng biên tập: Thạch Thị Thảo Trang 
                         </p>
                         <p className="text" ms-plugin="multiple-text">
-                            Phó tổng biên tập: Lý Tú Nguyên</p>
+                            Phó tổng biên tập: Nguyễn Thanh Ngọc</p>
                         <p className="text" ms-plugin="multiple-text">
                             Phó tổng biên tập - Tổng Thư ký tòa soạn: Kim DaLin
                         </p>

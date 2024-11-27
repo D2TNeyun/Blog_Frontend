@@ -10,11 +10,92 @@
     }
 }
 
-.title{
+.title {
     font-family: Merriweather;
     font-size: 32px;
     line-height: 48px;
     color: #292929;
     font-weight: 600;
     border-bottom: solid 2px #0098D1;
+}
+
+.Main {
+    margin: 30px 0px;
+}
+
+.infor {
+    background: #0098D1;
+    padding: 25px 0px;
+    position: relative;
+    overflow: hidden;
+
+    .inforContainer {
+        width: 1150px;
+        margin-right: auto;
+        margin-left: auto;
+        padding-left: 15px;
+        padding-right: 15px;
+
+        .b-title {
+            border-bottom: solid 2px #29A8D8;
+
+            p {
+                color: #fff;
+                font-size: 32px;
+                line-height: 48px;
+                font-family: Merriweather;
+            }
+        }
+
+
+    }
+}
+
+.info-box {
+    display: flex;
+    margin-top: 25px;
+    position: relative;
+}
+
+.boxItem {
+    background: #fff;
+    border-radius: 4px;
+    width: 100%;
+    padding: 24px 40px;
+    margin-right: 15px;
+
+    .avatar {
+        border-radius: 90px;
+        overflow: hidden;
+        width: 150px;
+        margin: auto;
+        img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+    }
+
+
+}
+
+.infor-content {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    h6 {
+        font-size: 17px;
+        line-height: 26px;
+        font-family: Merriweather;
+        margin-top: 15px;
+        font-weight: 600;
+    }
+
+    p {
+        font-size: 15px;
+        font-family: Inter;
+        margin: 0px -40px;
+        text-align: center;
+        margin-top: 5px;
+    }
 }

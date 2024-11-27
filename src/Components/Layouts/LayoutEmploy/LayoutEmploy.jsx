@@ -59,10 +59,10 @@ const itemsSlider = [
   ),
   getItem(
     <Link to="/employ" className="text-decoration-none">
-      Dashboard
+      Thông Tin
     </Link>,
     "1",
-    <DashboardOutlined />,
+    <IdcardOutlined />,
     []
   ),
   getItem("Tài Khoản", "Sub1", <UserOutlined />, [
@@ -89,30 +89,12 @@ const itemsSlider = [
     ),
   ]),
 
-  getItem("Chat", "Sub3", <WechatOutlined />, [
+  getItem("Bình Luận", "Sub4", <WechatOutlined />, [
     getItem(
-      <Link to="/employ/chat" className="text-decoration-none">
-        Phòng chat
+      <Link to="/employ/comment" className="text-decoration-none">
+        Bình luận
       </Link>,
       "5"
-    ),
-  ]),
-
-  getItem("Phản hồi", "Sub4", <WechatOutlined />, [
-    getItem(
-      <Link to="/employ/cmt" className="text-decoration-none">
-        Phòng chat
-      </Link>,
-      "6"
-    ),
-  ]),
-
-  getItem("Thông tin", "Sub5", <IdcardOutlined />, [
-    getItem(
-      <Link to="/employ/profile" className="text-decoration-none">
-        Thông tin cá nhân
-      </Link>,
-      "7"
     ),
   ]),
 ];
@@ -125,9 +107,12 @@ const LayoutEmploy = () => {
   const handleLogout = async () => {
     try {
       await logoutApi();
-      // localStorage.removeItem("token");
       dispatch(doLogoutAction());
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000); // Thời gian delay là 2000 milliseconds (2 giây)
       navigate("/");
+      toast.success("Đăng xuất thành công!");
     } catch (error) {
       console.error("Error logging out:", error);
     }

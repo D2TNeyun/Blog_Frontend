@@ -73,7 +73,11 @@ const Header = (props) => {
       await logoutApi();
       localStorage.removeItem("persist:root");
       dispatch(doLogoutAction());
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000); // Thời gian delay là 2000 milliseconds (2 giây)
       navigate("/");
+      toast.success("Đăng xuất thành công!");
     } catch (error) {
       console.error("Error logging out:", error);
     }

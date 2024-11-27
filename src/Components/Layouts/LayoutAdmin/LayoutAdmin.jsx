@@ -17,6 +17,7 @@ import {
 } from "@ant-design/icons"; //icon dashboards side menu
 import logo from "../../../assets/iconLogo.png";
 import { doLogoutAction } from "../../../Redux/Reducer/UserSlice";
+import { toast } from "react-toastify";
 
 const cx = classNames.bind(styles);
 const { Header, Content, Footer, Sider } = Layout;
@@ -91,30 +92,22 @@ const itemsSlider = [
     ),
   ]),
 
-  getItem("Chat", "Sub4", <WechatOutlined />, [
+  getItem("Bình luận", "Sub4", <WechatOutlined />, [
     getItem(
-      <Link to="/admin/chat" className="text-decoration-none">
-        Phòng chat
+      <Link to="/admin/comment" className="text-decoration-none">
+        Bình luận
       </Link>,
       "6"
     ),
   ]),
 
-  getItem("Phản hồi", "Sub5", <WechatOutlined />, [
-    getItem(
-      <Link to="/admin/cmt" className="text-decoration-none">
-        Phòng chat
-      </Link>,
-      "7"
-    ),
-  ]),
 
   getItem("Thông tin", "Sub6", <IdcardOutlined />, [
     getItem(
       <Link to="/admin/profile" className="text-decoration-none">
         Thông tin cá nhân
       </Link>,
-      "8"
+      "7"
     ),
   ]),
 ];
@@ -123,14 +116,13 @@ const LayoutAdmin = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.user);
-  console.log(user);
 
   const handleLogout = async () => {
     try {
       await logoutApi();
-      // localStorage.removeItem("token");
       dispatch(doLogoutAction());
       navigate("/");
+      toast.success("Đăng xuất thành công!");
     } catch (error) {
       console.error("Error logging out:", error);
     }
@@ -174,7 +166,7 @@ const LayoutAdmin = () => {
             <div className={cx("infoUser")}>
               <img
                 className={cx("imgAvatar")}
-                src={`${user?.user?.user?.avata}`}
+                src={`${user?.user?.avata}`}
                 alt=""
               />
               <Dropdown

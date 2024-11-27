@@ -48,13 +48,14 @@ const deleteUser = (id) =>{
     return axios.delete(`api/user/`+id);
 }
 
-const PuteditUser = (id, UserName, Email, Role, StatusName) => {
+const PuteditUser = (id, UserName, Email, Role, StatusName, Image) => {
     const data = new FormData();
     data.append('id', id);
     data.append('username', UserName);
     data.append('email', Email);
     data.append('Role', Role);
     data.append('StatusName', StatusName);
+    data.append('Image', Image);
     return axios.put(`api/user/`+id, data);
 }
 
@@ -100,7 +101,11 @@ const getPostById = (id) => {
     data.append('id', id);
     return axios.get(`api/post/`+id, data);
 }
-
+const incrementView = (id) => {
+    const data = new FormData();
+    data.append('id', id);
+    return axios.post(`api/post/increment-view/`+id, data)
+}
 const searchTerm = (Title) => {
     const data = new FormData();
     data.append('title', Title);
@@ -129,6 +134,10 @@ const UpdatePost = (id, CategoryID,TagID,Title, Description, Content, Image) => 
 }
 const deletePost = (id) => {
     return axios.delete(`api/post/`+id);
+}
+
+const viewHistories = () => {
+    return axios.get(`api/post/viewHistories/all`);
 }
 // Tag
 const getTagById = (id) => {
@@ -171,7 +180,46 @@ const getComments = () => {
     return axios.get(`api/comments`); 
 }
 
+const putComment = (id, Content) => {
+    const data = new FormData();
+    data.append('id', id);
+    data.append('Content', Content);
+    return axios.put(`api/comments/`+id, data);
+}
+
+const deleteComment = (id) => {
+    const data = new FormData();
+    data.append('id', id);
+    return axios.delete(`api/comments/`+id);
+}
+
+// statistical/overview
+const getStatistics = () => {
+    return axios.get(`api/statistical/overview`); 
+}
+
+const increment = (pageName) => {
+    return axios.post(
+      `api/statistical/increment`,
+      JSON.stringify(pageName), // Gửi dữ liệu dưới dạng JSON
+      {
+        headers: {
+          "Content-Type": "application/json", // Đặt Content-Type là application/json
+        },
+      }
+    );
+  };
+
+  const stats = (timeRange) => axios.get(`api/statistical/stats`, { params: { timeRange } });
+  
 export { 
+    deleteComment,
+    putComment,
+    viewHistories,
+    stats,
+    incrementView,
+    getStatistics,
+    increment,
     postLogin, 
     getAllCategori,
     getAllPost,
@@ -200,4 +248,4 @@ export {
     deletePost,
     PuteditUser,
     LoginGoogle
- };
+ }; 

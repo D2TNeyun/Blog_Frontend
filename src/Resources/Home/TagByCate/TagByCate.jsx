@@ -48,13 +48,20 @@ const TagByCate = (props) => {
         const sortedPosts = res.tag.posts.sort(
           (a, b) => new Date(b.publishedDate) - new Date(a.publishedDate)
         );
-        setLatestPosts(sortedPosts.slice(0, 5));
+        setLatestPosts(sortedPosts);
         console.log("latestPosts", res);
       }
     } catch (error) {
       console.error("Failed to fetch data:", error);
     }
   };
+
+  //lây bài viết nhiều views
+  const getMostViewedPosts = () => {
+    const sortedPosts = latestPosts.sort((a, b) => b.views - a.views);
+    return sortedPosts.slice(0, 5);
+  };
+  const mostViewedPost = getMostViewedPosts();
 
   useEffect(() => {
     fetchPostByTag();
@@ -159,6 +166,25 @@ const TagByCate = (props) => {
               <div className={cx("colcate2")}>
                 <div className={cx("colName")}>
                   <div className={cx("b-name")}>ĐỌC NHIỀU</div>
+                </div>
+                <div className={cx("GroupItem")}>
+                  {mostViewedPost?.map((item, index) => {
+                    return (
+                      <div key={index} className={cx("item")}>
+                        <div
+                          className={cx("b-title")}
+                          onClick={() =>
+                            handlePostClick(item.postID, item.title)
+                          }
+                        >
+                          {item.title}
+                        </div>
+                        <div className={cx("b-desc")}>
+                          <p> {item.description}</p>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
 

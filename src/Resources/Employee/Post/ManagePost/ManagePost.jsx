@@ -1,7 +1,11 @@
 import classNames from "classnames/bind";
 import styles from "./ManagePost.module.scss";
 import { useEffect, useState } from "react";
-import { getAllPost } from "../../../../Services/apiServer";
+import {
+  deletePost,
+  getAllPost,
+  searchTerm,
+} from "../../../../Services/apiServer";
 import {
   FilterOutlined,
   SearchOutlined,
@@ -62,11 +66,7 @@ const ManagePostByEmploy = (props) => {
       dataIndex: "title",
       key: "title",
       render: (_, record, index) => {
-        return (
-          <div className={cx("title")}>
-            {record?.title}
-          </div>
-        );
+        return <div className={cx("title")}>{record?.title}</div>;
       },
     },
     {
@@ -75,11 +75,7 @@ const ManagePostByEmploy = (props) => {
       key: "cate",
       render: (_, record, index) => {
         return (
-          <div
-            className={cx("cate")}
-          >
-            {record?.category?.categoryName}
-          </div>
+          <div className={cx("cate")}>{record?.category?.categoryName}</div>
         );
       },
       align: "center",
@@ -89,11 +85,7 @@ const ManagePostByEmploy = (props) => {
       dataIndex: "tag",
       key: "tag",
       render: (_, record, index) => {
-        return (
-          <div className={cx("tag")}>
-            {record?.tag?.tagName}
-          </div>
-        );
+        return <div className={cx("tag")}>{record?.tag?.tagName}</div>;
       },
       align: "center",
     },
@@ -102,11 +94,7 @@ const ManagePostByEmploy = (props) => {
       dataIndex: "author",
       key: "author",
       render: (_, record, index) => {
-        return (
-          <div className={cx("author")} >
-            {record?.appUser?.username}
-          </div>
-        );
+        return <div className={cx("author")}>{record?.appUser?.username}</div>;
       },
       align: "center",
     },
@@ -116,11 +104,11 @@ const ManagePostByEmploy = (props) => {
       render: (_, record, index) => (
         <Space size="middle" key={`action-${record?.postID}`}>
           <EditOutlined
-            onClick={() => handleEdit(record)}
+            onClick={() => handleEditPost(record)}
             style={{ color: "#106cb2", padding: "3px" }}
           />
           <DeleteOutlined
-            onClick={() => handleDelete(record)}
+            onClick={() => showModal(record)}
             style={{ color: "#d12323", padding: "3px" }}
           />
         </Space>
@@ -129,11 +117,78 @@ const ManagePostByEmploy = (props) => {
     },
   ];
 
+  //handle edit
+  const navigate = useNavigate();
+  const handleEditPost = (record) => {
+    navigate(`/employ/edit-post/${record.postID}`);
+  };
+
+  //modalDele
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [record, setRecord] = useState();
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+  const showModal = (record) => {
+    setIsModalOpen(true);
+    setRecord(record);
+  };
+  const handleDelete = async () => {
+    if (!record || !record.postID) {
+      toast.error("Có lỗi xảy ra! Không tìm thấy thể loại để xóa.");
+      return;
+    }
+    const { postID } = record;
+    try {
+      let result = await deletePost(postID);
+      if (result && result.message) {
+        toast.success("Xóa thể loại thành công!");
+        setIsModalOpen(false);
+        fetchPostsList();
+      } else {
+        toast.error("Xóa thể loại thất bại!");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleSearch = async (Title) => {
+    try {
+      if (Title.trim() === "") {
+        toast.warning("Từ khoá tìm kiếm không được để trống!");
+        return;
+      } else {
+        const res = await searchTerm(Title);
+        if (res && res.posts) {
+          setLisPosts(res.posts);
+        } else {
+          toast.info("Không tìm thấy bài viết phù hợp.");
+          setLisPosts([]);
+        }
+      }
+    } catch (error) {
+      console.error("Failed to fetch posts:", error);
+    }
+  };
+
+  const [searchTitle, setSearchTitle] = useState("");
+
+  const handleInputChange = (e) => {
+    setSearchTitle(e.target.value);
+  };
+
+  const handleDown = (e) => {
+    if (e.key === "Enter") {
+      handleSearch(searchTitle);
+    }
+  };
+
   return (
     <>
       <div className={cx("container")}>
         <div className={cx("Title")}>
-          <div className={cx("b-Title")}>Danh sach doc gia </div>
+          <div className={cx("b-Title")}>Danh Sách Bài Viết</div>
         </div>
         <div className={cx("ContentPage")}>
           <div className={cx("headerListPost")}>
@@ -142,13 +197,18 @@ const ManagePostByEmploy = (props) => {
                 <input
                   type="text"
                   className={cx("inputSearch")}
-                  onKeyDown={handleKeyDown}
+                  onKeyDown={handleDown}
+                  onChange={handleInputChange}
                   name=""
                   id="search"
                   placeholder="Tìm kiếm..."
                   autoComplete="off"
                 />
-                <label htmlFor="search" className={cx("iconSearch")}>
+                <label
+                  htmlFor="search"
+                  className={cx("iconSearch")}
+                  onClick={() => handleSearch(searchTitle)}
+                >
                   <SearchOutlined />
                 </label>
               </div>
@@ -168,12 +228,26 @@ const ManagePostByEmploy = (props) => {
             }}
             onChange={handleTableChange}
             columns={columns}
-            rowKey="postID" 
+            rowKey="postID"
             dataSource={
               listPosts &&
               listPosts.filter((posts) => posts?.appUser.id === idUser)
             }
           />
+
+          <Modal
+            title="Xóa thể loại "
+            open={isModalOpen}
+            onOk={handleDelete}
+            onCancel={handleCancel}
+            okButtonProps={{ style: { backgroundColor: "red" } }}
+          >
+            <div className="mb-3 mt-4">
+              <p>
+                Bạn chắc chắn muốn xóa thể loại: <b>{record?.title}</b>
+              </p>
+            </div>
+          </Modal>
         </div>
       </div>
     </>

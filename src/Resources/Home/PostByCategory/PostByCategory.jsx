@@ -8,7 +8,7 @@ const cx = classNames.bind(styles);
 
 const PostByCategory = (props) => {
   const { id, categoryName } = useParams(); // Get the id and category name from the URL
-  const [categoryData, setCategoryData] = useState([]); // Get CateByID
+  const [categoryData, setCategoryData] = useState({ posts: [] }); // Get CateByID
   const [latestPosts, setLatestPosts] = useState([]); // các bao viet mới nhất
 
   const navigate = useNavigate();
@@ -39,6 +39,18 @@ const PostByCategory = (props) => {
     fetchCategory();
   }, [id]);
 
+  //lay bài viết có view nhiều nhất
+  const getMostViewedPost = () => {
+  if (!categoryData || !categoryData.posts || !Array.isArray(categoryData.posts)) {
+    console.error("Dữ liệu posts không hợp lệ hoặc chưa được tải.");
+    return [];
+  }
+  const sortedPosts = categoryData.posts.sort((a, b) => b.views - a.views).slice(0,5); // Sắp xếp giảm dần
+  return sortedPosts;
+};
+
+  const mostViewedPosts = getMostViewedPost();
+  
   //handleCick Tag
   const handleTagClick = (tagID, tagName) => {
     navigate(`/tags/${tagID}/${tagName}`);
@@ -75,9 +87,7 @@ const PostByCategory = (props) => {
                       )
                     }
                   >
-                    <h2>
-                      {latestPosts[0] ? latestPosts[0].title : ""}
-                    </h2>
+                    <h2>{latestPosts[0] ? latestPosts[0].title : ""}</h2>
                   </div>
                   <p className={cx("desc")}>
                     {latestPosts[0] ? latestPosts[0].description : ""}
@@ -94,11 +104,11 @@ const PostByCategory = (props) => {
                           }
                         >
                           <div className={cx("image")}>
-                          <img
-                                src={post.image}
-                                className={cx("preview")}
-                                alt={post.title}
-                              />
+                            <img
+                              src={post.image}
+                              className={cx("preview")}
+                              alt={post.title}
+                            />
                           </div>
                           <div className={cx("b-title")}>{post.title}</div>
                         </div>
@@ -144,7 +154,26 @@ const PostByCategory = (props) => {
               <div className={cx("colcate2")}>
                 <div className={cx("colName")}>
                   <div className={cx("b-name")}>ĐỌC NHIỀU</div>
-                </div>=
+                </div>
+                <div className={cx("GroupItem")}>
+                    {mostViewedPosts?.map((item, index) => {
+                      return (
+                        <div key={index} className={cx("item")}>
+                          <div
+                            className={cx("b-title")}
+                            onClick={() =>
+                              handlePostClick(item.postID, item.title)
+                            }
+                          >
+                            {item.title}
+                          </div>
+                          <div className={cx("b-desc")}>
+                            <p> {item.description}</p>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
               </div>
 
               <div className={cx("colcate3")}>

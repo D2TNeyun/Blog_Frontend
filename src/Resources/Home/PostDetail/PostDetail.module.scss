@@ -136,13 +136,14 @@
           border-radius: 10px;
           display: block;
           border: none;
-    
-    
+
+
           &:hover {
             background-position: right center;
             color: #fff;
             text-decoration: none;
           }
+
           .spinner {
             font-size: 20px;
             margin-right: 7px;
@@ -192,13 +193,42 @@
       }
     }
   }
+
+
+  padding: 5px 10px;
+
+  .item {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-bottom: 2px dashed #ececec;
+
+    &:hover {
+      background-color: #f7f7f7;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  .b-title {
+    font-weight: bold;
+    font-size: 17px;
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 3px;
+  }
+
 }
 
 .colcate3 {
-  padding: 10px;
-  background-color: #f9f9f9;
-  border-radius: 5px;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  .colContent {
+    padding: 10px 24px;
+    background-color: #f9f9f9;
+    border-radius: 15px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    width: 95%;
+    margin: auto;
+    margin-bottom: 20px;
+  }
 
   .ColItem {
     display: flex;
@@ -215,10 +245,11 @@
     li {
       display: inline;
       padding-top: 10px;
-      padding-bottom: 10px;
       display: inline-block;
       margin-left: -4px;
       cursor: pointer;
+      width: 24%;
+      margin-bottom: -10px;
 
       &:hover {
         background-color: #f5f5f5;
@@ -238,10 +269,10 @@
         display: flex;
         justify-content: center;
         margin: 8px;
-        margin-left: 0px;
         margin: auto;
-        width: 70%;
         margin-top: 5px;
+        font-size: 17px;
+        padding: 3px 21px;
       }
 
       .preview {

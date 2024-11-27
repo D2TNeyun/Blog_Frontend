@@ -29,7 +29,6 @@ instance.interceptors.request.use(function (config) {
     if (token) {
         config.headers['Authorization'] = "Bearer "+token;
     }
-    
     // Do something before request is sent
     return config;
 }, function (error) {

@@ -7,19 +7,24 @@ import { useSelector } from "react-redux";
 import { FaUser, FaLock, FaUserCog } from "react-icons/fa";
 import { HiStatusOnline } from "react-icons/hi";
 import { MdEmail } from "react-icons/md";
-
-import { Modal, Table, Space, Tag } from "antd";
+import LogoImage from "../../../../assets/image-gallery.png";
+import { Modal, Table, Space, Tag, Avatar } from "antd";
 import { toast } from "react-toastify";
+import { FcPlus } from "react-icons/fc";
 const cx = classNames.bind(styles);
 
 const Profile = (props) => {
-  const [dataUser, setDataUser] = useState("");
-  const id = useSelector((state) => state.user?.user?.user?.id);
-  // Fetch user data from API
+  // States for user data, avatar preview, and errors
+  const [dataUser, setDataUser] = useState(null);
+  const [errors, setErrors] = useState({});
+  // Get current user ID from Redux state
+  const userId = useSelector((state) => state.user?.user?.user?.id);
+
+  // Fetch user details from API
   const fetchUser = async () => {
     try {
-      const res = await getUserById(id);
-      if (res && res.user) {
+      const res = await getUserById(userId);
+      if (res?.user) {
         setDataUser(res.user);
         console.log(res.user);
       }
@@ -27,12 +32,13 @@ const Profile = (props) => {
       console.error("Error fetching user data:", error);
     }
   };
+
+  // Fetch user data on component mount
   useEffect(() => {
     fetchUser();
   }, []);
 
-  //modal edit user
-  const [errors, setErrors] = useState({});
+  // Handle edit button click
   const [showModalEdit, setShowModalEdit] = useState(false);
   const [editUser, setEditUser] = useState({
     id: null,
@@ -43,19 +49,19 @@ const Profile = (props) => {
     isActives: [],
   });
 
-  const handleEdit = (datauser) => {
+  const handleEdit = (record) => {
     setShowModalEdit(true);
     setEditUser({
-      id: datauser.id,
-      username: datauser.username,
-      password: datauser.password,
-      email: datauser.email,
-      roles: Array.isArray(datauser.roles) ? datauser.roles : [datauser.roles], // Ensure roles is always an array
-      isActives: Array.isArray(datauser.isActives)
-        ? datauser.isActives
-        : [datauser.isActives],
+      id: record.id,
+      username: record.username,
+      password: record.password,
+      email: record.email,
+      roles: Array.isArray(record.roles) ? record.roles : [record.roles], // Ensure roles is always an array
+      isActives: Array.isArray(record.isActives)
+        ? record.isActives
+        : [record.isActives],
     });
-    console.log("Successfully", datauser);
+    console.log("Successfully", record);
   };
   const handleCloseModalEdit = () => {
     setShowModalEdit(false);
@@ -89,13 +95,15 @@ const Profile = (props) => {
     const Email = editUser.email;
     const Role = editUser.roles;
     const StatusName = editUser.isActives;
+    
     try {
       let updateUser = await PuteditUser(
         editUser.id,
         UserName,
         Email,
         Role,
-        StatusName
+        StatusName,
+        Image
       );
       if (updateUser && updateUser.message) {
         toast.success("Cập nhật thành công!");
@@ -109,7 +117,17 @@ const Profile = (props) => {
       console.error(error);
     }
   };
-
+  //uuload avata 
+  const [preview, setPreview ] = useState("");
+  const [Image, setImage ] = useState(null);
+  const handleUploadAvatar = (event) => {
+    if (event.target && event.target.files && event.target.files[0]) {
+      setPreview(URL.createObjectURL(event.target.files[0]));
+      setImage(event.target.files[0]);
+    } else {
+      // setPreview("");
+    }
+  };
   return (
     <>
       <div className={cx("PageContainer")}>
@@ -246,7 +264,7 @@ const Profile = (props) => {
                   {/* Role Select */}
                   <div className={`${errors && errors.Role ? "" : "mb-4"}`}>
                     <div
-                      className={`${cx("groupForm")} ${
+                      className={`${cx("groupForm3")} ${
                         errors && errors.Role ? "border-danger" : ""
                       }`}
                     >
@@ -254,6 +272,7 @@ const Profile = (props) => {
                         <FaUser />
                       </label>
                       <select
+                         disabled
                         name="userRole"
                         id="userRole"
                         className={cx("inputForm")}
@@ -276,7 +295,7 @@ const Profile = (props) => {
                     className={`${errors && errors.StatusName ? "" : "mb-4"}`}
                   >
                     <div
-                      className={`${cx("groupForm")} ${
+                      className={`${cx("groupForm3")} ${
                         errors && errors.StatusName ? "border-danger" : ""
                       }`}
                     >
@@ -284,6 +303,7 @@ const Profile = (props) => {
                         <HiStatusOnline />
                       </label>
                       <select
+                         disabled
                         name="active"
                         id="active"
                         className={cx("inputForm")}
@@ -305,13 +325,40 @@ const Profile = (props) => {
                       <p className={cx("error")}>{errors.StatusName}</p>
                     )}
                   </div>
+
+                  {/* hình ảnh */}
+                  <div className={`${errors && errors.Email ? "" : "mb-4"}`}>
+                    <div
+                      className={`${cx("groupForm2")} ${
+                        errors && errors.Email ? "border-danger" : ""
+                      }`}
+                    >
+                      <label
+                        className={cx("label-upload")}
+                        htmlFor="labelUpload"
+                      >
+                        <FcPlus /> Upload Avata
+                      </label>
+                      <input
+                        type="file"
+                        hidden
+                        id="labelUpload"
+                        onChange={(event) => handleUploadAvatar(event)}
+                      />
+                      <div className={cx("img-preview")}>
+                        {preview ? (
+                          <img className={cx("preview")} src={preview} />
+                        ) : (
+                          <img className={cx("LogoImage")} src={LogoImage} />
+                          // <span className={cx("preview")}>Preview Image</span>
+                        )}
+                      </div>
+                    </div>
+                    {errors && <p className={cx("error")}>{errors.Email}</p>}
+                  </div>
                 </div>
               </Modal>
             </div>
-          </div>  
-          <div className="row">
-            <div className="col-lg-6 col-md-12 col-sm-12"></div>
-            
           </div>
         </div>
       </div>

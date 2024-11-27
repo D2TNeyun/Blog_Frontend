@@ -1,0 +1,87 @@
+.container {
+    padding: 10px 20px;
+}
+
+.Title {
+    display: flex;
+    padding: 5px;
+    background: white;
+    border-radius: 8px;
+
+    .b-Title {
+        padding: 10px;
+        font-size: 20px;
+        font-weight: bold;
+        color: black;
+    }
+}
+
+
+.ContentPage {
+    padding: 10px 15px;
+    background-color: #fff;
+    margin-top: 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.TitleCategory {
+    display: grid;
+    grid-template-columns: 50px auto;
+    margin-top: 10px;
+
+    .iconTitleCategory {
+        display: flex;
+        margin: auto;
+        width: 30px;
+        color: #4B93FF;
+    }
+
+    .contentTitleCategory>p {
+        color: rgb(136, 131, 131);
+    }
+
+    .addCategory {
+        position: absolute;
+        float: right;
+        right: 40px;
+    }
+}
+
+.inputForm {
+    border: 1px solid rgba(173, 171, 171, 0.542);
+}
+
+.errors {
+    color: red;
+    margin-left: 10px;
+}
+
+.Actions {
+    display: flex;
+    gap: 5px;
+    align-items: baseline;
+    justify-content: center;
+}
+
+.btnAdd {
+    background-image: linear-gradient(to right, #77A1D3 0%, #79CBCA 51%, #77A1D3 100%);
+    padding: 10px 35px;
+    text-align: center;
+    text-transform: uppercase;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;
+    box-shadow: 0 0 20px #eee;
+    border-radius: 10px;
+    display: block;
+    border: none;
+
+    &:hover {
+        background-position: right center;
+        color: #0c0101;
+    }
+
+}

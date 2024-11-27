@@ -2,9 +2,11 @@ import { useParams } from "react-router-dom";
 import styles from "./PostDetail.module.scss";
 import classNames from "classnames/bind";
 import {
+  getAllPost,
   getComments,
   getPostById,
   getTagById,
+  incrementView,
   postCmt,
 } from "../../../Services/apiServer";
 import { useEffect, useState } from "react";
@@ -12,10 +14,12 @@ import { IoSend } from "react-icons/io5";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { ImSpinner5 } from "react-icons/im";
+import Cookies from "js-cookie";
+import moment from "moment";
 
 const cx = classNames.bind(styles);
 const PostDetail = (props) => {
-  const { id, title } = useParams();
+  const { id } = useParams();
   const [postData, setPostData] = useState(null); // chi 1 doi tuong
   const [postByTag, setPostByTag] = useState([]);
   const [Content, setContent] = useState("");
@@ -25,9 +29,6 @@ const PostDetail = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
   const in4User = useSelector((state) => state.user.user.user);
-  console.log(in4User);
-  // const isActives = useSelector((state) => state.user.user.user.isActives);
-
   //Apipost
   const fetchPostById = async () => {
     try {
@@ -53,6 +54,52 @@ const PostDetail = (props) => {
     fetchPostById();
   }, [id]);
 
+  const [listPosts, setListPosts] = useState([]);
+  const fetchListPosts = async () => {
+    try {
+      const postRes = await getAllPost();
+
+      console.log("Fetched posts:", postRes);
+
+      if (postRes && postRes.posts) {
+        setListPosts(postRes.posts);
+      }
+    } catch (error) {
+      console.error("Failed to fetch data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchListPosts();
+  }, []);
+  //lay bài viết có view nhiều nhất
+  const getMostViewedPost = () => {
+    const sortedPosts = listPosts.sort((a, b) => b.views - a.views);
+    return sortedPosts.slice(0, 7); // trả về 7 bài viết có view nhiều nhất
+  };
+  const mostViewedPost = getMostViewedPost();
+  console.log(mostViewedPost);
+
+  //incrementViewpost
+  const viewpost = async () => {
+    const cookieName = `viewed_${id}`;
+    const hasViewed = Cookies.get(cookieName);
+    if (!hasViewed) {
+      try {
+        let viewData = await incrementView(id);
+        if (viewData) {
+          Cookies.set(cookieName, true, { expires: 1 / 144 }); // lưu cookie trong 10p
+        }
+        console.log("view", viewData);
+      } catch (error) {
+        console.error("Failed to record post view:", error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    viewpost();
+  }, [id]);
   //Api Cmt
   const fetchComments = async () => {
     try {
@@ -87,9 +134,9 @@ const PostDetail = (props) => {
       setIsLoading(true);
       setTimeout(() => {
         window.location.reload();
-      }, 2000); 
+      }, 2000);
       return;
-    } 
+    }
 
     if (in4User.isActives.includes("B")) {
       toast.error("Tài khoản của bạn đã bị chặn bình luận!");
@@ -120,7 +167,7 @@ const PostDetail = (props) => {
       setTimeout(() => {
         window.location.reload();
       }, 2000);
-    }finally {
+    } finally {
       setIsLoading(false);
     }
   };
@@ -136,6 +183,8 @@ const PostDetail = (props) => {
                   <div className="timeDate"></div>
                   {postData && (
                     <div className={cx("b-Content")}>
+                      <b>{postData?.category?.categoryName}</b> &gt;
+                      {postData?.tag?.tagName}
                       <h1>{postData.title}</h1>
                       <div className={cx("desc")}>{postData.description}</div>
                       <div className={cx("image")}>
@@ -143,9 +192,16 @@ const PostDetail = (props) => {
                           <img src={postData.image} className={cx("preview")} />
                         </div>
                       </div>
-                      <p className="mt-2" dangerouslySetInnerHTML={{ __html: postData?.content }}></p>
+                      <p
+                        className="mt-2"
+                        dangerouslySetInnerHTML={{ __html: postData?.content }}
+                      ></p>
                       <p>Tac gia: {postData.appUser?.username}</p>
-                      <p>Ngay dang: {postData.publishedDate}</p>
+                      <p>
+                        Ngay dang:{" "}
+                        {moment(postData.publishedDate).format("DD/MM/YYYY")}
+                      </p>
+                      <p>Lượt xem: {postData.views}</p>
                     </div>
                   )}
                 </div>
@@ -164,13 +220,9 @@ const PostDetail = (props) => {
                               <div className={cx("b-name")}>
                                 {comment.appUser?.username}
                               </div>
-                              <div className={cx("b-date")}>
-                                {comment.commentDate}
-                              </div>
                             </div>
                             <div className={cx("comment-content")}>
                               <p>{comment.content}</p>
-                              
                             </div>
                           </div>
                         ))
@@ -216,10 +268,29 @@ const PostDetail = (props) => {
                 <div className={cx("colName")}>
                   <div className={cx("b-name")}>ĐỌC NHIỀU</div>
                 </div>
+                <div className={cx("GroupItem")}>
+                  {mostViewedPost?.map((item, index) => {
+                    return (
+                      <div key={index} className={cx("item")}>
+                        <div
+                          className={cx("b-title")}
+                          onClick={() =>
+                            handlePostClick(item.postID, item.title)
+                          }
+                        >
+                          {item.title}
+                        </div>
+                        <div className={cx("b-desc")}>
+                          <p> {item.description}</p>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             </div>
             <div className={cx("colcate3")}>
-              <div className="row">
+              <div className={cx("colContent")}>
                 <div className={cx("colName")}>
                   <div className={cx("b-name")}>ĐỌC THÊM</div>
                 </div>
@@ -236,7 +307,7 @@ const PostDetail = (props) => {
                               <img src={post.image} className={cx("b-img")} />
                             </div>
                             <div className={cx("b-title")}>
-                              <h4>{post.title}</h4>
+                              <p>{post.title}</p>
                             </div>
                           </div>
                         </li>

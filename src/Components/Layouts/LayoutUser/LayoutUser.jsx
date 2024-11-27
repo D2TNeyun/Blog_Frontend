@@ -9,16 +9,16 @@ import "react-toastify/dist/ReactToastify.css";
 const cx = classNames.bind(styles);
 
 import {
-  DashboardOutlined,
   UserOutlined,
-  WechatOutlined,
+  HistoryOutlined,
   LogoutOutlined,
+  IdcardOutlined
 } from "@ant-design/icons"; //icon dashboards side menu
 import { Layout, Menu, theme } from "antd";
 import { logoutApi } from "../../../Services/apiServer";
 import logo from "../../../assets/iconLogo.png";
 import { doLogoutAction } from "../../../Redux/Reducer/UserSlice";
-
+import { toast } from "react-toastify";
 
 const { Header, Content, Footer, Sider } = Layout;
 function getItem(label, key, icon, children) {
@@ -44,41 +44,46 @@ const itemsSlider = [
           marginBottom: "10px",
         }}
       >
-          NEWs Can Tho
+        NEWs Can Tho
       </p>
     </Link>,
     "0",
     <img
-    className="m-0"
-    style={{
-      width: "30px",
-      display: "inline-block",
-    }}
-    src={logo}
-    alt=""
-  />
+      className="m-0"
+      style={{
+        width: "30px",
+        display: "inline-block",
+      }}
+      src={logo}
+      alt=""
+    />
   ),
+  // getItem("Thông tin", "Sub1", <UserOutlined />, [
+  //   getItem(
+  //     <Link to="/user/profile" className="text-decoration-none">
+  //       Thông tin cá nhân
+  //     </Link>,
+  //     "1"
+  //   ),
+  // ]),
   getItem(
     <Link to="/user" className="text-decoration-none">
-      Dashboard
+      Thông tin 
     </Link>,
     "1",
-    <DashboardOutlined />,
-    []
+    <IdcardOutlined />
   ),
-  getItem("Thông tin", "Sub1", <UserOutlined />, [
+
+  getItem("Lịch sử", "Sub2", <HistoryOutlined />, [
     getItem(
-      <Link to="/user/proFile" className="text-decoration-none">
-        Thông tin cá nhân
+      <Link to="/user/cmt" className="text-decoration-none">
+        Binh luận
       </Link>,
       "2"
     ),
-  ]),
-
-  getItem("Phản hồi", "Sub2", <WechatOutlined />, [
     getItem(
-      <Link to="/user/cmt" className="text-decoration-none">
-            Binh luan
+      <Link to="/user/historieNews" className="text-decoration-none">
+        Bài viết
       </Link>,
       "3"
     ),
@@ -93,9 +98,9 @@ const layoutUser = () => {
   const handleLogout = async () => {
     try {
       await logoutApi();
-      // localStorage.removeItem("token");
       dispatch(doLogoutAction());
       navigate("/");
+      toast.success("Đăng xuất thành công!");
     } catch (error) {
       console.error("Error logging out:", error);
     }

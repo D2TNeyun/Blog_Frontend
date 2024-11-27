@@ -18,7 +18,6 @@ import AddPost from "./Resources/Admin/Post/AddPost/AddPost.jsx";
 import LayoutEmploy from "./Components/Layouts/LayoutEmploy/LayoutEmploy.jsx";
 import ManagePostByEmploy from "./Resources/Employee/Post/ManagePost/ManagePost.jsx";
 import ManageEmploy2 from "./Resources/Employee/Accout/ManageEmploy2.jsx";
-import ManageCategory from "./Resources/Admin/Categories/manageCategory.jsx";
 import ProtectedRoute from "./Components/ProtectRoute/ProtectRoute.jsx";
 import { useSelector } from "react-redux";
 import Loading from "./Components/Loading/Loading.jsx";
@@ -29,6 +28,11 @@ import EditPost from "./Resources/Admin/Post/EditPost/EditPost.jsx";
 import Footer from "./Components/Layouts/DefaultLayout/Footer/Footer.jsx";
 import Information from "./Resources/Home/Information/Information.jsx";
 import Policy from "./Resources/Home/Information/policy.jsx";
+import Category from "./Resources/Admin/Categories/Category.jsx";
+import AdminHome from "./Resources/Admin/AdminHome/AdminHome.jsx";
+import HistoriesNews from "./Resources/User/HistoriesNews/HistoriesNews.jsx";
+import HistoriesCmt from "./Resources/User/HistoriesCmt/HistoriesCmt.jsx";
+import Comments from "./Resources/Admin/Comment/Comments.jsx";
 
 const Layout = () => {
   return (
@@ -96,6 +100,10 @@ function App() {
       children: [
         // Admin routes here...
         {
+          index: true,
+          element: <AdminHome />,
+        },
+        {
           path: "manageEmploy",
           element: <ManageEmploy />,
         },
@@ -117,12 +125,17 @@ function App() {
         },
         {
           path: "manageCategory",
-          element: <ManageCategory />,
+          element: <Category />,
         },
         {
           path: "profile",
           element: <Profile/>
+        }, 
+        {
+          path: "comment",
+          element: <Comments />,
         }
+      
       ],
     },
     {
@@ -133,6 +146,11 @@ function App() {
         </ProtectedRoute>
       ),
       children: [
+        {
+          // path: "profile",
+          element: <Profile />,
+          index: true,
+        },
         {
           path: "managePost",
           element: <ManagePostByEmploy />,
@@ -153,6 +171,10 @@ function App() {
           path: "manageUser",
           element: <ManageUser />,
         },
+        {
+          path: "comment",
+          element: <Comments />,
+        }
       ],
     },
     {
@@ -164,6 +186,20 @@ function App() {
       ),
       children: [
         // User routes here...
+        {
+          element: <Profile/>,
+          index: true,
+        }, 
+        {
+          path: "cmt",
+          element: <HistoriesCmt/>,
+        },
+        {
+          path: "historieNews",
+          element: <HistoriesNews/>,
+        }
+         
+        //...
       ],
     },
   ]);

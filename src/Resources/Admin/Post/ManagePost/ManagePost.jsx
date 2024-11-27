@@ -7,13 +7,11 @@ import {
   searchTerm,
 } from "../../../../Services/apiServer";
 import {
-  FilterOutlined,
   SearchOutlined,
-  MoreOutlined,
   EditOutlined,
   DeleteOutlined,
 } from "@ant-design/icons";
-import { Modal, Table, Space, Tag } from "antd";
+import { Modal, Table, Space } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -72,7 +70,16 @@ const ManageEmploy = (props) => {
       dataIndex: "tags",
       key: "tags",
       render: (_, record, index) => {
-        return <div className={cx("content")}>{record?.tag?.tagName}</div>;
+        return <div className={cx("tags")}>{record?.tag?.tagName}</div>;
+      },
+      align: "center",
+    },
+    {
+      title: "Views",
+      dataIndex: "views",
+      key: "views",
+      render: (_, record, index) => {
+        return <div className={cx("views")}>{record?.views}</div>;
       },
       align: "center",
     },

@@ -1,8 +1,8 @@
 .wappercontainer {
   float: left;
   width: 100%;
-  padding: 20px;
-  margin: -12px 0px 0px 0px;
+  padding: 15px 40px;
+  margin: auto;
 
   .Container {
     padding-left: 10px;
@@ -50,6 +50,7 @@
     display: none;
   }
 }
+
 // css từng phần thử trong Col
 .colcate1 {
   flex: 1 40%;
@@ -81,7 +82,7 @@
     margin-bottom: 5px;
     font-weight: bold;
 
-    &:hover{
+    &:hover {
       color: darkgray;
       cursor: pointer;
     }
@@ -108,17 +109,18 @@
     display: flex;
     gap: 5px;
 
-    .b-image{
+    .b-image {
       width: 100%;
     }
   }
+
   .b-box {
     padding: 5px;
     cursor: pointer;
 
-    .b-title{
-        font-size: 1rem;
-        font-weight: bold;
+    .b-title {
+      font-size: 1rem;
+      font-weight: bold;
     }
 
     &:hover {
@@ -127,9 +129,9 @@
       transition: transform 0.3s;
       transition: box-shadow 0.3s;
     }
- 
+
   }
- 
+
 }
 
 @media (max-width: 520px) {
@@ -184,7 +186,7 @@
     margin-bottom: 10px;
     display: inline;
 
-    &:hover{
+    &:hover {
       box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
       transform: translateY(-2px);
       transition: transform 0.3s;
@@ -223,14 +225,16 @@
 
 .colcate2 {
   flex: 1 20%;
-  .colName{
+
+  .colName {
     background-color: gainsboro;
     padding: 5px;
     border-left: 5px solid;
     border-left-color: brown;
     font-family: inherit;
     width: 100%;
-    .b-name{
+
+    .b-name {
       color: RED;
       font-size: larger;
       font-weight: bold;
@@ -243,10 +247,35 @@
       }
     }
   }
+
+  .GroupItem {
+    padding: 5px 10px;
+
+    .item {
+      margin-top: 5px;
+      margin-bottom: 5px;
+      border-bottom: 2px dashed #ececec;
+
+      &:hover {
+        background-color: #f7f7f7;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+      }
+    }
+
+    .b-title {
+      font-weight: bold;
+      font-size: 17px;
+      font-family: Arial, Helvetica, sans-serif;
+      padding: 3px;
+    }
+  }
 }
 
 .colcate3 {
   flex: 1 20%;
+
   .tag-group {
 
     .b-group {
@@ -283,7 +312,7 @@
             cursor: pointer;
             margin-bottom: 10px;
             margin-top: -10px;
-            
+
             &:hover {
               background-color: #f5f5f5;
             }

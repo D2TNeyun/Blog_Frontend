@@ -1,6 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import styles from "./SearchResults.module.scss";
 import classNames from "classnames/bind";
+import moment from "moment";
 
 const cx = classNames.bind(styles);
 
@@ -34,7 +35,7 @@ const SearchResults = (props) => {
                   <h3 className={cx("Title")}>{post.title}</h3>
                   <div className={cx("Desc")}>{post.description}</div>
                   <i className={cx("Desc")}>
-                    Ngày cập nhật: {post.publishedDate}
+                    Ngày cập nhật: {moment(post.publishedDate).format("DD/MM/YYYY")}
                   </i>
                   <div className={cx("Tag")}>
                     <b>Tag:</b> {post.tag?.tagName}
