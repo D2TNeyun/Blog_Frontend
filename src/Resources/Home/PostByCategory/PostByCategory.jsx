@@ -167,9 +167,9 @@ const PostByCategory = (props) => {
                           >
                             {item.title}
                           </div>
-                          <div className={cx("b-desc")}>
+                          {/* <div className={cx("b-desc")}>
                             <p> {item.description}</p>
-                          </div>
+                          </div> */}
                         </div>
                       );
                     })}
@@ -208,7 +208,7 @@ const PostByCategory = (props) => {
                                   }
                                 >
                                   <h5>{post.title}</h5>
-                                  <p>{post.description}</p>
+                                  {/* <p>{post.description}</p> */}
                                 </div>
                               </li>
                             ))}

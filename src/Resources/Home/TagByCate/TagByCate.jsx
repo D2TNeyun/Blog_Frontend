@@ -105,7 +105,7 @@ const TagByCate = (props) => {
 
                   <div className={cx("boxtopcate")}>
                     <div className={cx("boxtop")}>
-                      {latestPosts.slice(1, 3).map((post) => (
+                      {latestPosts.slice(1, 4).map((post) => (
                         <div
                           className={cx("b-box")}
                           key={post.postID}
@@ -179,9 +179,9 @@ const TagByCate = (props) => {
                         >
                           {item.title}
                         </div>
-                        <div className={cx("b-desc")}>
+                        {/* <div className={cx("b-desc")}>
                           <p> {item.description}</p>
-                        </div>
+                        </div> */}
                       </div>
                     );
                   })}
@@ -222,8 +222,8 @@ const TagByCate = (props) => {
                                       handlePostClick(post.postID, post.title)
                                     }
                                   >
-                                    <h5>{post.title}</h5>
-                                    <p>{post.description}</p>
+                                    {post.title}
+                                    {/* <p>{post.description}</p> */}
                                   </div>
                                 </div>
                               </li>

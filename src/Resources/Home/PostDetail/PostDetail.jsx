@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styles from "./PostDetail.module.scss";
 import classNames from "classnames/bind";
 import {
@@ -172,6 +172,11 @@ const PostDetail = (props) => {
     }
   };
 
+  const navigate = useNavigate();
+  const handlePostClick = (postID, title) => {
+    navigate(`/posts/${postID}/${title}`);
+  };
+
   return (
     <>
       <div className={cx("wappercontainer")}>
@@ -301,6 +306,9 @@ const PostDetail = (props) => {
                         <li
                           key={post.postID}
                           className="related-item col-xs-12 col-sm-4"
+                          onClick={() =>
+                            handlePostClick(post.postID, post.title)
+                          }
                         >
                           <div className={cx("news-img-top")}>
                             <div className={cx("preview")}>

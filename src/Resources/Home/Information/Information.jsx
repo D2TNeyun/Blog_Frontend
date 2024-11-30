@@ -66,7 +66,58 @@ const Information = () => {
           </div>
         </div>
       </div>
-      <div className={cx("content")}></div>
+      <div className={cx("content")}>
+        <div className={cx("header")}>
+          <p>Văn Phòng Đại Diện</p>
+        </div>
+        <div className={cx("address")}>
+          <div className={cx("block-title")}>
+            <div className={cx("b-title")}>
+              Văn phòng đại diện khu vực quận Ninh Kiều
+            </div>
+            <div className={cx("block")}>
+              <p>Địa chỉ</p>
+              <p>
+                Đại học Cần Thơ khu II, đường 3/2, phường Xuân Khánh, quận Ninh
+                Kiều, Thành phố Cần Thơ
+              </p>
+            </div>
+
+            <div className={cx("group-info")}>
+              <div className={cx("infoItem")}>
+                <p>Điện thoại</p>
+                <p>0385500502</p>
+              </div>
+              <div className={cx("infoItem")}>
+                <p>Email</p>
+                <p>nguyendanh.st03@gmail.com</p>
+              </div>
+            </div>
+          </div>
+          <div className={cx("block-title")}>
+            <div className={cx("b-title")}>
+              Văn phòng đại diện khu vực quận Bình Thủy
+            </div>
+            <div className={cx("block")}>
+              <p>Địa chỉ</p>
+              <p>
+                Đường 172/18, phường An Thới, quận Bình Thủy, Thành phố Cần Thơ
+              </p>
+            </div>
+
+            <div className={cx("group-info")}>
+              <div className={cx("infoItem")}>
+                <p>Điện thoại</p>
+                <p>0386700173</p>
+              </div>
+              <div className={cx("infoItem")}>
+                <p>Email</p>
+                <p>thaotrang.@gmail.com</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </>
   );
 };

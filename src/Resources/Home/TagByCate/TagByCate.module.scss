@@ -1,71 +1,207 @@
 .wappercontainer {
-    float: left;
-    width: 100%;
-    padding: 20px;
-    margin: -12px 0px 0px 0px;
-  
-    .Container {
+  float: left;
+  width: 100%;
+  padding: 20px;
+  margin: -12px 0px 0px 0px;
+
+  .Container {
+    padding-left: 10px;
+    padding-right: 10px;
+
+    .Content {
+      float: left;
+      width: 100%;
       padding-left: 10px;
       padding-right: 10px;
-  
-      .Content {
-        float: left;
-        width: 100%;
-        padding-left: 10px;
-        padding-right: 10px;
-        display: flex;
-        gap: 10px;
-  
-      }
-  
+      display: flex;
+      gap: 10px;
+
+    }
+
+  }
+}
+
+/* Cấu trúc Flexbox để bố trí cột ngang */
+.Content {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  /* Cho phép các cột tự xuống hàng khi màn hình nhỏ */
+}
+
+/* Bố cục dọc khi màn hình nhỏ */
+@media (max-width: 920px) {
+  .Content {
+    display: flex;
+    gap: 2px;
+    flex-wrap: wrap;
+  }
+
+  .colcate1 {
+    display: contents;
+  }
+
+  .colcate2 {
+    display: contents;
+  }
+
+  .colcate3 {
+    display: none;
+  }
+}
+
+// css từng phần thử trong Col
+.colcate1 {
+  flex: 1 40%;
+
+  .Title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-family: "Reem Kufi", sans-serif;
+    text-transform: uppercase;
+  }
+
+  .image {
+    width: 100%;
+    height: auto;
+
+    .preview {
+      overflow: hidden;
+      display: inline-block;
+      width: 100%;
+      height: auto;
+      padding: 0;
+    }
+
+  }
+
+  .fleft h2 {
+    font-size: 1.3rem;
+    margin-bottom: 5px;
+    font-weight: bold;
+
+    &:hover {
+      color: darkgray;
+      cursor: pointer;
     }
   }
-  /* Cấu trúc Flexbox để bố trí cột ngang */
-.Content {
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-    flex-wrap: wrap;
-    /* Cho phép các cột tự xuống hàng khi màn hình nhỏ */
+
+  .desc {
+    font-size: 1rem;
+    color: #777;
+    margin-bottom: 15px;
+  }
+
+
 }
-  
-  /* Bố cục dọc khi màn hình nhỏ */
-  @media (max-width: 920px) {
-    .Content {
-      display: flex;
-      gap: 2px;
-      flex-wrap: wrap;
+
+.boxtopcate {
+  padding: 5px;
+  background-color: #f5f5f5;
+  border-radius: 5px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  width: 100%;
+
+  .boxtop {
+    display: flex;
+    gap: 5px;
+  }
+
+  .b-box {
+    padding: 5px;
+    cursor: pointer;
+
+    .b-title {
+      font-size: 1rem;
+      font-weight: bold;
     }
-  
-    .colcate1 {
-      display: contents;
+
+    &:hover {
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+      transform: translateY(-2px);
+      transition: transform 0.3s;
+      transition: box-shadow 0.3s;
     }
-  
-    .colcate2 {
-      display: contents;
-    }
-  
-    .colcate3 {
+
+  }
+
+}
+
+@media (max-width: 520px) {
+  .boxtopcate {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .boxtop {
+    flex-direction: column;
+    gap: 5px;
+
+    .image {
       display: none;
     }
   }
 
-  // css từng phần thử trong Col
-.colcate1 {
-    flex: 1 40%;
-  
-    .Title {
-      font-size: 1.2rem;
+}
+
+.boxtinmoi {
+  .catename {
+    background-color: gainsboro;
+    padding: 5px;
+    border-left: 5px solid;
+    border-left-color: brown;
+    font-family: inherit;
+
+    a {
+      color: RED;
+      font-size: larger;
       font-weight: bold;
-      margin-bottom: 10px;
-      font-family: "Reem Kufi", sans-serif;
-      text-transform: uppercase;
     }
-  
-    .image {
-      width: 100%;
-      height: auto;
-  
+  }
+
+}
+
+
+.list-news-img {
+  display: flex;
+  flex-direction: column;
+  padding: 2px;
+
+  .list {
+    padding: inherit;
+  }
+
+  .news-img-left {
+    border-bottom: 1px dashed #e1e1e1;
+    float: left;
+    width: 100%;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    display: inline;
+
+    &:hover {
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+      transform: translateY(-2px);
+      transition: transform 0.3s;
+      transition: box-shadow 0.3s;
+      cursor: pointer;
+    }
+
+    .b-title {
+      font-weight: bold;
+      font-size: 1.1rem;
+      font-family: Arial, Helvetica, sans-serif;
+      padding: 3px;
+    }
+
+    .b-img {
+      float: left;
+      width: 45%;
+      padding-right: 10px;
+
       .preview {
         overflow: hidden;
         display: inline-block;
@@ -73,239 +209,121 @@
         height: auto;
         padding: 0;
       }
-  
     }
-  
-    .fleft h2 {
-      font-size: 1.3rem;
-      margin-bottom: 5px;
-      font-weight: bold;
-  
-      &:hover{
-        color: darkgray;
-        cursor: pointer;
-      }
-    }
-  
-    .desc {
-      font-size: 1rem;
-      color: #777;
-      margin-bottom: 15px;
-    }
-  
-  
-  }
 
-  .boxtopcate {
+    .b-desc {
+      width: 100%;
+      height: auto;
+    }
+
+  }
+}
+
+
+.colcate2 {
+  flex: 1 20%;
+
+  .colName {
+    background-color: gainsboro;
     padding: 5px;
-    background-color: #f5f5f5;
-    border-radius: 5px;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
+    border-left: 5px solid;
+    border-left-color: brown;
+    font-family: inherit;
     width: 100%;
-  
-    .boxtop {
-      display: flex;
-      gap: 5px;
-    }
-    .b-box {
-      padding: 5px;
-      cursor: pointer;
-  
-      .b-title{
-          font-size: 1rem;
-          font-weight: bold;
-      }
-  
+
+    .b-name {
+      color: RED;
+      font-size: larger;
+      font-weight: bold;
+
       &:hover {
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-        transform: translateY(-2px);
-        transition: transform 0.3s;
-        transition: box-shadow 0.3s;
-      }
-   
-    }
-   
-  }
-  @media (max-width: 520px) {
-    .boxtopcate {
-      flex-direction: column;
-      gap: 10px;
-    }
-  
-    .boxtop {
-      flex-direction: column;
-      gap: 5px;
-  
-      .image {
-        display: none;
-      }
-    }
-  
-  }
-  .boxtinmoi {
-    .catename {
-      background-color: gainsboro;
-      padding: 5px;
-      border-left: 5px solid;
-      border-left-color: brown;
-      font-family: inherit;
-  
-      a {
-        color: RED;
-        font-size: larger;
+        color: darkgray;
         font-weight: bold;
-      }
-    }
-  
-  }
-  
-  
-  .list-news-img {
-    display: flex;
-    flex-direction: column;
-    padding: 2px;
-  
-    .list {
-      padding: inherit;
-    }
-  
-    .news-img-left {
-      border-bottom: 1px dashed #e1e1e1;
-      float: left;
-      width: 100%;
-      padding-bottom: 10px;
-      margin-bottom: 10px;
-      display: inline;
-  
-      &:hover{
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-        transform: translateY(-2px);
-        transition: transform 0.3s;
-        transition: box-shadow 0.3s;
+        box-shadow: inset;
         cursor: pointer;
       }
-  
-      .b-title {
-        font-weight: bold;
-        font-size: 1.1rem;
-        font-family: Arial, Helvetica, sans-serif;
-        padding: 3px;
-      }
-  
-      .b-img {
-        float: left;
-        width: 45%;
-        padding-right: 10px;
-  
-        .preview {
-          overflow: hidden;
-          display: inline-block;
-          width: 100%;
-          height: auto;
-          padding: 0;
-        }
-      }
-  
-      .b-desc {
-        width: 100%;
-        height: auto;
-      }
-  
     }
   }
 
+  .GroupItem {
+    padding: 5px 10px;
 
-  .colcate2 {
-    flex: 1 20%;
-    .colName{
+    .item {
+      margin-top: 5px;
+      margin-bottom: 5px;
+      border-bottom: 2px dashed #ececec;
+
+    }
+
+    .b-title {
+      font-weight: bold;
+      font-size: 17px;
+      font-family: Arial, Helvetica, sans-serif;
+      padding: 3px;
+
+      &:hover {
+        color: #a41919;
+        cursor: pointer;
+        transition: color 0.3s ease;
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+      }
+    }
+  }
+}
+
+.colcate3 {
+  flex: 1 20%;
+
+  .colName {
+    .b-name {
+      font-size: larger;
+      font-weight: bold;
+      color: RED;
       background-color: gainsboro;
       padding: 5px;
       border-left: 5px solid;
       border-left-color: brown;
       font-family: inherit;
-      width: 100%;
-      .b-name{
-        color: RED;
-        font-size: larger;
+
+      &:hover {
+        color: darkgray;
         font-weight: bold;
-  
-        &:hover {
-          color: darkgray;
-          font-weight: bold;
-          box-shadow: inset;
-          cursor: pointer;
-        }
+        box-shadow: inset;
+        cursor: pointer;
       }
+
     }
-    .GroupItem {
-      padding: 5px 10px;
-  
-      .item {
-        margin-top: 5px;
-        margin-bottom: 5px;
-        border-bottom: 2px dashed #ececec;
-  
+
+    .post-list {
+      padding: 3px;
+      margin-bottom: 10px;
+
+      li {
+        display: inline;
+
         &:hover {
-          background-color: #f7f7f7;
+          color: #a41919;
           cursor: pointer;
-          transition: background-color 0.3s ease;
+          transition: color 0.3s ease;
           box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
         }
       }
-  
-      .b-title {
-        font-weight: bold;
-        font-size: 17px;
-        font-family: Arial, Helvetica, sans-serif;
-        padding: 3px;
+
+      .post-item {
+        margin-top: 5px;
+        border-bottom: 1px dashed #e1e1e1;
+        cursor: pointer;
+
+        .post-title {
+          font-weight: bold;
+          font-size: 17px;
+          font-family: Arial, Helvetica, sans-serif;
+          padding: 3px;
+        }
+
       }
     }
+
+
   }
-
-  .colcate3 {
-    flex: 1 20%;
-    .colName{
-        .b-name{
-            font-size: larger;
-            font-weight: bold;
-            color: RED;
-            background-color: gainsboro;
-            padding: 5px;
-            border-left: 5px solid;
-            border-left-color: brown;
-            font-family: inherit;
-
-            &:hover {
-              color: darkgray;
-              font-weight: bold;
-              box-shadow: inset;
-              cursor: pointer;
-            }
-  
-        }
-
-        .post-list{
-          padding: 3px;
-          margin-bottom: 10px;
-          border-bottom: 1px dashed #e1e1e1;
-
-          li{
-            display: inline;
-          }
-
-          .post-item{
-            margin-top: 5px;
-            border-bottom: 1px dashed #e1e1e1;
-            cursor: pointer;
-            
-            &:hover{
-              background-color: #e1e1e1;
-            }
-          }
-        }
-
-       
-    }
-  }
-  
+}

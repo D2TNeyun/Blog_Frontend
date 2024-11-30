@@ -1,6 +1,7 @@
 import { createRoot } from 'react-dom/client'
 import App from './App.jsx'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import "nprogress/nprogress.css";
 import GlobalStyle from './Components/GlobalStyles'
 import { Provider } from "react-redux";
 import { store, persistor } from './Redux/Store/Store.js';

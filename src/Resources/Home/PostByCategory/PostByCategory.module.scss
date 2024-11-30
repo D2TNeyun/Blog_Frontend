@@ -242,26 +242,26 @@
       &:hover {
         color: darkgray;
         font-weight: bold;
-        box-shadow: inset;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        transform: translateY(-2px);
+        transition: transform 0.3s;
+        transition: box-shadow 0.3s;
         cursor: pointer;
       }
     }
   }
 
   .GroupItem {
-    padding: 5px 10px;
+    padding: 5px 3px;
+    font-size: 14px;
 
     .item {
       margin-top: 5px;
       margin-bottom: 5px;
       border-bottom: 2px dashed #ececec;
+      padding: 2px 5px;
 
-      &:hover {
-        background-color: #f7f7f7;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-      }
+
     }
 
     .b-title {
@@ -269,6 +269,13 @@
       font-size: 17px;
       font-family: Arial, Helvetica, sans-serif;
       padding: 3px;
+
+      &:hover {
+        color: #a41919;
+        cursor: pointer;
+        transition: color 0.3s ease;
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+      }
     }
   }
 }
@@ -292,16 +299,18 @@
           font-weight: bold;
 
           &:hover {
-            color: darkgray;
-            font-weight: bold;
-            box-shadow: inset;
+            color: #a41919;
             cursor: pointer;
+            transition: color 0.3s ease;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
           }
+
         }
       }
 
       ul {
         display: inline;
+        font-size: 14px;
 
         li {
           display: contents;
@@ -314,7 +323,10 @@
             margin-top: -10px;
 
             &:hover {
-              background-color: #f5f5f5;
+              color: #a41919;
+              cursor: pointer;
+              transition: color 0.3s ease;
+              box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
             }
 
           }

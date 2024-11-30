@@ -8,7 +8,9 @@ import {
 import { useEffect, useState } from "react";
 import Carousel from "react-bootstrap/Carousel";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import {
+  CameraOutlined 
+} from "@ant-design/icons";
 const cx = classNames.bind(styles);
 
 const HomePage = (props) => {
@@ -49,13 +51,19 @@ const HomePage = (props) => {
   };
   const newestPosts = getNewestPost();
 
-  //lay bài viết có view nhiều nhất
+  //lay bài viết có view nhiều nhất trong tuần vừa qua
   const getMostViewedPost = () => {
-    const sortedPosts = listPosts.sort((a, b) => b.views - a.views);
-    return sortedPosts.slice(0, 7); // trả về 10 bài viết có view nhiều nhất
+    const oneWeekAgo = new Date();
+    oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+    const filteredPosts = listPosts.filter(
+      (post) => new Date(post.publishedDate) >= oneWeekAgo
+    );
+    const sortedPosts = filteredPosts.sort((a, b) => b.views - a.views);
+    return sortedPosts.slice(0, 7); // trả về 7 bài viết có view nhiều nhất
   };
   const mostViewedPost = getMostViewedPost();
-  
+  console.log(mostViewedPost);
+
   //lấy bài viết gần đây nhất theo danh mục
   const getMostRecentPostsByCategory = (categoryId) => {
     const filteredPosts = listPosts.filter(
@@ -108,30 +116,59 @@ const HomePage = (props) => {
         <div className={cx("MainContainer")}>
           <div className={cx("NewPostContainer")}>
             <div className={cx("NewPost")}>
-              <div className="row mt-3">
-                {newestPosts && newestPosts.length > 0 ? (
-                  <Carousel className={cx("carousel")}>
-                    {newestPosts.slice(0, 3).map((post) => (
-                      <Carousel.Item key={post.postID}>
-                        <div className={cx("PostImage")}>
+              <div className="row">
+                <div className={cx("NewPostContainer")}>
+                  {newestPosts && newestPosts.length > 0 ? (
+                    <Carousel className={cx("carousel")}>
+                      {newestPosts.slice(0, 3).map((post) => (
+                        <Carousel.Item key={post.postID}>
                           <img
                             className={cx("Preview")}
                             src={post.image}
                             alt="Slide image"
                           />
-                        </div>
-                        {/* Position the caption below the image */}
-                        <div className={cx("CaptionWrapper")}>
-                          <h3 className={cx("CaptionTitle")}>{post.title}</h3>
-                        </div>
-                      </Carousel.Item>
-                    ))}
-                  </Carousel>
-                ) : (
-                  <p>Không tìm thấy bài viết nào</p>
-                )}
+                          <Carousel.Caption>
+                            <h3 className={cx("CaptionTitle")}>{post.title}</h3>
+                          </Carousel.Caption>
+                        </Carousel.Item>
+                      ))}
+                    </Carousel>
+                  ) : (
+                    <p>Không tìm thấy bài viết nào</p>
+                  )}
+                </div>
               </div>
-              <div className="row mt-3">okok</div>
+
+              <div className="row">
+                <div className={cx("ViewTop")}>
+                  <div className={cx("Group")}>
+                    {mostViewedPost && mostViewedPost.length > 0
+                      ? mostViewedPost.slice(0, 3).map((post) => (
+                          <div className="col-sm-4 col-xs-12 item">
+                            <div
+                              key={post.postID}
+                              className={cx("item")}
+                              onClick={() =>
+                                handlePostClick(post.postID, post.title)
+                              }
+                            >
+                              <div className={cx("image")}>
+                                <img
+                                  className={cx("b-image")}
+                                  src={post.image}
+                                  alt="img"
+                                />
+                              </div>
+                              <div className={cx("content")}>
+                                <p>{post.title}</p>
+                              </div>
+                            </div>
+                          </div>
+                        ))
+                      : null}
+                  </div>
+                </div>
+              </div>
             </div>
 
             <div className={cx("NewTop")}>
@@ -234,9 +271,14 @@ const HomePage = (props) => {
                                           className={cx("image")}
                                         />
                                       </div>
-                                      <div className={cx("description")}>
-                                        <p> {post.description}</p>
-                                      </div>
+                                      <p>
+                                        {post.description.length > 200
+                                          ? `${post.description.slice(
+                                              0,
+                                              150
+                                            )}...`
+                                          : post.description}
+                                      </p>
                                     </ul>
                                   </div>
                                 ))
