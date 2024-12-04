@@ -311,6 +311,7 @@ const AdminHome = () => {
           ? "orange"
           : "green";
 
+
         let text = roles.includes("Admin")
           ? "Admin"
           : roles.includes("Employee")
@@ -338,6 +339,10 @@ const AdminHome = () => {
           text: "Nhân viên",
           value: "Employee",
         },
+        {
+          text: "Đọc giả",
+          value: "User",
+        }
       ],
       onFilter: (value, record) => record.roles.includes(value),
     },
@@ -478,9 +483,9 @@ const AdminHome = () => {
             <Table
               className="mt-4"
               pagination={{
-                defaultPageSize: 5,
+                defaultPageSize: 3,
                 showSizeChanger: true,
-                pageSizeOptions: ["5", "10", "15"],
+                pageSizeOptions: ["3","5", "10", "15"],
               }}
               onChange={handleTableChange}
               columns={columns}
@@ -494,9 +499,9 @@ const AdminHome = () => {
             <Table
               className="mt-4"
               pagination={{
-                defaultPageSize: 5,
+                defaultPageSize: 3,
                 showSizeChanger: true,
-                pageSizeOptions: ["5", "10", "15"],
+                pageSizeOptions: ["3","5", "10", "15"],
               }}
               onChange={handleTableChange}
               columns={columnsUser}
@@ -510,9 +515,9 @@ const AdminHome = () => {
             <Table
               className="mt-4"
               pagination={{
-                defaultPageSize: 5,
+                defaultPageSize: 3,
                 showSizeChanger: true,
-                pageSizeOptions: ["5", "10", "15"],
+                pageSizeOptions: ["3","5", "10", "15"],
               }}
               onChange={handleTableChange}
               columns={columnsCommet}

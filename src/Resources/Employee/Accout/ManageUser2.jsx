@@ -1,16 +1,27 @@
 import classNames from "classnames/bind";
 import styles from "./ManageEmploy2.module.scss";
 import { useEffect, useState } from "react";
+
 import {
   SearchOutlined,
+  EditOutlined,
+  DeleteOutlined,
 } from "@ant-design/icons";
+import { FaUser, FaLock, FaUserCog } from "react-icons/fa";
+import { HiStatusOnline } from "react-icons/hi";
+import { MdEmail } from "react-icons/md";
 import { Modal, Table, Space, Tag } from "antd";
-import { getAllUser, searchUser } from "../../../Services/apiServer";
 import { toast } from "react-toastify";
+import {
+  deleteUser,
+  getAllUser,
+  PuteditUser,
+  searchUser,
+} from "../../../Services/apiServer";
 
 const cx = classNames.bind(styles);
 
-const ManageEmploy2 = (props) => {
+const ManageUser2 = (props) => {
   const [listUser, setListUser] = useState([]);
 
   const fetchUserList = async () => {
@@ -38,7 +49,6 @@ const ManageEmploy2 = (props) => {
         return index + 1;
       },
       align: "center",
-
     },
     {
       title: "Tên người dùng",
@@ -48,7 +58,6 @@ const ManageEmploy2 = (props) => {
         return <div className={cx("userName")}>{record?.username}</div>;
       },
       align: "center",
-
     },
     {
       title: "Email",
@@ -58,16 +67,23 @@ const ManageEmploy2 = (props) => {
         return <div className={cx("emailUser")}>{record?.email}</div>;
       },
       align: "center",
-
     },
     {
       title: "Quyền",
       dataIndex: "role",
       key: "role",
       render: (_, { roles, index }) => {
-        let color = roles.includes("Admin") ? "blue": roles.includes("Employee")? "orange": "green";
+        let color = roles.includes("Admin") // roles la mot mang
+          ? "blue"
+          : roles.includes("Employee")
+          ? "orange"
+          : "green";
 
-        let text = roles.includes("Admin") ? "Admin": roles.includes("Employee")? "Nhân viên": "Đọc giả";
+        let text = roles.includes("Admin")
+          ? "Admin"
+          : roles.includes("Employee")
+          ? "Nhân viên"
+          : "Đọc giả";
         return (
           <div className={cx("roleUser")}>
             <Tag
@@ -81,25 +97,22 @@ const ManageEmploy2 = (props) => {
         );
       },
       align: "center",
-      filters: [
-        {
-          text: "Admin",
-          value: "Admin",
-        },
-        {
-          text: "Nhân viên",
-          value: "Employee",
-        },
-      ],
-      onFilter: (value, record) => record.roles.includes(value),
     },
     {
       title: "Trạng thái",
       dataIndex: "status",
       key: "status",
       render: (_, { isActives, index }) => {
-        let color = isActives.includes("Y")  ? "blue" : isActives.includes("D")  ? "red" : "green";
-        let text = isActives.includes("Y") ? "Active" : isActives.includes("D") ? "Deleted" : "Blocked";
+        let color = isActives.includes("Y")
+          ? "blue"
+          : isActives.includes("D")
+          ? "red"
+          : "green";
+        let text = isActives.includes("Y")
+          ? "Active"
+          : isActives.includes("D")
+          ? "Deleted"
+          : "Blocked";
 
         return (
           <Tag
@@ -121,16 +134,20 @@ const ManageEmploy2 = (props) => {
           text: "Deleted",
           value: "D",
         },
+        {
+          text: "Blocked",
+          value: "B",
+        },
       ],
       onFilter: (value, record) => record.isActives.includes(value),
     },
-    
   ];
 
   const [pagination, setPagination] = useState({}); // phan trang
   function handleTableChange(data) {
     setPagination(data);
   }
+
   const handleSearch = async (UserName) => {
     try {
       if (UserName.trim() === "") {
@@ -158,6 +175,7 @@ const ManageEmploy2 = (props) => {
   const handleInputChange = (e) => {
     setSearchInput(e.target.value);
   };
+
   const handleDown = (e) => {
     if (e.key === "Enter") {
       handleSearch(searchInput);
@@ -168,7 +186,7 @@ const ManageEmploy2 = (props) => {
     <>
       <div className={cx("container")}>
         <div className={cx("Title")}>
-          <div className={cx("b-Title")}>Danh sach nhan vien </div>
+          <div className={cx("b-Title")}>Danh sach doc gia </div>
         </div>
         <div className={cx("ContentPage")}>
           <div className={cx("headerListUser")}>
@@ -184,13 +202,15 @@ const ManageEmploy2 = (props) => {
                   placeholder="Tìm kiếm..."
                   autoComplete="off"
                 />
-                <label htmlFor="search" className={cx("iconSearch")}>
+                <label
+                  htmlFor="search"
+                  onClick={() => handleSearch(searchInput)}
+                  className={cx("iconSearch")}
+                >
                   <SearchOutlined />
                 </label>
               </div>
             </div>
-            {/* onClick={() => showModal()} */}
-            {/* <button className={cx("btnAddUser")}>Thêm người dùng</button> */}
           </div>
           <Table
             className="mt-4"
@@ -203,8 +223,7 @@ const ManageEmploy2 = (props) => {
             columns={columns}
             rowKey="email"
             dataSource={
-              listUser &&
-              listUser.filter((user) => user.roles.includes("Admin") || user.roles.includes("Employee"))
+              listUser && listUser.filter((user) => user.roles.includes("User"))
             }
           />
         </div>
@@ -213,4 +232,4 @@ const ManageEmploy2 = (props) => {
   );
 };
 
-export default ManageEmploy2;
+export default ManageUser2;

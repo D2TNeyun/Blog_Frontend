@@ -3,7 +3,6 @@ import styles from "./Profile.module.scss";
 import { useEffect, useState } from "react";
 import { getUserById, PuteditUser } from "../../../../Services/apiServer";
 import { useSelector } from "react-redux";
-
 import { FaUser, FaLock, FaUserCog } from "react-icons/fa";
 import { HiStatusOnline } from "react-icons/hi";
 import { MdEmail } from "react-icons/md";
@@ -73,6 +72,7 @@ const Profile = (props) => {
       roles: [],
       isActives: [],
     });
+    setErrors({});
   };
 
   const handleOk = async () => {
@@ -95,7 +95,7 @@ const Profile = (props) => {
     const Email = editUser.email;
     const Role = editUser.roles;
     const StatusName = editUser.isActives;
-    
+
     try {
       let updateUser = await PuteditUser(
         editUser.id,
@@ -117,9 +117,9 @@ const Profile = (props) => {
       console.error(error);
     }
   };
-  //uuload avata 
-  const [preview, setPreview ] = useState("");
-  const [Image, setImage ] = useState(null);
+  //uuload avata
+  const [preview, setPreview] = useState("");
+  const [Image, setImage] = useState(null);
   const handleUploadAvatar = (event) => {
     if (event.target && event.target.files && event.target.files[0]) {
       setPreview(URL.createObjectURL(event.target.files[0]));
@@ -139,9 +139,9 @@ const Profile = (props) => {
             {/* <img src={dataUser?.avatar} alt="Profile" /> */}
             <div className={cx("Preview")}>
               <img
-                src={dataUser?.avata}
+                src={dataUser?.avata || "https://png.pngtree.com/png-clipart/20190903/original/pngtree-more-photo-icons-png-image_4419912.jpg"}
                 alt="profile"
-                className={cx("Image")}
+                className={cx("Image", { fallback: !dataUser?.avata })}
               />
             </div>
           </div>
@@ -195,7 +195,7 @@ const Profile = (props) => {
                   className={cx("btn-update")}
                   onClick={() => handleEdit(dataUser)}
                 >
-                  update profile
+                  Cập nhật
                 </button>
               </div>
               <Modal
@@ -272,7 +272,7 @@ const Profile = (props) => {
                         <FaUser />
                       </label>
                       <select
-                         disabled
+                        disabled
                         name="userRole"
                         id="userRole"
                         className={cx("inputForm")}
@@ -303,7 +303,7 @@ const Profile = (props) => {
                         <HiStatusOnline />
                       </label>
                       <select
-                         disabled
+                        disabled
                         name="active"
                         id="active"
                         className={cx("inputForm")}
@@ -337,7 +337,7 @@ const Profile = (props) => {
                         className={cx("label-upload")}
                         htmlFor="labelUpload"
                       >
-                        <FcPlus /> Upload Avata
+                        <FcPlus /> Upload Avatar
                       </label>
                       <input
                         type="file"
@@ -350,11 +350,9 @@ const Profile = (props) => {
                           <img className={cx("preview")} src={preview} />
                         ) : (
                           <img className={cx("LogoImage")} src={LogoImage} />
-                          // <span className={cx("preview")}>Preview Image</span>
                         )}
                       </div>
                     </div>
-                    {errors && <p className={cx("error")}>{errors.Email}</p>}
                   </div>
                 </div>
               </Modal>

@@ -37,8 +37,11 @@ const AuthModal = (props) => {
 
   const handleClose = () => {
     setShow(false);
+    setIsLoading(false);
     setUsername("");
     setPassword("");
+    setErrors({});
+    setEmail("");
   };
 
   const handleClickLogin = async () => {
@@ -52,7 +55,7 @@ const AuthModal = (props) => {
     if (Password.trim() === "") {
       newErr.Password = "Mật khẩu không được để trống";
     } else if (Password.length < 6) {
-      newErr.Password = "Mật khẩu phải ít nhất 6 ký tự";
+      newErr.Password = "Mật khẩu có độ dài ít nhất là 6";
     }
 
     // If there are validation errors, set them and stop further processing
@@ -125,6 +128,7 @@ const AuthModal = (props) => {
         toast.success("Đăng ký thành công!");
         handleClose();
         navigate("/");
+        setIsLoading(true);
       } else {
         setErrors({ general: "Đăng ký thất bại. Vui lòng thử lại." });
         setIsLoading(false);

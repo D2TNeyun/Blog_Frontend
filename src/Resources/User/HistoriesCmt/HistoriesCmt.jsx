@@ -239,6 +239,7 @@ const HistoriesCmt = () => {
               open={showModalDelete}
               onOk={handleOkDelete}
               onCancel={handleCancelDelete}
+              okButtonProps={{ style: { backgroundColor: "#d12323" } }}
             >
               <div className={cx("modal-body")}>
                 <p>Bạn chắc chắn muốn xóa bình luận này?</p>

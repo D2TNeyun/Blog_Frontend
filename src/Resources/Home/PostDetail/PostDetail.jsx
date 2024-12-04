@@ -153,9 +153,7 @@ const PostDetail = (props) => {
       if (updatedPost && updatedPost.comment) {
         setIsLoading(true);
         toast.success("Bình luận được ghi nhận!");
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000);
+        fetchComments();
       } else {
         setIsLoading(true);
         toast.error("Bình luận không thành công. Vui lòng thử lại!");

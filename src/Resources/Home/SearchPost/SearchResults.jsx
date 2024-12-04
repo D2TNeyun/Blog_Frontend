@@ -13,7 +13,7 @@ const SearchResults = (props) => {
 
   //handleCick Post
   const handlePostClick = (postID, title) => {
-    navigate(`/posts/${postID}/${title}`); 
+    navigate(`/posts/${postID}/${title}`);
   };
 
   return (
@@ -24,25 +24,32 @@ const SearchResults = (props) => {
           <div id="clear"></div>
           <hr />
           <div className={cx("groupQuery")}>
-            {posts.map((post, index) => (
-              <div
-                key={index}
-                className={cx("colItem")}
-                onClick={() => handlePostClick(post.postID, post.title)}
-              >
-                 <img src={post.image} alt="" className={cx("Image")} />
-                <div className={cx("in4Item")}>
-                  <h3 className={cx("Title")}>{post.title}</h3>
-                  <div className={cx("Desc")}>{post.description}</div>
-                  <i className={cx("Desc")}>
-                    Ngày cập nhật: {moment(post.publishedDate).format("DD/MM/YYYY")}
-                  </i>
-                  <div className={cx("Tag")}>
-                    <b>Tag:</b> {post.tag?.tagName}
+            {posts && posts.length > 0 ? (
+              posts.map((post) => (
+                <div
+                  key={post.postID}
+                  className={cx("colItem")}
+                  onClick={() => handlePostClick(post.postID, post.title)}
+                >
+                  <img src={post.image} alt="" className={cx("Image")} />
+                  <div className={cx("in4Item")}>
+                    <h3 className={cx("Title")}>{post.title}</h3>
+                    <div className={cx("Desc")}>{post.description}</div>
+                    <i className={cx("Desc")}>
+                      Ngày cập nhật:{" "}
+                      {moment(post.publishedDate).format("DD/MM/YYYY")}
+                    </i>
+                    <div className={cx("Tag")}>
+                      <b>Tag:</b> {post.tag?.tagName}
+                    </div>
                   </div>
                 </div>
+              ))
+            ) : (
+              <div className={cx("noResults")}>
+                <p>Không tìm thấy kết quả phù hợp cho "{query}"</p>
               </div>
-            ))}
+            )}
           </div>
         </div>
       </div>

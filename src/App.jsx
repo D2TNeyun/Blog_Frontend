@@ -33,6 +33,8 @@ import AdminHome from "./Resources/Admin/AdminHome/AdminHome.jsx";
 import HistoriesNews from "./Resources/User/HistoriesNews/HistoriesNews.jsx";
 import HistoriesCmt from "./Resources/User/HistoriesCmt/HistoriesCmt.jsx";
 import Comments from "./Resources/Admin/Comment/Comments.jsx";
+import ManageUser2 from "./Resources/Employee/Accout/ManageUser2.jsx";
+import StatiscalPost from "./Resources/Admin/StatisticalPost/StatisticalPost.jsx";
 
 const Layout = () => {
   return (
@@ -134,6 +136,10 @@ function App() {
         {
           path: "comment",
           element: <Comments />,
+        },
+        {
+          path: "statiscal",
+          element: <StatiscalPost />,
         }
       
       ],
@@ -169,7 +175,7 @@ function App() {
         },
         {
           path: "manageUser",
-          element: <ManageUser />,
+          element: <ManageUser2 />,
         },
         {
           path: "comment",

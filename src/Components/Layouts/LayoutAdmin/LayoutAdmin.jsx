@@ -14,6 +14,7 @@ import {
   WechatOutlined,
   LogoutOutlined,
   IdcardOutlined,
+  LineChartOutlined
 } from "@ant-design/icons"; //icon dashboards side menu
 import logo from "../../../assets/iconLogo.png";
 import { doLogoutAction } from "../../../Redux/Reducer/UserSlice";
@@ -101,15 +102,25 @@ const itemsSlider = [
     ),
   ]),
 
+  getItem("Thống kê", "Sub5", <LineChartOutlined />, [
+    getItem(
+      <Link to="/admin/statiscal" className="text-decoration-none">
+        Thống bài viết. 
+      </Link>,
+      "7"
+    ),
+  ]),
+
 
   getItem("Thông tin", "Sub6", <IdcardOutlined />, [
     getItem(
       <Link to="/admin/profile" className="text-decoration-none">
         Thông tin cá nhân
       </Link>,
-      "7"
+      "8"
     ),
   ]),
+  
 ];
 
 const LayoutAdmin = () => {

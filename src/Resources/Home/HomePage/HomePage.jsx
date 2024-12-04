@@ -24,8 +24,6 @@ const HomePage = (props) => {
       const postRes = await getAllPost();
       const categoryRes = await getAllCategori();
 
-      console.log("Fetched posts:", postRes);
-
       if (postRes && postRes.posts) {
         setListPosts(postRes.posts);
       }
@@ -62,7 +60,6 @@ const HomePage = (props) => {
     return sortedPosts.slice(0, 7); // trả về 7 bài viết có view nhiều nhất
   };
   const mostViewedPost = getMostViewedPost();
-  console.log(mostViewedPost);
 
   //lấy bài viết gần đây nhất theo danh mục
   const getMostRecentPostsByCategory = (categoryId) => {
@@ -99,7 +96,6 @@ const HomePage = (props) => {
     const pageName = window.location.href;
     try {
       const res = await increment(pageName);
-      console.log("view", pageName);
     } catch (error) {
       console.error("Failed to record page view:", error);
     }
@@ -144,7 +140,9 @@ const HomePage = (props) => {
                   <div className={cx("Group")}>
                     {mostViewedPost && mostViewedPost.length > 0
                       ? mostViewedPost.slice(0, 3).map((post) => (
-                          <div className="col-sm-4 col-xs-12 item">
+                          <div className="col-sm-4 col-xs-12 item"
+                          key={post.postID}
+                          >
                             <div
                               key={post.postID}
                               className={cx("item")}
@@ -301,9 +299,9 @@ const HomePage = (props) => {
                     <div className={cx("text")}>Đọc Nhiều</div>
                   </div>
                   <div className={cx("GroupItem")}>
-                    {mostViewedPost?.map((item, index) => {
+                    {mostViewedPost?.map((item) => {
                       return (
-                        <div key={index} className={cx("item")}>
+                        <div key={item.postID} className={cx("item")}>
                           <div
                             className={cx("b-title")}
                             onClick={() =>

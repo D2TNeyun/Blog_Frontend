@@ -62,7 +62,7 @@ const Header = (props) => {
           className={`${cx("dropdownItem")}`}
           onClick={() => handleLogout()}
         >
-          ĐĂng xuất
+          Đăng xuất
         </Link>
       ),
     },
@@ -119,6 +119,10 @@ const Header = (props) => {
   const [lisPosts, setLisPosts] = useState([]);
 
   const handleSearch = async () => {
+    if (!searchInput.trim()) {
+      toast.warning("Vui lòng nhập từ khóa để tìm kiếm!");
+      return;
+    }
     try {
       let res = await searchTerm(searchInput);
       if (res && res.posts) {
@@ -127,10 +131,10 @@ const Header = (props) => {
         });
       } else {
         toast.info("Không tìm thấy bài viết phù hợp.");
-        setLisPosts([]);
       }
     } catch (error) {
       console.log(error);
+      toast.error("Đã xảy ra lỗi trong quá trình tìm kiếm.");
     }
   };
 

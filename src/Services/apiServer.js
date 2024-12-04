@@ -1,11 +1,11 @@
 import axios from "./customize_axios";
 
 //Account/Auth
-const postLogin = (Username, Password) => {    
-    const data = new FormData(); 
+const postLogin = (Username, Password) => {
+    const data = new FormData();
     data.append('Username', Username);
     data.append('Password', Password);
-    return axios.post(`api/auth/login`, data);  
+    return axios.post(`api/auth/login`, data);
 }
 const logoutApi = () => {
     return axios.post(`api/auth/logout`);
@@ -26,13 +26,13 @@ const getAllUser = () => {
 const getUserById = (id) => {
     const data = new FormData();
     data.append('id', id);
-    return axios.get(`api/user/`+id, data);
+    return axios.get(`api/user/` + id, data);
 }
 
 const searchUser = (UserName) => {
     const data = new FormData();
     data.append('title', UserName);
-    return axios.get(`api/user?UserName=`+UserName, data);
+    return axios.get(`api/user?UserName=` + UserName, data);
 }
 
 const AddUser = (UserName, Email, Password, Role) => {
@@ -44,8 +44,8 @@ const AddUser = (UserName, Email, Password, Role) => {
     return axios.post(`api/user/addUser`, data);
 }
 
-const deleteUser = (id) =>{
-    return axios.delete(`api/user/`+id);
+const deleteUser = (id) => {
+    return axios.delete(`api/user/` + id);
 }
 
 const PuteditUser = (id, UserName, Email, Role, StatusName, Image) => {
@@ -56,7 +56,7 @@ const PuteditUser = (id, UserName, Email, Role, StatusName, Image) => {
     data.append('Role', Role);
     data.append('StatusName', StatusName);
     data.append('Image', Image);
-    return axios.put(`api/user/`+id, data);
+    return axios.put(`api/user/` + id, data);
 }
 
 const LoginGoogle = () => {
@@ -65,13 +65,13 @@ const LoginGoogle = () => {
 
 //Category
 const getAllCategori = () => {
-    return axios.get(`api/categories`); 
+    return axios.get(`api/categories`);
 }
 
 const getCategoryById = (id) => {
     const data = new FormData();
-    data.append('id', id);  
-    return axios.get(`api/categories/`+id, data);
+    data.append('id', id);
+    return axios.get(`api/categories/` + id, data);
 }
 
 const addCategories = (CategoryName) => {
@@ -81,37 +81,37 @@ const addCategories = (CategoryName) => {
 }
 
 const deleteCategory = (id) => {
-    return axios.delete(`api/categories/`+id);
+    return axios.delete(`api/categories/` + id);
 }
 
 const PuteditCategory = (id, CategoryName) => {
     const data = new FormData();
     data.append('id', id);
     data.append('categoryName', CategoryName);
-    return axios.put(`api/categories/`+id, data);
+    return axios.put(`api/categories/` + id, data);
 }
 
 //Post
 const getAllPost = () => {
-    return axios.get(`api/post`); 
+    return axios.get(`api/post`);
 }
 
 const getPostById = (id) => {
     const data = new FormData();
     data.append('id', id);
-    return axios.get(`api/post/`+id, data);
+    return axios.get(`api/post/` + id, data);
 }
 const incrementView = (id) => {
     const data = new FormData();
     data.append('id', id);
-    return axios.post(`api/post/increment-view/`+id, data)
+    return axios.post(`api/post/increment-view/` + id, data)
 }
 const searchTerm = (Title) => {
     const data = new FormData();
     data.append('title', Title);
-    return axios.get(`api/post?Title=`+Title, data);
+    return axios.get(`api/post?Title=` + Title, data);
 }
-const createNewPost = (AppUserID, Title, Description, Content, TagID, CategoryID,Image) => {
+const createNewPost = (AppUserID, Title, Description, Content, TagID, CategoryID, Image) => {
     const data = new FormData();
     data.append("AppUserID", AppUserID);
     data.append('categoryID', CategoryID);
@@ -122,7 +122,7 @@ const createNewPost = (AppUserID, Title, Description, Content, TagID, CategoryID
     data.append("Image", Image)
     return axios.post(`api/post/create`, data);
 }
-const UpdatePost = (id, CategoryID,TagID,Title, Description, Content, Image) => {
+const UpdatePost = (id, CategoryID, TagID, Title, Description, Content, Image) => {
     const data = new FormData();
     data.append('categoryID', CategoryID);
     data.append('tagID', TagID);
@@ -130,10 +130,10 @@ const UpdatePost = (id, CategoryID,TagID,Title, Description, Content, Image) => 
     data.append('description', Description);
     data.append('content', Content);
     data.append("Image", Image)
-    return axios.put(`api/post/`+id, data);
+    return axios.put(`api/post/` + id, data);
 }
 const deletePost = (id) => {
-    return axios.delete(`api/post/`+id);
+    return axios.delete(`api/post/` + id);
 }
 
 const viewHistories = () => {
@@ -143,14 +143,14 @@ const viewHistories = () => {
 const getTagById = (id) => {
     const data = new FormData();
     data.append('id', id);
-    return axios.get(`api/tag/`+id, data); 
+    return axios.get(`api/tag/` + id, data);
 }
 
 const getAllTag = () => {
-    return axios.get(`api/tag`); 
+    return axios.get(`api/tag`);
 }
 
-const addTag = (CategoryID,TagName) => {
+const addTag = (CategoryID, TagName) => {
     const data = new FormData();
     data.append('CategoryID', CategoryID)
     data.append('tagName', TagName);
@@ -161,11 +161,11 @@ const puttag = (id, TagName) => {
     const data = new FormData();
     data.append('id', id);
     data.append('TagName', TagName);
-    return axios.put(`api/tag/`+id, data);
+    return axios.put(`api/tag/` + id, data);
 }
 
 const deleteTag = (id) => {
-    return axios.delete(`api/tag/`+id);
+    return axios.delete(`api/tag/` + id);
 }
 //Comment
 const postCmt = (PostId, AppUserID, Content) => {
@@ -177,42 +177,52 @@ const postCmt = (PostId, AppUserID, Content) => {
 }
 
 const getComments = () => {
-    return axios.get(`api/comments`); 
+    return axios.get(`api/comments`);
 }
 
 const putComment = (id, Content) => {
     const data = new FormData();
     data.append('id', id);
     data.append('Content', Content);
-    return axios.put(`api/comments/`+id, data);
+    return axios.put(`api/comments/` + id, data);
 }
 
 const deleteComment = (id) => {
     const data = new FormData();
     data.append('id', id);
-    return axios.delete(`api/comments/`+id);
+    return axios.delete(`api/comments/` + id);
 }
 
 // statistical/overview
 const getStatistics = () => {
-    return axios.get(`api/statistical/overview`); 
+    return axios.get(`api/statistical/overview`);
 }
 
 const increment = (pageName) => {
     return axios.post(
-      `api/statistical/increment`,
-      JSON.stringify(pageName), // Gửi dữ liệu dưới dạng JSON
-      {
-        headers: {
-          "Content-Type": "application/json", // Đặt Content-Type là application/json
-        },
-      }
+        `api/statistical/increment`,
+        JSON.stringify(pageName), // Gửi dữ liệu dưới dạng JSON
+        {
+            headers: {
+                "Content-Type": "application/json", // Đặt Content-Type là application/json
+            },
+        }
     );
-  };
+};
 
-  const stats = (timeRange) => axios.get(`api/statistical/stats`, { params: { timeRange } });
-  
-export { 
+const stats = (timeRange) => axios.get(`api/statistical/stats`, { params: { timeRange } });
+
+const statisticsByCategory = () => {
+    return axios.get(`api/post/statistics-by-category`);
+}
+
+const postSatistics = () => {
+    return axios.get(`api/post/statistics-by-day`);
+};
+
+export {
+    postSatistics,
+    statisticsByCategory,
     deleteComment,
     putComment,
     viewHistories,
@@ -220,7 +230,7 @@ export {
     incrementView,
     getStatistics,
     increment,
-    postLogin, 
+    postLogin,
     getAllCategori,
     getAllPost,
     getCategoryById,
@@ -248,4 +258,4 @@ export {
     deletePost,
     PuteditUser,
     LoginGoogle
- }; 
+}; 

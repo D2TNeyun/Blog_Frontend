@@ -244,7 +244,7 @@ const ManagePostByEmploy = (props) => {
           >
             <div className="mb-3 mt-4">
               <p>
-                Bạn chắc chắn muốn xóa thể loại: <b>{record?.title}</b>
+                Bạn chắc chắn muốn xóa bài viết: <b>{record?.title}</b>
               </p>
             </div>
           </Modal>

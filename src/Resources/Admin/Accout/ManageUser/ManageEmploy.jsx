@@ -543,6 +543,7 @@ const ManageEmploy = (props) => {
             onOk={handleDeleteUser}
             onCancel={handleCloseModalDelete}
             width={520}
+            okButtonProps={{ style: { backgroundColor: "red" } }}
           >
             <p>
               Bạn có chắc muốn xóa người dùng này?{" "}
@@ -552,7 +553,7 @@ const ManageEmploy = (props) => {
 
           {/* modal update user */}
           <Modal
-            title="Chỉnh sửa User"
+            title="Cập nhật người dùng"
             open={showModalEdit}
             onOk={handleOk}
             onCancel={handleCloseModalEdit}

@@ -292,7 +292,7 @@ const AddPost = (props) => {
           onClick={handleSubmit}
         >
           {isLoading === true && <ImSpinner5 className={cx("spinner")} />}
-          Tạo sản phẩm
+          Tạo bài viết
         </button>
       </div>
     </div>

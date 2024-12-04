@@ -144,7 +144,7 @@ const layoutUser = () => {
             <div className={cx("infoUser")}>
               <img
                 className={cx("imgAvatar")}
-                src={`${user?.user?.avatar}`}
+                src={`${user?.user?.avata}`}
                 alt=""
               />
               <Dropdown
