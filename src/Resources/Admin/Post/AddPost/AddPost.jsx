@@ -29,6 +29,7 @@ const AddPost = (props) => {
   const [Image, setImage] = useState("");
   const [Preview, setPreview] = useState("");
   const AppUserID = useSelector((state) => state.user.user?.user?.id);
+  const UserRole = useSelector((state) => state.user.user?.user?.roles);
 
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
@@ -126,7 +127,13 @@ const AddPost = (props) => {
       if (res && res.postID) {
         setIsLoading(false);
         toast.success("Thêm bài viết thành công!");
-        navigate("/admin/managePost");
+
+        // kiêm tra role trả về:
+        if (UserRole.includes("Admin")) {
+          navigate("/admin/managePost");
+        } else {
+          navigate("/employ/managePost");
+        }
       } else {
         setIsLoading(true);
         toast.error("Thêm bài viết không thành công. Vui lòng thử lại!");
@@ -196,9 +203,7 @@ const AddPost = (props) => {
                     </option>
                   ))}
                 </select>
-                {errors && (
-                  <p className={cx("error")}>{errors.CategoryID}</p>
-                )}
+                {errors && <p className={cx("error")}>{errors.CategoryID}</p>}
                 {tags.length > 0 && (
                   <>
                     <h5 htmlFor="tagSelect">Chọn tag: </h5>
@@ -216,9 +221,7 @@ const AddPost = (props) => {
                         </option>
                       ))}
                     </select>
-                    {errors && (
-                      <p className={cx("error")}>{errors.tagID}</p>
-                    )}
+                    {errors && <p className={cx("error")}>{errors.tagID}</p>}
                   </>
                 )}
               </div>
@@ -259,9 +262,9 @@ const AddPost = (props) => {
               </div>
               <div className={cx("img-preview")}>
                 {Preview ? (
-                  <img className={cx("preview")} src={Preview}/>
+                  <img className={cx("preview")} src={Preview} />
                 ) : (
-                  <img className={cx("LogoImage")} src={LogoImage}/>
+                  <img className={cx("LogoImage")} src={LogoImage} />
                   // <span className={cx("preview")}>Preview Image</span>
                 )}
               </div>

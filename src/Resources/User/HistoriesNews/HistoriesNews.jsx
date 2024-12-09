@@ -110,7 +110,7 @@ const HistoriesNews = () => {
                         </div>
                         <div className={cx("DateView")}>
                           <b>Ngày xem:</b>
-                          {moment(item.viewDate).format("DD/MM/YYYY")}
+                          {moment(item.viewedAt).format("DD/MM/YYYY")}
                         </div>
                       </div>
                     </>

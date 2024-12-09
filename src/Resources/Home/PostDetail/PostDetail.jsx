@@ -154,6 +154,7 @@ const PostDetail = (props) => {
         setIsLoading(true);
         toast.success("Bình luận được ghi nhận!");
         fetchComments();
+        setContent("");
       } else {
         setIsLoading(true);
         toast.error("Bình luận không thành công. Vui lòng thử lại!");

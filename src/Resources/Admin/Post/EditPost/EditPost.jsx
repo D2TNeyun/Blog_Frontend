@@ -35,8 +35,8 @@ const EditPost = () => {
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
-  const AppUserID = useSelector((state) => state.user.user?.user?.id);
-
+  const UserRole = useSelector((state) => state.user.user?.user?.roles);
+  
 const turndownService = new TurndownService();
 
   // Hàm lấy dữ liệu bài viết theo ID
@@ -131,7 +131,13 @@ const turndownService = new TurndownService();
         Image
       );
       toast.success("Bài viết đã được cập nhật thành công!");
-      navigate("/admin/managePost");
+      
+       // kiêm tra role trả về:
+       if(UserRole.includes("Admin")){
+        navigate("/admin/managePost");
+      } else {
+        navigate("/employ/managePost");
+      }
     } catch (error) {
       console.error("Failed to update post:", error);
       toast.error("Lỗi khi cập nhật bài viết.");

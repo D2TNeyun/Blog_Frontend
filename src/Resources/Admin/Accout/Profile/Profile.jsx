@@ -150,7 +150,7 @@ const Profile = (props) => {
               <div className="card-body">
                 <div className="row">
                   <div className="col-sm-4">
-                    <p className={cx("textProfile")}>Full Name</p>
+                    <p className={cx("textProfile")}>Username</p>
                   </div>
                   <div className="col-sm-8">
                     <p className={cx("textProfile")}>{dataUser?.username}</p>

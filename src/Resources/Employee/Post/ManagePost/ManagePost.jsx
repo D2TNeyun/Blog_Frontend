@@ -16,6 +16,7 @@ import {
 import { Modal, Table, Space, Tag } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 const cx = classNames.bind(styles);
 
@@ -23,6 +24,7 @@ const ManagePostByEmploy = (props) => {
   const [listPosts, setLisPosts] = useState([]);
   const idUser = useSelector((state) => state.user.user.user.id);
   console.log("id", idUser);
+  const Role = useSelector((state) => state.user.user?.user?.roles);
 
   const fetchPostsList = async () => {
     try {
@@ -40,11 +42,6 @@ const ManagePostByEmploy = (props) => {
     fetchPostsList();
   }, []);
 
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
-      handleSearch(e.target.value);
-    }
-  };
 
   const [pagination, setPagination] = useState({}); // phan trang
   function handleTableChange(data) {

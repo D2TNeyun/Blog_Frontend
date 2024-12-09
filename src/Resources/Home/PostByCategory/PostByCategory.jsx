@@ -96,21 +96,23 @@ const PostByCategory = (props) => {
                   <div className={cx("boxtopcate")}>
                     <div className={cx("boxtop")}>
                       {latestPosts.slice(1, 4).map((post) => (
-                        <div
-                          className={cx("b-box")}
-                          key={post.postID}
-                          onClick={() =>
-                            handlePostClick(post.postID, post.title)
-                          }
-                        >
-                          <div className={cx("image")}>
-                            <img
-                              src={post.image}
-                              className={cx("preview")}
-                              alt={post.title}
-                            />
+                        <div className="col-4">
+                          <div
+                            className={cx("b-box")}
+                            key={post.postID}
+                            onClick={() =>
+                              handlePostClick(post.postID, post.title)
+                            }
+                          >
+                            <div className={cx("image")}>
+                              <img
+                                src={post.image}
+                                className={cx("preview")}
+                                alt={post.title}
+                              />
+                            </div>
+                            <div className={cx("b-title")}>{post.title}</div>
                           </div>
-                          <div className={cx("b-title")}>{post.title}</div>
                         </div>
                       ))}
                     </div>
